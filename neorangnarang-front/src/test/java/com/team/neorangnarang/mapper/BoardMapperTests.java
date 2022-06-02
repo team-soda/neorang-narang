@@ -25,7 +25,7 @@ class BoardMapperTests {
                     .title("title" + i)
                     .writer("user" + (i%10)) // user0 ~ user5
                     .content("content" + i)
-                    .location("경기도 고양시 덕양구 삼송로" + i)
+                    .location("경기도 부천시 길주로" + i)
                     .square_feet(Integer.toString(i%10))
                     .pay_division("월세")
                     .price(300000+(i%10))
