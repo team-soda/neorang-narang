@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team.neorangnarang.user.mapper.UserMapper">
+    <select id="selectTime" resultType="String">
+        SELECT now()
+    </select>
+
+    <insert id="saveUser" parameterType="UserDTO">
+        INSERT INTO tb_user(id, password, phone, nickname)
+        VALUES (#{id}, #{password}, #{phone}, #{nickname})
+    </insert>
+</mapper>
