@@ -30,4 +30,14 @@ public class UserService {
                 .build();
         userMapper.saveUser(BCryptUser);
     }
+
+    public UserDTO getByCredentials(final String userId, final String userPw) {
+        final UserDTO originalUser =userMapper.findByUserId(userId);
+
+        if(originalUser != null && passwordEncoder.matches(userPw, originalUser.getPassword())) {
+            return originalUser;
+        }
+
+        return null;
+    }
 }

@@ -11,4 +11,8 @@
         INSERT INTO tb_user(id, password, phone, nickname)
         VALUES (#{id}, #{password}, #{phone}, #{nickname})
     </insert>
+
+    <select id="findByUserId" resultType="UserDTO">
+        SELECT * FROM tb_user WHERE id = #{id}
+    </select>
 </mapper>

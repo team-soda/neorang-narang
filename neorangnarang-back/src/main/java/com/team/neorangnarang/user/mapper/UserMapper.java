@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     String selectTime();
     void saveUser(UserDTO userDTO);
+    UserDTO findByUserId(String userId);
 }
