@@ -1,5 +1,6 @@
 package com.team.neorangnarang.common.config;
 
+import com.team.neorangnarang.user.security.oauth2.service.CustomOAuth2UserService;
 import com.team.neorangnarang.user.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +32,11 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/mainboard/list", "/auth/**").permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
 
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
 

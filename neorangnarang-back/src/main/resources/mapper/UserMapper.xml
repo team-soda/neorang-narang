@@ -7,12 +7,21 @@
         SELECT now()
     </select>
 
-    <insert id="saveUser" parameterType="UserDTO">
-        INSERT INTO tb_user(id, password, phone, nickname)
-        VALUES (#{id}, #{password}, #{phone}, #{nickname})
+    <insert id="saveUser" parameterType="User">
+        INSERT INTO tb_user(id, password, phone, nickname, role, provider)
+        VALUES (#{id}, #{password}, #{phone}, #{nickname}, #{role}, #{provider})
     </insert>
 
-    <select id="findByUserId" resultType="UserDTO">
+    <!--<insert id="saveSocialUser" parameterType="SocialUser">
+        INSERT INTO tb_user(id, nickname, profile_img, role, provider)
+        VALUES (#{email}, #{name}, #{picture}, #{role}, #{provider})
+    </insert>
+-->
+    <select id="findByUserId" resultType="User">
         SELECT * FROM tb_user WHERE id = #{id}
+    </select>
+
+    <select id="findByProvider" resultType="User">
+        SELECT * FROM tb_user WHERE provider = #{provider}
     </select>
 </mapper>

@@ -1,17 +1,17 @@
-package com.team.neorangnarang.user.dto;
+package com.team.neorangnarang.user.domain;
 
-import com.team.neorangnarang.user.domain.ProviderType;
-import com.team.neorangnarang.user.domain.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class User {
     private String token;
     private int user_idx;
     private String id;
@@ -22,4 +22,11 @@ public class UserDTO {
     private String profile_img;
     private Role role;
     private ProviderType provider;
+    private LocalDateTime created_at;
+    private boolean state;
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
+
 }
