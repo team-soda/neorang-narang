@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mainboard List Page</title>
+</head>
+<body>
+    <h3>Mainboard List Page</h3>
+    <select id="searchType" name="type" class="custom-select">
+        <option>검색 옵션</option>
+        <option value="T">제목</option>
+        <option value="W">작성자</option>
+        <option value="TW">전체</option>
+    </select>
+    <input type="text" id="keyword">
+    <button onclick="search()">검색</button>
+
+    <div id="resultDiv"></div>
+    <div className="card" id="resultCard" style="width: 23%" th:each="mainboard:${searchResult}">
+        <td th:text="${mainboard.title}"></td>
+        <div className="card-body">
+            <p style="display: none;">[[${mainboard.content}]]</p>
+            <h6 className="cart-text">[[${mainboard.board_idx}]]</h6>
+            <h4 className="card-title">[[${mainboard.title}]]</h4>
+            <h6 className="card-subtitle mb-2 text-muted">[[${mainboard.writer}]]</h6>
+            <p className="card-text">[[${mainboard.view_count}]]명이 보고 갔어요!</p>
+            <h6 className="card-subtitle mb-2 text-muted">[[${mainboard.created_dt}]]</h6>
+            <h6 className="card-subtitle mb-2 text-muted text-right">￦[[${mainboard.price}]]원</h6>
+        </div>
+    </div>
+
+</body>
+<th:block layout:fragment="script">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
+
+    window.onload = search;
+//    if(type==="검색 옵션"){alert('검색 타입을 선택해주세요!'); return;}
+
+    function search() {
+        const searchSelect = document.getElementById("searchType");
+        const type = searchSelect.options[searchSelect.selectedIndex].value;
+        const keyword = encodeURI(document.getElementById("keyword").value);
+
+        console.log("type", type, "keyword", keyword);
+
+        axios.get("/mainboard/list", {
+                type: type,
+                keyword: keyword
+            }).then(function (response) {
+                console.log(JSON.stringify(response.data.searchResult[0]));
+
+            })
+            .catch(function (error) {
+                console.log(type+keyword);
+                alert(error);
+            });
+    }
+
+</script>
+</th:block>
+</html>

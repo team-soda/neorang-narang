@@ -21,7 +21,8 @@ spring:
       maximum-pool-size: '3'
     url: jdbc:mysql://sd-housemate.cnbnt4friika.ap-northeast-2.rds.amazonaws.com/housematedb
 mybatis:
-  type-aliases-package: com.example.demo
+  type-aliases-package: com.team.neorangnarang
+  mapper-locations: mapper/*.xml
 logging:
   level:
     org:
