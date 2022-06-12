@@ -48,7 +48,7 @@ public class OAuth2LoginAuthenticationSuccessHandler extends SimpleUrlAuthentica
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, /*UserPrincipal userPrincipal*/Authentication authentication) {
+    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
         log.info("determineTargetUrl");
