@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_BASE_URL } from "./url-config";
 
 const accessToken = localStorage.getItem("accessToken");
 
 const instance = axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-type": "application/json",
     Authorization: "Bearer " + accessToken,

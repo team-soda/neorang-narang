@@ -6,12 +6,6 @@ function App() {
   const [userObj, setUserObj] = useState();
 
   useEffect(() => {
-    /* if (localStorage.getItem("accessToken")) {
-      axiosService.getUserInfo((res) => {
-        setUserObj(res);
-      });
-    } */
-
     localStorage.getItem("accessToken") &&
       axiosService.getUserInfo((res) => {
         setUserObj(res);

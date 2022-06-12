@@ -14,8 +14,6 @@ function Login() {
       uid: data.get("uid"),
       password: data.get("password"),
     };
-    console.log(`login info`);
-    console.log(loginInfo);
 
     axiosService.login(loginInfo);
   };

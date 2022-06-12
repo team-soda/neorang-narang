@@ -4,9 +4,7 @@ const hostname = window && window.location && window.location.hostname;
 if (hostname === "localhost") {
   // 백엔드 서버 포트 (톰캣)
   backendHost = "http://localhost:8081";
-} /* else {
-  backendHost = "http://prod-todo-backend2.ap-northeast-2.elasticbeanstalk.com";
-} */
+}
 
 const OAUTH2_REDIRECT_URL = "http://localhost:3000/oauth2/redirect";
 export const API_BASE_URL = `${backendHost}`;
