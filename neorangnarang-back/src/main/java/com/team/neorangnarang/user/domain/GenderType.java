@@ -1,4 +1,6 @@
 package com.team.neorangnarang.user.domain;
 
-public class PrincipalDetails {
+public enum GenderType {
+    MALE,
+    FEMALE
 }

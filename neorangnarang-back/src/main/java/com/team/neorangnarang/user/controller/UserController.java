@@ -4,14 +4,14 @@ import com.team.neorangnarang.common.dto.ResponseDTO;
 import com.team.neorangnarang.user.domain.ProviderType;
 import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
+import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
-import com.team.neorangnarang.user.security.TokenProvider;
+import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
 import com.team.neorangnarang.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Log4j2
@@ -20,12 +20,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class UserController {
     private final UserService userService;
-    private final TokenProvider tokenProvider;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/test")
     public String selectTime() {
         return userService.selectTime();
+    }
+
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(Authentication authentication) {
+        log.info("getUser authentication: {}", authentication.getPrincipal());
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
+        return ResponseEntity.ok(new ResponseDTO(userPrincipal));
     }
 
     @PostMapping("/signup")
@@ -33,10 +40,10 @@ public class UserController {
         log.info("userDTO: {}", userDTO);
         try {
             User user = User.builder()
-                    .id(userDTO.getId())
-                    .password(passwordEncoder.encode(userDTO.getPassword()))
+                    .uid(userDTO.getUid())
+                    .password(userDTO.getPassword())
                     .phone(userDTO.getPhone())
-                    .nickname(userDTO.getId())
+                    .nickname(userDTO.getUid())
                     .role(Role.USER)
                     .provider(ProviderType.LOCAL)
                     .build();
@@ -50,26 +57,11 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-        User user = userService.getByCredentials(userDTO.getId(), userDTO.getPassword(), passwordEncoder);
-        log.info("authenticate user: {}", user);
-        if (user != null) {
-            final String token = tokenProvider.create(user);
-            final UserDTO responseUserDTO = UserDTO.builder()
-                    .user_idx(user.getUser_idx())
-                    .id(user.getId())
-                    .nickname(user.getNickname())
-                    .token(token)
-                    .build();
+        log.info("authenticate userDTO: {}", userDTO.toString());
 
-            log.info("responseUserDTO: {}", responseUserDTO);
-
-            return ResponseEntity.ok().body(responseUserDTO);
-        } else {
-            ResponseDTO responseDTO = ResponseDTO.builder()
-                    .error("Login failed.")
-                    .build();
-
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
+        User user = User.toUser(userDTO);
+        String token = userService.authenticateUser(user);
+        return ResponseEntity.ok(new AuthResponseDTO(token));
     }
+
 }

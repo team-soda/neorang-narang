@@ -7,6 +7,7 @@ spring:
       local:
         - db
         - oauth
+        - app
   thymeleaf:
     cache: 'false'
   mvc:
@@ -18,6 +19,8 @@ spring:
       enabled: 'true'
       max-request-size: 30MB
       location: C:\upload
+  main:
+    allow-circular-references: true
 logging:
   level:
     org:

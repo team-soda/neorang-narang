@@ -1,47 +1,36 @@
 package com.team.neorangnarang.user.security;
 
-import com.team.neorangnarang.user.domain.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
+import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
+import com.team.neorangnarang.user.security.oauth2.AppProperties;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Base64;
+import java.security.Key;
 import java.util.Date;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class TokenProvider {
-    private static final String SECRET_KEY = "GBFVujik493e5tio0GUIGfu";
+    private final AppProperties appProperties;
 
-    public String create(User user) {
-        log.info("TokenProvider create user: {}", user.getId());
-        Date expiryDate = Date.from(
-                Instant.now().plus(1, ChronoUnit.DAYS)
-        );
+    public String create(Authentication authentication) {
+        log.info("TokenProvider create authentication: {}", authentication.getPrincipal());
 
-        /*String stringKey = Base64Utils.encodeToUrlSafeString(
-                Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded());
-        log.info("stringKey: {}", stringKey);
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        SecretKey secretKey = Keys.hmacShaKeyFor(Base64Utils.decodeFromUrlSafeString(stringKey));
-        log.info("secretKey: {}", secretKey);*/
-
-        //SecretKey secretKey = Keys.hmacShaKeyFor(Base64Utils.decodeFromUrlSafeString(user.getToken()));
+        Date expiryDate = new Date(new Date().getTime() +
+                appProperties.getAuth().getTokenExpirationMsec());
 
         return Jwts.builder()
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .setSubject(user.getId())
-                .setIssuer("demo app")
+                .signWith(createKey(appProperties.getAuth().getTokenSecret()), SignatureAlgorithm.HS512)
+                .setSubject(userPrincipal.getUser().getUid())
+                .setIssuer("neorang narang")
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .compact();
@@ -50,12 +39,37 @@ public class TokenProvider {
     public String validateAndGetUserId(String token) {
         log.info("TokenProvider validateAndGetUserId token: {}", token);
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(createKey(appProperties.getAuth().getTokenSecret()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
+    }
+
+    public Key createKey(String tokenSecret) {
+        byte[] keyBytes = tokenSecret.getBytes();
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+        return key;
+    }
+
+    public boolean validateToken(String authToken) {
+        try {
+            Jwts.parserBuilder().setSigningKey(createKey(appProperties.getAuth().getTokenSecret())).build().parseClaimsJws(authToken);
+            return true;
+        } catch (SignatureException ex) {
+            log.error("잘못된 서명입니다.");
+        } catch (MalformedJwtException ex) {
+            log.error("올바른 토큰 형식이 아닙니다.");
+        } catch (ExpiredJwtException ex) {
+            log.error("만료된 토큰입니다.");
+        } catch (UnsupportedJwtException ex) {
+            log.error("지원되지 않는 토근 형식입니다.");
+        } catch (IllegalArgumentException ex) {
+            log.error("토큰이 존재하지 않습니다.");
+        }
+
+        return false;
     }
 
 }

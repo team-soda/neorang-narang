@@ -8,20 +8,19 @@
     </select>
 
     <insert id="saveUser" parameterType="User">
-        INSERT INTO tb_user(id, password, phone, nickname, role, provider)
-        VALUES (#{id}, #{password}, #{phone}, #{nickname}, #{role}, #{provider})
+        INSERT INTO tb_user(uid, password, phone, nickname, gender, role, provider, provider_id)
+        VALUES (#{uid}, #{password}, #{phone}, #{nickname}, #{gender}, #{role}, #{provider}, #{provider_id})
     </insert>
 
-    <!--<insert id="saveSocialUser" parameterType="SocialUser">
-        INSERT INTO tb_user(id, nickname, profile_img, role, provider)
-        VALUES (#{email}, #{name}, #{picture}, #{role}, #{provider})
-    </insert>
--->
     <select id="findByUserId" resultType="User">
-        SELECT * FROM tb_user WHERE id = #{id}
+        SELECT * FROM tb_user WHERE uid = #{uid}
     </select>
 
     <select id="findByProvider" resultType="User">
         SELECT * FROM tb_user WHERE provider = #{provider}
+    </select>
+
+    <select id="findByProviderId" resultType="User">
+        SELECT * FROM tb_user WHERE provider_id = #{provider_id}
     </select>
 </mapper>

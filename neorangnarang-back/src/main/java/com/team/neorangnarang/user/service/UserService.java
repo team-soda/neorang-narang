@@ -2,8 +2,14 @@ package com.team.neorangnarang.user.service;
 
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
+import com.team.neorangnarang.user.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +18,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // mapper 연결 test용
     public String selectTime() {
@@ -19,16 +28,25 @@ public class UserService {
     }
 
     public void createUser(User user) {
-        userMapper.saveUser(user);
+        User encodingUser = User.builder()
+                        .password(passwordEncoder.encode(user.getPassword())).build();
+        userMapper.saveUser(encodingUser);
     }
 
-    public User getByCredentials(final String userId, final String userPw, PasswordEncoder passwordEncoder) {
-        final User originalUser =userMapper.findByUserId(userId);
+    public String authenticateUser(final User user) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getUid(),
+                        user.getPassword()
+                )
+        );
 
-        if(originalUser != null && passwordEncoder.matches(userPw, originalUser.getPassword())) {
-            return originalUser;
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return null;
+        return tokenProvider.create(authentication);
+    }
+
+    public User getUserInfo(final User user) {
+        return userMapper.findByUserId(user.getUid());
     }
 }

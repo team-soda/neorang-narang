@@ -1,10 +1,12 @@
 package com.team.neorangnarang.user.security;
 
+import com.team.neorangnarang.user.domain.User;
+import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
+import com.team.neorangnarang.user.security.auth.service.UserPrincipalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -23,6 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
+    private final UserPrincipalService userPrincipalsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -30,17 +33,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             log.info("doFilterInternal request : {}", request.getHeader("Authorization"));
             String token = parseBearerToken(request);
-            log.info("JwtAuthenticationFilter doFilterInternal token: {}", token);
+
             log.info("Jwt Filter is running...");
 
-            if(token != null && !token.equalsIgnoreCase("null")) {
-                log.info("doFilterInternal if token not null");
+            if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
                 String userId = tokenProvider.validateAndGetUserId(token);
 
-                log.info("Authenticated User ID : {}", userId);
+                UserPrincipal userPrincipal = (UserPrincipal) userPrincipalsService.loadUserByUsername(userId);
+                User setUserToken = User.builder()
+                        .token(token)
+                        .user_idx(userPrincipal.getUser().getUser_idx())
+                        .uid(userPrincipal.getUsername())
+                        .password(userPrincipal.getPassword())
+                        .phone(userPrincipal.getUser().getPhone())
+                        .nickname(userPrincipal.getUser().getNickname())
+                        .gender(userPrincipal.getUser().getGender())
+                        .profile_img(userPrincipal.getUser().getProfile_img())
+                        .role(userPrincipal.getUser().getRole())
+                        .provider(userPrincipal.getUser().getProvider())
+                        .provider_id(userPrincipal.getUser().getProvider_id())
+                        .created_at(userPrincipal.getUser().getCreated_at())
+                        .state(userPrincipal.getUser().isState())
+                        .build();
+                userPrincipal.setUser(setUserToken);
 
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userId, null, AuthorityUtils.NO_AUTHORITIES
+                        userPrincipal, null, userPrincipal.getAuthorities()
                 );
 
                 log.info("JWT Filter authentication: {}", authentication);
