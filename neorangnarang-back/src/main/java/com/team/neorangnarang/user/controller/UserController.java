@@ -1,8 +1,6 @@
 package com.team.neorangnarang.user.controller;
 
 import com.team.neorangnarang.common.dto.ResponseDTO;
-import com.team.neorangnarang.user.domain.ProviderType;
-import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
@@ -38,15 +36,11 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         log.info("userDTO: {}", userDTO);
+
         try {
-            User user = User.builder()
-                    .uid(userDTO.getUid())
-                    .password(userDTO.getPassword())
-                    .phone(userDTO.getPhone())
-                    .nickname(userDTO.getUid())
-                    .role(Role.USER)
-                    .provider(ProviderType.LOCAL)
-                    .build();
+            userDTO.setNickname(userDTO.getUid());
+            User user = User.toUser(userDTO);
+
             userService.createUser(user);
             return ResponseEntity.ok().body("성공");
         } catch (Exception e) {
@@ -59,7 +53,10 @@ public class UserController {
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         log.info("authenticate userDTO: {}", userDTO.toString());
 
-        User user = User.toUser(userDTO);
+        User user = User.builder()
+                .uid(userDTO.getUid())
+                .password(userDTO.getPassword())
+                .build();
         String token = userService.authenticateUser(user);
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }

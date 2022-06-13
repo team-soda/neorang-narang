@@ -16,11 +16,11 @@ public class UserDTO {
     private Long user_idx;
     private String uid;
     private String password;
-    private String phone;
+    private String email;
+    private String gender;
     private String nickname;
-    private GenderType gender;
     private String profile_img;
-    private Role role;
+    private String phone;
     private ProviderType provider;
     private String providerId;
 }

@@ -68,7 +68,10 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(oAuth2LoginAuthenticationSuccessHandler);
+                .successHandler(oAuth2LoginAuthenticationSuccessHandler)
+                .and()
+                .logout()
+                .logoutUrl("/auth/logout");
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -8,8 +8,8 @@
     </select>
 
     <insert id="saveUser" parameterType="User">
-        INSERT INTO tb_user(uid, password, phone, nickname, gender, role, provider, provider_id)
-        VALUES (#{uid}, #{password}, #{phone}, #{nickname}, #{gender}, #{role}, #{provider}, #{provider_id})
+        INSERT INTO tb_user(uid, password, email, gender, nickname, phone, role, provider, provider_id)
+        VALUES (#{uid}, #{password}, #{email}, #{gender}, #{nickname}, #{phone}, #{role}, #{provider}, #{provider_id})
     </insert>
 
     <select id="findByUserId" resultType="User">

@@ -1,5 +1,7 @@
 package com.team.neorangnarang.user.service;
 
+import com.team.neorangnarang.user.domain.ProviderType;
+import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
 import com.team.neorangnarang.user.security.TokenProvider;
@@ -29,7 +31,16 @@ public class UserService {
 
     public void createUser(User user) {
         User encodingUser = User.builder()
-                        .password(passwordEncoder.encode(user.getPassword())).build();
+                .uid(user.getUid())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .email(user.getEmail())
+                .gender(user.getGender())
+                .nickname(user.getNickname())
+                .profile_img(user.getProfile_img())
+                .phone(user.getPhone())
+                .role(user.getRole())
+                .provider(ProviderType.LOCAL)
+                .build();
         userMapper.saveUser(encodingUser);
     }
 

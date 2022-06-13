@@ -30,9 +30,7 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
     @Override
     public String getPhone() {
         String mobile = (String) naverResponse.get("mobile");
-        log.info("mobile before: {}", mobile);
         mobile = mobile.replaceAll("[^0-9]", "");
-        log.info("mobile after: {}", mobile);
 
         return mobile;
     }
