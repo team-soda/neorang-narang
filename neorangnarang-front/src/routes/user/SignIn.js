@@ -3,9 +3,9 @@ import {
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
 } from "../../config/url-config";
-import { axiosService } from "../../service/user/AxiosUserService";
+import { axiosUserService } from "../../service/user/AxiosUserService";
 
-function Login() {
+function SignIn() {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
@@ -15,7 +15,7 @@ function Login() {
       password: data.get("password"),
     };
 
-    axiosService.login(loginInfo);
+    axiosUserService.login(loginInfo);
   };
 
   const onGoogleSignin = () => {
@@ -47,4 +47,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignIn;

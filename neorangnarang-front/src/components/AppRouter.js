@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Redirect from "../routes/user/Redirect";
-import Login from "../routes/user/Login";
+import Redirect from "../routes/user/OAuth2Redirect";
+import SignIn from "../routes/user/SignIn";
+import SignUp from "../routes/user/SignUp";
 import Home from "../routes/Home";
 
 function AppRouter() {
@@ -9,7 +10,8 @@ function AppRouter() {
       <Router>
         <Routes>
           <Route path="/oauth2/redirect" element={<Redirect />} />
-          <Route path="/auth/signin" element={<Login />} />
+          <Route path="/auth/signin" element={<SignIn />} />
+          <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
