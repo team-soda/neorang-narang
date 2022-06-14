@@ -16,7 +16,7 @@ const MailerComponent = () => {
              }}>
             <form className="row" style={{padding: '80px'}}>
                 <h1>Contact Form</h1>
-                <p>문의 사항을 보내주세요.</p>
+                <p>문의 사항을 보내주세요. git update</p>
                 <TextField id="filled-basic" label="보내는 분 성함" variant="filled" placeholder="ex) 룸메찾는룸메리스"
                            name="name"/>
                 <TextField id="filled-basic" label="E-mail" variant="filled"
