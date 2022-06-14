@@ -1,6 +1,40 @@
+import { useState } from "react";
 import { axiosUserService } from "../../service/user/AxiosUserService";
 
 function SignUp() {
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
+
+  const onChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const onChangeCode = (event) => {
+    setCode(event.target.value);
+  };
+
+  const onSendAuthMailHandler = () => {
+    console.log(`onSendAuthMailHandler email? : ${email}`);
+    const reqEmail = {
+      email: email,
+    };
+    axiosUserService.sendAuthEmail(reqEmail);
+  };
+
+  const onAuthCodeCheck = () => {
+    console.log(`onAuthCodeCheck email? : ${email}`);
+    console.log(`onAuthCodeCheck email? : ${code}`);
+    const reqObj = {
+      email: email,
+      code: code,
+    };
+
+    axiosUserService.checkAuthCode(reqObj, (res) => {
+      setIsAuth(true);
+    });
+  };
+
   const onSignupHandler = (event) => {
     event.preventDefault();
 
@@ -13,8 +47,27 @@ function SignUp() {
     };
 
     console.log(userObj);
-    axiosUserService.signup(userObj);
+    console.log(`isAuth? : ${isAuth}`);
+
+    axiosUserService
+      .signup(userObj)
+      .then((res) => {
+        console.log(res);
+        if (isAuth) {
+          setEmail("");
+          setCode("");
+          setIsAuth(false);
+          window.location.replace("/");
+        } else {
+          alert("이메일 인증을 진행해 주세요.");
+          return false;
+        }
+      })
+      .catch((error) => {
+        alert("올바르지 않은 요청입니다.");
+      });
   };
+
   return (
     <div>
       <h2>회원가입</h2>
@@ -29,7 +82,20 @@ function SignUp() {
         </div>
         <div>
           <label htmlFor="email">이메일</label>
-          <input type="text" id="email" name="email" />
+          <input type="text" id="email" name="email" onChange={onChangeEmail} />
+          <input
+            type="button"
+            value="인증메일보내기"
+            onClick={onSendAuthMailHandler}
+          />
+          <input
+            type="text"
+            id="authCode"
+            name="authCode"
+            placeholder="인증번호 입력"
+            onChange={onChangeCode}
+          />
+          <input type="button" value="확인" onClick={onAuthCodeCheck} />
         </div>
         <div>
           <label>성별</label>

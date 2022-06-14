@@ -8,6 +8,7 @@ spring:
         - db
         - oauth
         - app
+        - mail
   thymeleaf:
     cache: 'false'
   mvc:

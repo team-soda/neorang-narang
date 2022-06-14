@@ -5,6 +5,7 @@ import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
+import com.team.neorangnarang.user.security.auth.dto.EmailCheckDTO;
 import com.team.neorangnarang.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +34,18 @@ public class UserController {
         return ResponseEntity.ok(new ResponseDTO(userPrincipal));
     }
 
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+        log.info("authenticate userDTO: {}", userDTO.toString());
+
+        User user = User.builder()
+                .uid(userDTO.getUid())
+                .password(userDTO.getPassword())
+                .build();
+        String token = userService.authenticateUser(user);
+        return ResponseEntity.ok(new AuthResponseDTO(token));
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         log.info("userDTO: {}", userDTO);
@@ -49,16 +62,22 @@ public class UserController {
         }
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-        log.info("authenticate userDTO: {}", userDTO.toString());
+    @PostMapping("/signup/authEmailSend")
+    public ResponseEntity<?> authEmailSend(@RequestBody UserDTO userDTO) {
+        log.info("authEmailSend userDTO: {}", userDTO.toString());
+        User user = User.builder().email(userDTO.getEmail()).build();
+        return ResponseEntity.ok(userService.sendAuthEmail(user));
+    }
 
-        User user = User.builder()
-                .uid(userDTO.getUid())
-                .password(userDTO.getPassword())
-                .build();
-        String token = userService.authenticateUser(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+    @PostMapping("/signup/authCodeCheck")
+    public ResponseEntity<?> authCodeCheck(@RequestBody EmailCheckDTO emailCheckDTO) {
+        log.info("authCodeCheck emailCheckDTO: {}", emailCheckDTO.toString());
+        String getEmail = userService.getUserEmailByCode(emailCheckDTO.getCode());
+        if(getEmail.equals(emailCheckDTO.getEmail())) {
+            return ResponseEntity.ok("인증 성공");
+        }
+
+        return ResponseEntity.badRequest().body("에러");
     }
 
 }
