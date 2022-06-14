@@ -66,4 +66,19 @@
     <delete id="delete">
         delete from tb_board where board_idx = #{board_idx}
     </delete>
+
+    <!-- 좋아요 기록 조회 -->
+    <select id="selectLike" resultType="map">
+        select * from tb_like where fk_id=#{id} and fk_board_idx=#{board_idx}
+    </select>
+
+    <!-- 좋아요 기록이 없는 글의 경우 좋아요 추가 -->
+    <insert id="insertLike" parameterType="map">
+        insert into tb_like(fk_id, fk_board_idx) values('test1', 101)
+    </insert>
+
+    <!-- 좋아요 기록이 있는 경우 클릭시 좋아요 수정 -->
+    <update id="updateLike">
+        update tb_like set is_like = #{is_like} where fk_id = #{id}
+    </update>
 </mapper>

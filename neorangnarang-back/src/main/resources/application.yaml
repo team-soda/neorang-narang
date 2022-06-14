@@ -2,6 +2,12 @@ devtools:
   livereload:
     enabled: 'true'
 spring:
+  profiles:
+    group:
+      local:
+        - db
+        - oauth
+        - app
   thymeleaf:
     cache: 'false'
   mvc:
@@ -13,17 +19,11 @@ spring:
       enabled: 'true'
       max-request-size: 30MB
       location: C:\upload
-  datasource:
-    password: thdusektmf
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    hikari:
-      maximum-pool-size: '3'
-    url: jdbc:mysql://sd-housemate.cnbnt4friika.ap-northeast-2.rds.amazonaws.com/housematedb
-mybatis:
-  type-aliases-package: com.team.neorangnarang
-  mapper-locations: mapper/*.xml
+  main:
+    allow-circular-references: true
 logging:
   level:
     org:
       springframework: INFO
+server:
+  port: 8081

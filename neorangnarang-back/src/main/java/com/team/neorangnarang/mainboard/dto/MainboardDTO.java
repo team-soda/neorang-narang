@@ -5,11 +5,15 @@ import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
-//@Getter
 @Log4j2
 @Builder
+@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +30,27 @@ public class MainboardDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime created_dt;
+    private LocalDateTime created_at;
+
+    private List<String> imageTags;
+
+    public List<String> getImageTags() { // 이미지 태그 추출
+
+        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img src 추출 정규표현식
+        Matcher matcher = pattern.matcher(content);
+
+        List<String> list = new Vector<>();
+
+        while(matcher.find()){
+            list.add(matcher.group(1));
+        }
+
+        return list;
+    }
+
+    public void setBoard_idx(Long board_idx) {
+        this.board_idx = board_idx;
+    }
 
     public MainboardDTO getDTO() {
 
@@ -41,12 +65,9 @@ public class MainboardDTO {
                 .price(price)
                 .like_count(like_count)
                 .view_count(view_count)
+                .created_at(created_at)
                 .build();
 
         return boardDTO;
-    }
-
-    public void setBoard_idx(Long board_idx) {
-        this.board_idx = board_idx;
     }
 }
