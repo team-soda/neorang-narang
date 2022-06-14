@@ -6,14 +6,15 @@ function App() {
   const [userObj, setUserObj] = useState();
 
   useEffect(() => {
-    localStorage.getItem("accessToken") &&
-      axiosUserService.getUserInfo((res) => {
-        setUserObj(res);
-      });
+    localStorage.getItem("accessToken")
+      ? axiosUserService.getUserInfo((res) => {
+          setUserObj(res);
+        })
+      : setUserObj(null);
   }, []);
   return (
     <div className="App">
-      <AppRouter />
+      <AppRouter userObj={userObj} isLogin={Boolean(userObj)} />
     </div>
   );
 }

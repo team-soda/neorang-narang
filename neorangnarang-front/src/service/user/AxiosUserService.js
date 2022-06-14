@@ -1,9 +1,10 @@
 import Axios from "../../config/axios-config";
 
 const AUTH = "/auth";
+const USER = "/user";
 
 const getUserInfo = async (callback) => {
-  return Axios.get(`${AUTH}/getUser`).then((response) => {
+  return Axios.get(`${USER}/getUser`).then((response) => {
     console.log(response);
     callback(response);
   });
