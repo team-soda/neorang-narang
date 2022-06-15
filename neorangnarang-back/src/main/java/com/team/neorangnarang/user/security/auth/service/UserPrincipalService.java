@@ -11,10 +11,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /*
+<<<<<<< HEAD
 
 1. security config에 설정된 url(ex : .loginProcessingUrl("url"))로 요청이 오면
 2. loadUserByUsername 메소드가 실행됨
 
+=======
+1. security config에 설정된 url(ex : .loginProcessingUrl("url"))로 요청이 오면
+2. loadUserByUsername 메소드가 실행됨
+>>>>>>> aab73998c0beeed3b3b7dd3b3ccd8421d5b09000
  */
 
 @Log4j2

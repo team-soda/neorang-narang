@@ -1,4 +1,4 @@
-import Axios from "../../config/axios-config";
+import Axios from "../config/axios-config";
 
 const AUTH = "/auth";
 
@@ -32,7 +32,7 @@ const signup = async (signupObj) => {
   );
 };
 
-export const axiosUserService = {
+export const userService = {
   getUserInfo,
   login,
   logout,

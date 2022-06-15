@@ -1,4 +1,4 @@
-import { axiosUserService } from "../../service/user/AxiosUserService";
+import { userService } from "../../service/UserService";
 
 function SignUp() {
   const onSignupHandler = (event) => {
@@ -13,7 +13,7 @@ function SignUp() {
     };
 
     console.log(userObj);
-    axiosUserService.signup(userObj);
+    userService.signup(userObj);
   };
   return (
     <div>

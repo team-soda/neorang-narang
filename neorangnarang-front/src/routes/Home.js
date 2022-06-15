@@ -1,8 +1,8 @@
-import { axiosUserService } from "../service/user/AxiosUserService";
+import { userService } from "../service/UserService";
 
 function Home() {
   const onLogoutHandler = () => {
-    axiosUserService.logout();
+    userService.logout();
   };
 
   return (

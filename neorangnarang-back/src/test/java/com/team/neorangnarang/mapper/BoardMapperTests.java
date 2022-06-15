@@ -8,6 +8,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+<<<<<<< HEAD
+=======
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+>>>>>>> aab73998c0beeed3b3b7dd3b3ccd8421d5b09000
 import java.util.stream.IntStream;
 
 @Log4j2
@@ -25,7 +32,11 @@ class BoardMapperTests {
                     .title("title" + i)
                     .writer("user" + (i%10)) // user0 ~ user5
                     .content("content" + i)
+<<<<<<< HEAD
                     .location("경기도 부천시 길주로" + i)
+=======
+                    .location("경기도 고양시 덕양구 삼송로" + i)
+>>>>>>> aab73998c0beeed3b3b7dd3b3ccd8421d5b09000
                     .square_feet(Integer.toString(i%10))
                     .pay_division("월세")
                     .price(300000+(i%10))
@@ -34,8 +45,22 @@ class BoardMapperTests {
 
             boardMapper.insert(board);
         });
+<<<<<<< HEAD
 
     }
 
+=======
+    }
+
+//    // 제목 검색, 검색어가 없을 시 전체 목록 출력
+//    @Test
+//    public void getBoardListTest(){
+//        Map<String, Object> testData = new HashMap<>();
+//        testData.put("type","W");
+//        testData.put("keyword","룸메찾는룸메리스");
+//        List<Map<String, Object>> searchList = boardMapper.getBoardList(testData);
+//        log.info("Search Test Result >>> "+ searchList);
+//    }
+>>>>>>> aab73998c0beeed3b3b7dd3b3ccd8421d5b09000
 
 }

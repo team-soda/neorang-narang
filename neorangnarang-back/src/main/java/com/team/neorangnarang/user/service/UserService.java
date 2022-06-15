@@ -1,7 +1,6 @@
 package com.team.neorangnarang.user.service;
 
 import com.team.neorangnarang.user.domain.ProviderType;
-import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
 import com.team.neorangnarang.user.security.TokenProvider;
