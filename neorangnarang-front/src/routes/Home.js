@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { axiosUserService } from "../service/user/AxiosUserService";
 
 function Home({ userObj }) {
@@ -12,7 +13,7 @@ function Home({ userObj }) {
         {userObj ? (
           <>
             <li>
-              <a href="/user/mypage">마이페이지</a>
+              <Link to="/user/mypage">마이페이지</Link>
             </li>
             <li>
               <button onClick={onLogoutHandler}>로그아웃</button>
@@ -21,10 +22,10 @@ function Home({ userObj }) {
         ) : (
           <>
             <li>
-              <a href="/auth/signin">로그인 페이지로 이동</a>
+              <Link to="/auth/signin">로그인 페이지로 이동</Link>
             </li>
             <li>
-              <a href="/auth/signup">회원가입 페이지로 이동</a>
+              <Link to="/auth/signup">회원가입 페이지로 이동</Link>
             </li>
           </>
         )}

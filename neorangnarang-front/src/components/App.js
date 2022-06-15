@@ -3,7 +3,7 @@ import { axiosUserService } from "../service/user/AxiosUserService";
 import AppRouter from "./AppRouter";
 
 function App() {
-  const [userObj, setUserObj] = useState();
+  const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
     localStorage.getItem("accessToken")
@@ -12,6 +12,9 @@ function App() {
         })
       : setUserObj(null);
   }, []);
+
+  console.log(userObj);
+
   return (
     <div className="App">
       <AppRouter userObj={userObj} isLogin={Boolean(userObj)} />

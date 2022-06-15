@@ -1,28 +1,36 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Redirect from "../routes/user/OAuth2Redirect";
-import SignIn from "../routes/user/SignIn";
-import SignUp from "../routes/user/SignUp";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Home from "../routes/Home";
-import MyPage from "../routes/user/MyPage";
+import UserRouter from "./UserRouter";
+import GuestRouter from "./GuestRouter";
 
 function AppRouter({ userObj, isLogin }) {
+  console.log(isLogin);
+
   return (
-    <div>
-      <Router>
-        <Routes>
-          {isLogin ? (
-            <Route path="/user/mypage" element={<MyPage userObj={userObj} />} />
-          ) : (
-            <>
-              <Route path="/oauth2/redirect" element={<Redirect />} />
-              <Route path="/auth/signin" element={<SignIn />} />
-              <Route path="/auth/signup" element={<SignUp />} />
-            </>
-          )}
-          <Route path="/" element={<Home userObj={userObj} />} />
-        </Routes>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/user/*"
+          element={
+            isLogin ? (
+              <UserRouter userObj={userObj} />
+            ) : (
+              <Navigate replace to="/" />
+            )
+          }
+        />
+        <Route
+          path="/auth/*"
+          element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
+        />
+        <Route path="/" element={<Home userObj={userObj} />} />
+      </Routes>
+    </Router>
   );
 }
 
