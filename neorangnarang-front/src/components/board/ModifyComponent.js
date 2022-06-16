@@ -10,18 +10,23 @@ import {
 } from "@material-ui/core";
 import { Editor } from "@tinymce/tinymce-react";
 
-const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
+function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
   //const {boardDTO, setBoardDTO, getBoardRead, modifyBoard} = BoardService();
 
   const editorRef = useRef(null);
 
   useEffect(() => {
-    boardService.getBoardRead(board_idx, (res) => {
+    boardService.getBoardRead(board_idx).then((res) => {
       setBoardDTO(res.data);
+      setPost(res.data.dto);
     });
-  }, [board_idx, setBoardDTO]);
+  }, [board_idx, setBoardDTO, setPost]);
 
-  function onChangeHandler(e) {
+  console.log(boardDTO);
+  console.log(post);
+
+  const onChangeHandler = (e) => {
+    console.log(e);
     setBoardDTO({
       [e.target.title]: e.target.value,
       [e.target.writer]: e.target.value,
@@ -30,9 +35,9 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
       [e.target.price]: e.target.value,
       [e.target.location]: e.target.value,
     });
-  }
+  };
 
-  function submitData(e) {
+  const submitData = (e) => {
     e.preventDefault();
 
     const data = new FormData(e.target);
@@ -47,8 +52,8 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
       // location: data.get("location")
     };
 
-    boardService.modifyBoard(newBoard);
-  }
+    //boardService.modifyBoard(newBoard);
+  };
 
   return (
     <Card
@@ -62,7 +67,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
         <TextField
           id="standard-basic"
           variant="standard"
-          value={boardDTO.dto.title}
+          value={post.title}
           name="title"
           onChange={onChangeHandler}
         />
@@ -70,7 +75,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
         <TextField
           id="standard-basic"
           variant="standard"
-          value={boardDTO.dto.pay_division}
+          value={post.pay_division}
           onChange={onChangeHandler}
           name="pay_division"
         />
@@ -79,7 +84,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
           <TextField
             id="standard-basic"
             variant="standard"
-            value={boardDTO.dto.square_feet}
+            value={post.square_feet}
             onChange={onChangeHandler}
             name="square_feet"
           />
@@ -90,7 +95,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
           <TextField
             id="standard-basic"
             variant="standard"
-            value={boardDTO.dto.price}
+            value={post.price}
             onChange={onChangeHandler}
             name="price"
           />
@@ -99,7 +104,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
         <Editor
           apiKey="7vg6ljyq1brs6eapvpt76mhps7wgko123tgdlrw40ve47amn"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={boardDTO.dto.content}
+          initialValue={post.content}
           init={{
             height: 500,
             menubar: false,
@@ -136,7 +141,7 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
         <TextField
           id="standard-basic"
           variant="standard"
-          value={boardDTO.dto.location}
+          value={post.location}
           onChange={onChangeHandler}
           name="location"
         />
@@ -151,6 +156,6 @@ const ModifyComponent = ({ board_idx, boardDTO, setBoardDTO }) => {
       </form>
     </Card>
   );
-};
+}
 
 export default ModifyComponent;

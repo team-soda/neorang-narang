@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export default function BoardIndex({ boardList, setBoardList }) {
   const [boardDTO, setBoardDTO] = useState({});
+  const [post, setPost] = useState({});
   return (
     <>
       <Routes>
@@ -26,13 +27,23 @@ export default function BoardIndex({ boardList, setBoardList }) {
         <Route
           path="/read/:board_idx"
           element={
-            <BoardReadPage boardDTO={boardDTO} setBoardDTO={setBoardDTO} />
+            <BoardReadPage
+              boardDTO={boardDTO}
+              setBoardDTO={setBoardDTO}
+              post={post}
+              setPost={setPost}
+            />
           }
         />
         <Route
           path="/modify/:board_idx"
           element={
-            <BoardModifyPage boardDTO={boardDTO} setBoardDTO={setBoardDTO} />
+            <BoardModifyPage
+              boardDTO={boardDTO}
+              setBoardDTO={setBoardDTO}
+              post={post}
+              setPost={setPost}
+            />
           }
         />
       </Routes>

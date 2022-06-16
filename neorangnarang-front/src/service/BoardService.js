@@ -18,14 +18,9 @@ const getSearchBoardList = async (type, keyword, setBoardList) => {
   });
 };
 
-const getBoardRead = async (board_idx, setBoardDTO) => {
+const getBoardRead = async (board_idx) => {
   console.log("getBoardRead at React.js");
-  return await Axios.get(`${MAIN_BOARD}/read?board_idx=${board_idx}`).then(
-    (response) => {
-      setBoardDTO(response.data);
-      console.log("read 불러왔음!");
-    }
-  );
+  return await Axios.get(`${MAIN_BOARD}/read?board_idx=${board_idx}`);
 };
 
 // board Register

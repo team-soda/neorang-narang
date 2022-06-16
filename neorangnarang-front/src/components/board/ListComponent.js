@@ -21,8 +21,10 @@ const ListComponent = ({ boardList, setBoardList }) => {
       field: "title",
       headerName: "Title",
       flex: 1.4,
-      renderCell: (id, title) => {
-        return <Link to={`/mainboard/read/${id.row.id}`}>{id.row.title}</Link>;
+      renderCell: (id) => {
+        return (
+          <Link href={`/mainboard/read/${id.row.id}`}>{id.row.title}</Link>
+        );
       },
     },
     {

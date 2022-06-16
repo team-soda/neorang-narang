@@ -23,16 +23,17 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
+const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
   //const { boardInfo, boardDTO, setBoardDTO, getBoardRead, removeBoard } = BoardService();
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    boardService.getBoardRead(board_idx, (res) => {
+    boardService.getBoardRead(board_idx).then((res) => {
       setBoardDTO(res.data);
+      setPost(res.data.dto);
     });
     //imgCheck();
-  }, [board_idx, setBoardDTO]);
+  }, [board_idx, setBoardDTO, setPost]);
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -61,7 +62,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
 
   return (
     <Card>
-      <CardHeader title={boardDTO.dto.title} />
+      <CardHeader title={post.title} />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -73,12 +74,12 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={boardDTO.dto.writer}
+        title={post.writer}
         subheader={boardDTO.created_dt}
       />
-      <div class="thumbnail-wrapper">
-        <div class="thumbnail">
-          <div class="centered">
+      <div className="thumbnail-wrapper">
+        <div className="thumbnail">
+          <div className="centered">
             <CardMedia
               className="cardImg"
               component="img"
@@ -99,7 +100,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
             전·월세
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {boardDTO.dto.pay_division}
+            {post.pay_division}
           </Typography>
         </CardContent>
         <CardContent>
@@ -107,7 +108,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
             평수
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {boardDTO.dto.square_feet}평
+            {post.square_feet}평
           </Typography>
         </CardContent>
         <CardContent>
@@ -115,7 +116,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
             금액
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {boardDTO.dto.price}원
+            {post.price}원
           </Typography>
         </CardContent>
       </Box>
@@ -123,11 +124,11 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>{" "}
-        {boardDTO.dto.like_count}
+        {post.like_count}
         <IconButton>
           <VisibilityIcon />
         </IconButton>{" "}
-        {boardDTO.dto.view_count}
+        {post.view_count}
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -140,13 +141,11 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detail:</Typography>
-          <Typography paragraph>
-            {Parser().parse(boardDTO.dto.content)}
-          </Typography>
+          <Typography paragraph>{Parser().parse(post.content)}</Typography>
           <Typography variant="body2" color="text.secondary">
             <Button>
               <LocationOnIcon />
-              {boardDTO.dto.location}
+              {post.location}
             </Button>
             <Typography variant="caption">
               개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!
@@ -163,7 +162,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, location }) => {
         <div>
           <Button
             color="secondary"
-            href={`/mainboard/modify/${boardDTO.dto.board_idx}`}
+            href={`/mainboard/modify/${post.board_idx}`}
           >
             수정
           </Button>
