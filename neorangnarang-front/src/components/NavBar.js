@@ -4,28 +4,28 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import {Link} from "@material-ui/core";
 
 export default function ButtonAppBar() {
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        NavBar
+                        <Link href="/" underline="none">
+                            <div className="logoDiv">
+                                <img className="logoText" style={{width: 30}} src="/img/logo-neona.png"/>
+                                <img className="logoText" style={{width: 100}} src="/img/text-neona.png"/>
+                            </div>
+                        </Link>
                     </Typography>
-                    <Button color="inherit">Board</Button>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit"><Link href="/mainboard" underline="none"
+                                                  color="initial">게시판</Link></Button>
+                    <Button color="inherit"><Link href="/mainboard" underline="none"
+                                                  color="initial">마이페이지</Link></Button>
+                    <Button color="inherit"><Link href="/auth/signin" underline="none"
+                                                  color="initial">로그인</Link></Button>
                 </Toolbar>
             </AppBar>
         </Box>

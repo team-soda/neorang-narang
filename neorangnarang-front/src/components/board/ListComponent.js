@@ -3,21 +3,23 @@ import {DataGrid} from "@mui/x-data-grid";
 import {Link} from "@material-ui/core";
 import {boardService} from "../../service/BoardService";
 
-const ListComponent = ({boardList,setBoardList}) => {
+const ListComponent = () => {
 
-    // const boardInfoState = {
-    //     type: '',
-    //     keyword: '',
-    //     searchResult: []
-    // }
-    //
-    // const [boardList, setBoardList] = useState(boardInfoState)
+    const boardInfoState = {
+        type: '',
+        keyword: '',
+        searchResult: []
+    }
+
+    const [boardList, setBoardList] = useState(boardInfoState)
 
     useEffect(() => {
-        boardService
-            .getBoardList()
-            .then((res) => setBoardList(res.data.searchResult));
+        boardService.getBoardList().then((res) => {
+            setBoardList(res.data);
+        });
     }, [setBoardList]);
+
+    console.log(boardList);
 
     const columns = [
         {
@@ -53,7 +55,7 @@ const ListComponent = ({boardList,setBoardList}) => {
         },
     ];
 
-    const rows = boardList.map((board) => {
+    const rows = boardList.searchResult.map((board) => {
         return {
             id: board.board_idx,
             title: board.title,
@@ -65,7 +67,6 @@ const ListComponent = ({boardList,setBoardList}) => {
 
     return (
         <>
-            리스트
             <DataGrid
                 rows={rows}
                 columns={columns}

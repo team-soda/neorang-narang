@@ -4,11 +4,11 @@ import SearchComponent from "../../components/board/SearchComponent";
 import {Button, CardActions} from "@material-ui/core";
 import React from "react";
 
-const BoardListPage = ({boardList, setBoardList}) => {
+const BoardListPage = () => {
     return (
         <Card>
-            <SearchComponent boardList={boardList} setBoardList={setBoardList}/>
-            <ListComponent boardList={boardList} setBoardList={setBoardList}/>
+            <SearchComponent/>
+            <ListComponent/>
             <CardActions>
                 <Button color="secondary" href="/mainboard/register">
                     새 글 쓰기

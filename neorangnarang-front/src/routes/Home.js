@@ -9,7 +9,6 @@ function Home({userObj}) {
 
     return (
         <>
-            <h1>메인</h1>
             <ul>
                 {userObj ? (
                     <>

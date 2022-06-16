@@ -7,10 +7,10 @@ import {
 import Home from "../routes/Home";
 import UserRouter from "./UserRouter";
 import GuestRouter from "./GuestRouter";
-import board from "../routes/board"
-import BoardListPage from "../routes/board/BoardListPage";
+import BoardRouter from "../components/BoardRouter";
 
 function AppRouter({userObj, isLogin}) {
+
     console.log(isLogin);
 
     return (
@@ -26,12 +26,9 @@ function AppRouter({userObj, isLogin}) {
                         )
                     }
                 />
-                <Route
-                    path="/auth/*"
-                    element={isLogin ? <Navigate replace to="/"/> : <GuestRouter/>}
-                />
+                <Route path="/auth/*" element={isLogin ? <Navigate replace to="/"/> : <GuestRouter/>}/>
                 <Route path="/" element={<Home userObj={userObj}/>}/>
-                {/*<Route path="/mainboard/*" element={<BoardListPage />}/>*/}
+                <Route path="/mainboard/*" element={<BoardRouter userObj={userObj} isLogin={isLogin}/>} />
             </Routes>
         </Router>
     );

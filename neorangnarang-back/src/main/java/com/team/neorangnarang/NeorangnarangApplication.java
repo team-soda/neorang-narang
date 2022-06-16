@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@EnableConfigurationProperties(AppProperties.class)
+//@EnableConfigurationProperties(AppProperties.class)
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class NeorangnarangApplication {
 

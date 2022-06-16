@@ -36,7 +36,7 @@ public class MainboardController {
         return getSearchListMap;
     }
 
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
     public void register() {
     }
