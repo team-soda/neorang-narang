@@ -1,10 +1,9 @@
 import BoardListPage from "./BoardListPage";
 import BoardReadPage from "./BoardReadPage";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import BoardModifyPage from "./BoardModifyPage";
 import BoardRegisterPage from "./BoardRegisterPage";
-import {useEffect, useState} from "react";
-import {userService} from "../../../../2차백업/service/UserService";
+import {useState} from "react";
 
 export default function BoardIndex({boardList, setBoardList, isLogin}) {
 

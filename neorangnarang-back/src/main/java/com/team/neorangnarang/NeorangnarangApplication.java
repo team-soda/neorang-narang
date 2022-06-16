@@ -13,4 +13,5 @@ public class NeorangnarangApplication {
     public static void main(String[] args) {
         SpringApplication.run(NeorangnarangApplication.class, args);
     }
+
 }

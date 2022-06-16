@@ -5,6 +5,7 @@ import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
+import com.team.neorangnarang.user.security.auth.dto.EmailCheckDTO;
 import com.team.neorangnarang.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -32,33 +33,4 @@ public class UserController {
 
         return ResponseEntity.ok(new ResponseDTO(userPrincipal));
     }
-
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-        log.info("userDTO: {}", userDTO);
-
-        try {
-            userDTO.setNickname(userDTO.getUid());
-            User user = User.toUser(userDTO);
-
-            userService.createUser(user);
-            return ResponseEntity.ok().body("성공");
-        } catch (Exception e) {
-            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
-    }
-
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-        log.info("authenticate userDTO: {}", userDTO.toString());
-
-        User user = User.builder()
-                .uid(userDTO.getUid())
-                .password(userDTO.getPassword())
-                .build();
-        String token = userService.authenticateUser(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
-    }
-
 }
