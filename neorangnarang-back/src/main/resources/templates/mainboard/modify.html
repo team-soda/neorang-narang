@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mainboard Modify Page</title>
+</head>
+<body>
+    <h3>Mainboard Modify Page</h3>
+    <div class="form-group main-title">
+        <form th:action="@{/mainboard/modify}" id="modifyForm" method="post">
+        <div class="form-group">
+            <input type="hidden" th:value="${dto.board_idx}" name="board_idx">
+            <input type="text" name="title" th:value="${dto.title}" class="form-control">
+            <input type="text" name="writer" th:value="${dto.writer}" class="form-control" disabled>
+            <input type="text" name="content" th:value="${dto.content}" class="form-control">
+            <input type="text" name="square_feet" th:value="${dto.square_feet}" class="form-control">
+            <input type="text" name="pay_division" th:value="${dto.pay_division}" class="form-control">
+            <input type="text" name="price" th:value="${dto.price}" class="form-control">
+            <input type="text" name="location" th:value="${dto.location}" class="form-control">
+        </div>
+        <button type="submit">수정</button>
+        </form>
+    </div>
+</body>
+<th:block layout:fragment="script">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
+</script>
+</th:block>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mainboard Read Page</title>
+</head>
+<body>
+    <h3>Mainboard Read Page</h3>
+    <div class="form-group main-title">
+        <div class="form-group">
+            <h4>[[${dto.created_dt}]]</h4>
+            <h1>[[${dto.title}]]</h1>
+            <h6>[[${dto.writer}]]</h6>
+            <div th:utext="${dto.content}" class="form-control" disabled></div>
+            <h4>전월세 구분: [[${dto.pay_division}]]</h4>
+            <h4>금액: [[${dto.price}]]</h4>
+            <h4>[[${dto.view_count}]]명이 이 글을 보고 있어요!</h4>
+            <h4>집 주소: [[${dto.location}]]</h4>
+        </div>
+        <button type="button" onclick="modifyBoard()">수정</button>
+        <button type="button" onclick="deleteBoard()">삭제</button>
+    </div>
+</body>
+<th:block layout:fragment="script">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
+    const board_idx = [[${dto.board_idx}]];
+
+    function deleteBoard() {
+        async function sendDeleteBoard() {
+            const response = await axios.post(`/mainboard/delete/` + board_idx)
+            alert('삭제 되었습니다!');
+            self.location = `/mainboard/list`
+        }
+
+        sendDeleteBoard()
+    }
+
+    function modifyBoard() { self.location = `/mainboard/modify?board_idx=` + board_idx }
+</script>
+</th:block>
+</html>

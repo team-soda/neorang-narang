@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team.neorangnarang.mainboard.mapper.MainboardMapper">
+    <sql id="search">
+       <where>
+            <if test="type != null">
+                <if test="type == 'T'.toString()">
+                    title like concat('%', #{keyword}, '%')
+                </if>
+                <if test="type == 'W'.toString()">
+                    writer like concat('%', #{keyword}, '%')
+                </if>
+                <if test="type == 'TW'.toString()">
+                    title like concat('%', #{keyword}, '%') or writer like concat('%', #{keyword}, '%')
+                </if>
+            </if>
+       </where>
+    </sql>
+
+    <select id="getBoardList" resultType="map">
+        SELECT
+            board_idx, title, writer, content, like_count, view_count, created_at
+        FROM
+            tb_board
+        <include refid="search"></include>
+        ORDER BY board_idx DESC
+    </select>
+
+    <select id="getCount" resultType="map">
+        select count(board_idx) title, writer, content, like_count, view_count, created_at
+        from tb_board
+        <include refid="search"></include>
+    </select>
+
+    <insert id="insert" parameterType="map">
+        insert into tb_board(title, content, writer, location, square_feet, pay_division, like_count, price)
+        values(#{title}, #{content}, #{writer}, #{location}, #{square_feet}, #{pay_division}, #{like_count}, #{price})
+
+        <selectKey order="AFTER" resultType="long" keyProperty="board_idx">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <select id="select" resultType="com.team.neorangnarang.mainboard.dto.MainboardDTO">
+        select * from tb_board where board_idx = #{board_idx}
+    </select>
+
+    <update id="updateViewCount">
+        update tb_board set view_count = view_count + 1 where board_idx = #{board_idx}
+    </update>
+
+    <!-- 제목, 내용, 금액, 전월세여부, 평수, 위치 수정 가능 -->
+    <update id="update">
+        update tb_board
+        set title=#{title},
+            content=#{content},
+            price=#{price},
+            pay_division=#{pay_division},
+            square_feet=#{square_feet},
+            location=#{location}
+        where board_idx = #{board_idx}
+    </update>
+
+    <delete id="delete">
+        delete from tb_board where board_idx = #{board_idx}
+    </delete>
+
+    <!-- 좋아요 기록 조회 -->
+    <select id="selectLike" resultType="map">
+        select * from tb_like where fk_id=#{id} and fk_board_idx=#{board_idx}
+    </select>
+
+    <!-- 좋아요 기록이 없는 글의 경우 좋아요 추가 -->
+    <insert id="insertLike" parameterType="map">
+        insert into tb_like(fk_id, fk_board_idx) values('test1', 101)
+    </insert>
+
+    <!-- 좋아요 기록이 있는 경우 클릭시 좋아요 수정 -->
+    <update id="updateLike">
+        update tb_like set is_like = #{is_like} where fk_id = #{id}
+    </update>
+</mapper>
