@@ -4,6 +4,7 @@ import com.team.neorangnarang.mainboard.dto.MainboardDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,6 +36,7 @@ public class MainboardController {
         return getSearchListMap;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
     public void register() {
     }
