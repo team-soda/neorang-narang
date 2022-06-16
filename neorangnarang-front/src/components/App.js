@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { axiosUserService } from "../service/user/AxiosUserService";
+import { userService } from "../service/UserService";
 import AppRouter from "./AppRouter";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     localStorage.getItem("accessToken")
-      ? axiosUserService.getUserInfo((res) => {
+      ? userService.getUserInfo((res) => {
           setUserObj(res);
         })
       : setUserObj(null);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { axiosUserService } from "../../service/user/AxiosUserService";
+import { userService } from "../../service/UserService";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ function SignUp() {
     const reqEmail = {
       email: email,
     };
-    axiosUserService.sendAuthEmail(reqEmail);
+    userService.sendAuthEmail(reqEmail);
   };
 
   const onAuthCodeCheck = () => {
@@ -30,7 +30,7 @@ function SignUp() {
       code: code,
     };
 
-    axiosUserService.checkAuthCode(reqObj, (res) => {
+    userService.checkAuthCode(reqObj, (res) => {
       setIsAuth(true);
     });
   };
@@ -49,7 +49,7 @@ function SignUp() {
     console.log(userObj);
     console.log(`isAuth? : ${isAuth}`);
 
-    axiosUserService
+    userService
       .signup(userObj)
       .then((res) => {
         console.log(res);

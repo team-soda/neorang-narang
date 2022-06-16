@@ -3,7 +3,7 @@ import {
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
 } from "../../config/url-config";
-import { axiosUserService } from "../../service/user/AxiosUserService";
+import { userService } from "../../service/UserService";
 
 function SignIn() {
   const onSubmitHandler = (event) => {
@@ -15,7 +15,7 @@ function SignIn() {
       password: data.get("password"),
     };
 
-    axiosUserService.login(loginInfo);
+    userService.login(loginInfo);
   };
 
   const onSocialLogin = (event) => {

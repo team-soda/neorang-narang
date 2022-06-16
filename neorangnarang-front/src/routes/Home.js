@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { axiosUserService } from "../service/user/AxiosUserService";
+import { userService } from "../service/UserService";
 
 function Home({ userObj }) {
   const onLogoutHandler = () => {
-    axiosUserService.logout();
+    userService.logout();
   };
 
   return (
