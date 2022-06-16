@@ -9,3 +9,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+package.json
+package-lock.json

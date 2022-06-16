@@ -1,17 +1,16 @@
+import { AccountCircle } from "@material-ui/icons";
+
 function MyPage({ userObj }) {
   const { user } = userObj.data.objData;
 
   return (
     <div>
       <div>
-        <img
-          src={
-            user.profile_img
-              ? user.profile_img
-              : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
-          }
-          alt="프로필 이미지"
-        />
+        {user.profile_img ? (
+          <img src={user.profile_img} alt="프로필 이미지" />
+        ) : (
+          <AccountCircle />
+        )}
       </div>
       <div>닉네임 : {user.nickname}</div>
     </div>
