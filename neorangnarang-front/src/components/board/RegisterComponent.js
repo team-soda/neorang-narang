@@ -1,17 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { boardService } from "../../../../2차백업/service/BoardService";
+import React, { useRef } from "react";
+import {boardService} from "../../service/BoardService";
 import Card from "@mui/material/Card";
 import {
   Button,
   CardActions,
   CardContent,
   CardHeader,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
   TextField,
 } from "@material-ui/core";
 import { Editor } from "@tinymce/tinymce-react";

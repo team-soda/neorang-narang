@@ -1,15 +1,24 @@
 import React, {useEffect, useState} from "react";
-import BoardService, {boardService} from "../../../../2차백업/service/BoardService";
 import {DataGrid} from "@mui/x-data-grid";
 import {Link} from "@material-ui/core";
-import EditorComponent from "./EditorComponent";
+import {boardService} from "../../service/BoardService";
 
-const ListComponent = ({boardList, setBoardList}) => {
+const ListComponent = ({boardList,setBoardList}) => {
+
+    // const boardInfoState = {
+    //     type: '',
+    //     keyword: '',
+    //     searchResult: []
+    // }
+    //
+    // const [boardList, setBoardList] = useState(boardInfoState)
+
     useEffect(() => {
         boardService
             .getBoardList()
             .then((res) => setBoardList(res.data.searchResult));
     }, [setBoardList]);
+
     const columns = [
         {
             field: "id",
@@ -43,6 +52,7 @@ const ListComponent = ({boardList, setBoardList}) => {
             flex: 1,
         },
     ];
+
     const rows = boardList.map((board) => {
         return {
             id: board.board_idx,

@@ -1,4 +1,4 @@
-import Axios from "../../../2차백업/config/axios-config";
+import {Axios} from "axios";
 
 const MAIN_BOARD = "/mainboard";
 

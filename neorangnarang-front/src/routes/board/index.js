@@ -5,7 +5,7 @@ import BoardModifyPage from "./BoardModifyPage";
 import BoardRegisterPage from "./BoardRegisterPage";
 import {useState} from "react";
 
-export default function BoardIndex({boardList, setBoardList, isLogin}) {
+export default function BoardIndex({boardList, setBoardList}) {
 
     const [boardDTO, setBoardDTO] = useState({});
 

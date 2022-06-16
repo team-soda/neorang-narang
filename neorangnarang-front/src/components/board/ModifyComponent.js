@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { boardService } from "../../../../2차백업/service/BoardService";
 import Card from "@mui/material/Card";
 import {
   Button,
@@ -9,6 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Editor } from "@tinymce/tinymce-react";
+import {boardService} from "../../service/BoardService";
 
 function ModifyComponent({ board_idx }) {
 

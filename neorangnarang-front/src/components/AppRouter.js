@@ -7,6 +7,8 @@ import {
 import Home from "../routes/Home";
 import UserRouter from "./UserRouter";
 import GuestRouter from "./GuestRouter";
+import board from "../routes/board"
+import BoardListPage from "../routes/board/BoardListPage";
 
 function AppRouter({userObj, isLogin}) {
     console.log(isLogin);
@@ -29,6 +31,7 @@ function AppRouter({userObj, isLogin}) {
                     element={isLogin ? <Navigate replace to="/"/> : <GuestRouter/>}
                 />
                 <Route path="/" element={<Home userObj={userObj}/>}/>
+                {/*<Route path="/mainboard/*" element={<BoardListPage />}/>*/}
             </Routes>
         </Router>
     );

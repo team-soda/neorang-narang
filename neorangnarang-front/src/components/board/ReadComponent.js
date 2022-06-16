@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { boardService } from "../../../../2차백업/service/BoardService";
 import { Parser } from "html-to-react";
 import {
   Avatar,
@@ -22,6 +21,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {boardService} from "../../service/BoardService";
 
 const ReadComponent = ({ board_idx }) => {
 
