@@ -6,7 +6,7 @@ if (hostname === "localhost") {
   backendHost = "http://localhost:8081";
 }
 
-const OAUTH2_REDIRECT_URL = "http://localhost:3000/oauth2/redirect";
+const OAUTH2_REDIRECT_URL = "http://localhost:3000/auth/oauth2/redirect";
 export const API_BASE_URL = `${backendHost}`;
 export const GOOGLE_AUTH_URL = `${API_BASE_URL}/oauth2/authorization/google?redirect_uri=${OAUTH2_REDIRECT_URL}`;
 export const KAKAO_AUTH_URL = `${API_BASE_URL}/oauth2/authorization/kakao?redirect_uri=${OAUTH2_REDIRECT_URL}`;

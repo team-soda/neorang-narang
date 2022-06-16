@@ -2,18 +2,15 @@ import Card from "@mui/material/Card";
 import { useParams } from "react-router-dom";
 import ModifyComponent from "../../components/board/ModifyComponent";
 
-const BoardModifyPage = ({ boardDTO, setBoardDTO, post, setPost }) => {
+const BoardModifyPage = ({ boardDTO, setBoardDTO }) => {
   let { board_idx } = useParams();
 
   return (
-    // sx={{display: 'flex', justifyContent: 'center'}}
     <Card>
       <ModifyComponent
         board_idx={board_idx}
         boardDTO={boardDTO}
         setBoardDTO={setBoardDTO}
-        post={post}
-        setPost={setPost}
       />
     </Card>
   );

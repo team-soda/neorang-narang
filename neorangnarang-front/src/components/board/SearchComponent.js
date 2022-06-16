@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import BoardService, { boardService } from "../../service/BoardService";
+import BoardService, { boardService } from "../../../../2차백업/service/BoardService";
 
 const SearchComponent = ({ boardList, setBoardList }) => {
   //const { getBoardList, boardInfo, setBoardInfo } = BoardService();

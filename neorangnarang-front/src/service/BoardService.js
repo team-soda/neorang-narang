@@ -1,12 +1,9 @@
-import Axios from "../config/axios-config";
+import Axios from "../../../2차백업/config/axios-config";
 
 const MAIN_BOARD = "/mainboard";
 
 const getBoardList = async () => {
-  return await Axios.get(`${MAIN_BOARD}/list`) /* .then((response) => {
-    console.log(response.data.searchResult);
-    setBoardList(response.data.searchResult);
-  }) */;
+  return await Axios.get(`${MAIN_BOARD}/list`);
 };
 
 const getSearchBoardList = async (type, keyword, setBoardList) => {
@@ -29,11 +26,9 @@ const registerBoard = async (boardDTO) => {
   return await Axios.post(`${MAIN_BOARD}/register`, boardDTO).then(
     (response) => {
       response.status === 200
-        ? alert("작성이 완료되었습니다!")
-        : // boardDTO에서 받아도 상관없지만 response 데이터에 idx 값으로 세팅해줘도 좋을듯..?
-          (window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`);
-    }
-  );
+          ? alert("작성이 완료되었습니다!") (window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`)
+          : alert("작성에 실패하였습니다. 다시 시도해주세요.")
+    });
 };
 
 // board Modify
@@ -41,8 +36,8 @@ const modifyBoard = async (boardDTO) => {
   console.log("modifyBoard at React.js");
   return await Axios.post(`${MAIN_BOARD}/modify`, boardDTO).then((response) => {
     response.status === 200
-      ? alert("수정이 완료되었습니다!")
-      : (window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`);
+      ? alert("수정이 완료되었습니다!") (window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`)
+      : alert("수정에 실패하였습니다. 다시 시도해주세요.")
   });
 };
 
@@ -53,11 +48,9 @@ const removeBoard = async (boardDTO) => {
     `${MAIN_BOARD}/delete/${boardDTO.dto.board_idx}`
   ).then((response) => {
     response.status === 200
-      ? alert("삭제가 완료되었습니다!")
-      : (window.location = `/mainboard/list`);
+      ? alert("삭제가 완료되었습니다!") (window.location = `/mainboard/list`)
+      : alert("삭제에 실패하였습니다. 다시 시도해주세요.")
   });
-
-  //getBoardList;
 };
 
 export const boardService = {

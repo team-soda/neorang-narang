@@ -18,16 +18,20 @@ function SignIn() {
     userService.login(loginInfo);
   };
 
-  const onGoogleSignin = () => {
-    window.location.href = GOOGLE_AUTH_URL;
-  };
+  const onSocialLogin = (event) => {
+    const { name } = event.target;
 
-  const onKakaoSignin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
-
-  const onNaverSignin = () => {
-    window.location.href = NAVER_AUTH_URL;
+    switch (name) {
+      case "google":
+        return (window.location.href = GOOGLE_AUTH_URL);
+      case "kakao":
+        return (window.location.href = KAKAO_AUTH_URL);
+      case "naver":
+        return (window.location.href = NAVER_AUTH_URL);
+      default:
+        console.log("지원하지 않는 소셜 로그인");
+        return;
+    }
   };
 
   return (
@@ -40,9 +44,15 @@ function SignIn() {
         <input id="upw" name="password" type="password" />
         <button>로그인</button>
       </form>
-      <button onClick={onGoogleSignin}>구글 로그인</button>
-      <button onClick={onKakaoSignin}>카카오 로그인</button>
-      <button onClick={onNaverSignin}>네이버 로그인</button>
+      <button name="google" onClick={onSocialLogin}>
+        구글 로그인
+      </button>
+      <button name="kakao" onClick={onSocialLogin}>
+        카카오 로그인
+      </button>
+      <button name="naver" onClick={onSocialLogin}>
+        네이버 로그인
+      </button>
     </div>
   );
 }

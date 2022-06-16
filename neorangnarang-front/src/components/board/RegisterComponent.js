@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { boardService } from "../../service/BoardService";
+import { boardService } from "../../../../2차백업/service/BoardService";
 import Card from "@mui/material/Card";
 import {
   Button,
@@ -17,7 +17,6 @@ import {
 import { Editor } from "@tinymce/tinymce-react";
 
 const RegisterComponent = () => {
-  //const {registerBoard} = BoardService();
 
   const editorRef = useRef(null);
 

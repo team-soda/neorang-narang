@@ -1,51 +1,228 @@
-import {AppBar, Button, Grid, Toolbar, Typography} from "@material-ui/core";
+import {alpha, styled} from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+import * as React from "react";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Box from "@mui/material/Box";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import MenuIcon from "@mui/icons-material/Menu";
+import Typography from "@mui/material/Typography";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreIcon from "@mui/icons-material/MoreVert";
 
-export default function NavBar() {
+const Search = styled('div')(({theme}) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+    },
+}));
+
+const SearchIconWrapper = styled('div')(({theme}) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({theme}) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    },
+}));
+
+export default function PrimarySearchAppBar() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+    const isMenuOpen = Boolean(anchorEl);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const handleProfileMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMobileMenuClose = () => {
+        setMobileMoreAnchorEl(null);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+
+    const handleMobileMenuOpen = (event) => {
+        setMobileMoreAnchorEl(event.currentTarget);
+    };
+
+    const menuId = 'primary-search-account-menu';
+    const renderMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+        >
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </Menu>
+    );
+
+    const mobileMenuId = 'primary-search-account-menu-mobile';
+    const renderMobileMenu = (
+        <Menu
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            id={mobileMenuId}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
+        >
+            <MenuItem>
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    <Badge badgeContent={4} color="error">
+                        <MailIcon/>
+                    </Badge>
+                </IconButton>
+                <p>Messages</p>
+            </MenuItem>
+            <MenuItem>
+                <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                >
+                    <Badge badgeContent={17} color="error">
+                        <NotificationsIcon/>
+                    </Badge>
+                </IconButton>
+                <p>Notifications</p>
+            </MenuItem>
+            <MenuItem onClick={handleProfileMenuOpen}>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <AccountCircle/>
+                </IconButton>
+                <p>Profile</p>
+            </MenuItem>
+        </Menu>
+    );
+
+    function mypageHandler() {
+        window.location = `/user/mypage`;
+    }
+
     return (
-        <AppBar position="static">
-            <Toolbar>
-                <Grid justifyContent="space-between" container>
-                    <Grid item>
-                        <Typography variant="h6">너랑, 나랑!</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography
-                            variant="body2"
-                            style={{display: "inline-block", padding: "6px 8px"}}
+        <Box sx={{flexGrow: 1}}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        sx={{mr: 2}}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{display: {xs: 'none', sm: 'block'}}}
+                    >
+                        너랑나랑
+                    </Typography>
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon/>
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search…"
+                            inputProps={{'aria-label': 'search'}}
+                        />
+                    </Search>
+                    <Box sx={{flexGrow: 1}}/>
+                    <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                            <Badge badgeContent={'New!'} color="error">
+                                <MailIcon/>
+                            </Badge>
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={mypageHandler}
+                            color="inherit"
                         >
-                            NavBar
-                        </Typography>
-                        <Button color="inherit">
-                            <Typography variant="body2">Sign in</Typography>
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
-    )
-};
-
-
-// import MKBox from "./MKBox";
-//
-// // Material Kit 2 React examples
-// import DefaultNavbar from "./Navbars/DefaultNavbar";
-//
-// export default function NavBar() {
-//     return (
-//         <MKBox variant="gradient" bgColor="dark" shadow="sm" py={0.25}>
-//             <DefaultNavbar
-//                 action={{
-//                     type: "external",
-//                     route: "https://www.creative-tim.com/product/material-kit-react",
-//                     label: "free download",
-//                     color: "info",
-//                 }}
-//                 transparent
-//                 relative
-//                 light
-//                 center
-//             />
-//         </MKBox>
-//     );
-// }
+                            <AccountCircle/>
+                        </IconButton>
+                    </Box>
+                    <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+                        <IconButton
+                            size="large"
+                            aria-label="show more"
+                            aria-controls={mobileMenuId}
+                            aria-haspopup="true"
+                            onClick={handleMobileMenuOpen}
+                            color="inherit"
+                        >
+                            <MoreIcon/>
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            {renderMobileMenu}
+            {renderMenu}
+        </Box>
+    );
+}

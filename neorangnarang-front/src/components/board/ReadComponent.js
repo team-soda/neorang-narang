@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { boardService } from "../../service/BoardService";
+import { boardService } from "../../../../2차백업/service/BoardService";
 import { Parser } from "html-to-react";
 import {
   Avatar,
@@ -23,17 +23,23 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
-  //const { boardInfo, boardDTO, setBoardDTO, getBoardRead, removeBoard } = BoardService();
+const ReadComponent = ({ board_idx }) => {
+
+  const boardDTOState = {
+    created_dt:'',
+    imageTags: '',
+    dto: []
+  }
+
+  const [boardDTO, setBoardDTO] = useState(boardDTOState);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     boardService.getBoardRead(board_idx).then((res) => {
       setBoardDTO(res.data);
-      setPost(res.data.dto);
     });
     //imgCheck();
-  }, [board_idx, setBoardDTO, setPost]);
+  }, [board_idx, setBoardDTO]);
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -62,7 +68,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
 
   return (
     <Card>
-      <CardHeader title={post.title} />
+      <CardHeader title={boardDTO.dto.title} />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -74,8 +80,8 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={post.writer}
-        subheader={boardDTO.created_dt}
+        title={boardDTO.dto.writer}
+        subheader={boardDTO.dto.created_dt}
       />
       <div className="thumbnail-wrapper">
         <div className="thumbnail">
@@ -100,7 +106,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
             전·월세
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {post.pay_division}
+            {boardDTO.dto.pay_division}
           </Typography>
         </CardContent>
         <CardContent>
@@ -108,7 +114,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
             평수
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {post.square_feet}평
+            {boardDTO.dto.square_feet}평
           </Typography>
         </CardContent>
         <CardContent>
@@ -116,7 +122,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
             금액
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            {post.price}원
+            {boardDTO.dto.price}원
           </Typography>
         </CardContent>
       </Box>
@@ -124,11 +130,11 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>{" "}
-        {post.like_count}
+        {boardDTO.dto.like_count}
         <IconButton>
           <VisibilityIcon />
         </IconButton>{" "}
-        {post.view_count}
+        {boardDTO.dto.view_count}
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -141,11 +147,11 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detail:</Typography>
-          <Typography paragraph>{Parser().parse(post.content)}</Typography>
+          <Typography paragraph>{Parser().parse(boardDTO.dto.content)}</Typography>
           <Typography variant="body2" color="text.secondary">
             <Button>
               <LocationOnIcon />
-              {post.location}
+              {boardDTO.dto.location}
             </Button>
             <Typography variant="caption">
               개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!
@@ -162,7 +168,7 @@ const ReadComponent = ({ board_idx, boardDTO, setBoardDTO, post, setPost }) => {
         <div>
           <Button
             color="secondary"
-            href={`/mainboard/modify/${post.board_idx}`}
+            href={`/mainboard/modify/${boardDTO.dto.board_idx}`}
           >
             수정
           </Button>

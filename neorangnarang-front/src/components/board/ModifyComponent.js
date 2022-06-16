@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { boardService } from "../../service/BoardService";
+import { boardService } from "../../../../2차백업/service/BoardService";
 import Card from "@mui/material/Card";
 import {
   Button,
@@ -10,32 +10,34 @@ import {
 } from "@material-ui/core";
 import { Editor } from "@tinymce/tinymce-react";
 
-function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
-  //const {boardDTO, setBoardDTO, getBoardRead, modifyBoard} = BoardService();
+function ModifyComponent({ board_idx }) {
+
+  const boardDTOState = {
+    created_dt:'',
+    imageTags: '',
+    dto: []
+  }
 
   const editorRef = useRef(null);
+  const [boardDTO, setBoardDTO] = useState(boardDTOState);
 
   useEffect(() => {
     boardService.getBoardRead(board_idx).then((res) => {
       setBoardDTO(res.data);
-      setPost(res.data.dto);
     });
-  }, [board_idx, setBoardDTO, setPost]);
+  }, [board_idx, setBoardDTO]);
 
-  console.log(boardDTO);
-  console.log(post);
-
-  const onChangeHandler = (e) => {
-    console.log(e);
-    setBoardDTO({
-      [e.target.title]: e.target.value,
-      [e.target.writer]: e.target.value,
-      [e.target.pay_division]: e.target.value,
-      [e.target.square_feet]: e.target.value,
-      [e.target.price]: e.target.value,
-      [e.target.location]: e.target.value,
-    });
-  };
+  // const onChangeHandler = (e) => {
+  //   console.log(e);
+  //   setBoardDTO({
+  //     [e.target.title]: e.target.value,
+  //     [e.target.writer]: e.target.value,
+  //     [e.target.pay_division]: e.target.value,
+  //     [e.target.square_feet]: e.target.value,
+  //     [e.target.price]: e.target.value,
+  //     [e.target.location]: e.target.value,
+  //   });
+  // };
 
   const submitData = (e) => {
     e.preventDefault();
@@ -43,16 +45,16 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
     const data = new FormData(e.target);
 
     const newBoard = {
-      // title: data.get("title"),
-      // writer: data.get("writer"),
+      title: data.get("title"),
+      writer: data.get("writer"),
       content: data.get("content"),
-      // pay_division: data.get("pay_division"),
-      // square_feet: data.get("square_feet"),
-      // price: data.get("price"),
-      // location: data.get("location")
+      pay_division: data.get("pay_division"),
+      square_feet: data.get("square_feet"),
+      price: data.get("price"),
+      location: data.get("location")
     };
 
-    //boardService.modifyBoard(newBoard);
+    boardService.modifyBoard(newBoard);
   };
 
   return (
@@ -67,16 +69,16 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
         <TextField
           id="standard-basic"
           variant="standard"
-          value={post.title}
+          value={boardDTO.dto.title}
           name="title"
-          onChange={onChangeHandler}
+          // onChange={onChangeHandler}
         />
         <InputLabel className="inputLabel">전월세</InputLabel>
         <TextField
           id="standard-basic"
           variant="standard"
-          value={post.pay_division}
-          onChange={onChangeHandler}
+          value={boardDTO.dto.pay_division}
+          // onChange={onChangeHandler}
           name="pay_division"
         />
         <InputLabel className="inputLabel">평수</InputLabel>
@@ -84,8 +86,8 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
           <TextField
             id="standard-basic"
             variant="standard"
-            value={post.square_feet}
-            onChange={onChangeHandler}
+            value={boardDTO.dto.square_feet}
+            // onChange={onChangeHandler}
             name="square_feet"
           />
           평
@@ -95,8 +97,8 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
           <TextField
             id="standard-basic"
             variant="standard"
-            value={post.price}
-            onChange={onChangeHandler}
+            value={boardDTO.dto.price}
+            // onChange={onChangeHandler}
             name="price"
           />
           원
@@ -104,7 +106,7 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
         <Editor
           apiKey="7vg6ljyq1brs6eapvpt76mhps7wgko123tgdlrw40ve47amn"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={post.content}
+          initialValue={boardDTO.dto.content}
           init={{
             height: 500,
             menubar: false,
@@ -141,8 +143,8 @@ function ModifyComponent({ board_idx, boardDTO, setBoardDTO, post, setPost }) {
         <TextField
           id="standard-basic"
           variant="standard"
-          value={post.location}
-          onChange={onChangeHandler}
+          value={boardDTO.dto.location}
+          // onChange={onChangeHandler}
           name="location"
         />
         <CardActions className="menuBar">
