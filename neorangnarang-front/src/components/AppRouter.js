@@ -7,20 +7,23 @@ import {
 import Home from "../routes/Home";
 import UserRouter from "./UserRouter";
 import GuestRouter from "./GuestRouter";
-import board from "../routes/board";
-import BoardListPage from "../routes/board/BoardListPage";
+import BoardRouter from "../components/BoardRouter";
 
-function AppRouter({ userObj, isLogin }) {
+function AppRouter({ authUser, isLogin }) {
   console.log(isLogin);
 
   return (
     <Router>
       <Routes>
         <Route
+          path="/mainboard/*"
+          element={<BoardRouter authUser={authUser} isLogin={isLogin} />}
+        />
+        <Route
           path="/user/*"
           element={
             isLogin ? (
-              <UserRouter userObj={userObj} />
+              <UserRouter authUser={authUser} />
             ) : (
               <Navigate replace to="/" />
             )
@@ -30,7 +33,7 @@ function AppRouter({ userObj, isLogin }) {
           path="/auth/*"
           element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
         />
-        <Route path="/" element={<Home userObj={userObj} />} />
+        <Route path="/" element={<Home authUser={authUser} />} />
       </Routes>
     </Router>
   );

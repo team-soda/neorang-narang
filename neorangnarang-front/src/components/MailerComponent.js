@@ -23,7 +23,7 @@ const MailerComponent = () => {
              style={{
                  marginTop: "50px",
                  width: '100%',
-                 backgroundColor: 'linear-gradient(135deg, rgb(127, 39, 156) 0%, rgb(46, 39, 157) 100%)',
+                 backgroundColor: 'white',
                  backgroundPosition: 'center',
                  backgroundSize: 'cover',
              }}>

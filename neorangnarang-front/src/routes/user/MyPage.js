@@ -1,18 +1,29 @@
-import { AccountCircle } from "@material-ui/icons";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import UserInfo from "../../components/user/UserInfo";
+import { userService } from "../../service/UserService";
 
-function MyPage({ userObj }) {
-  const { user } = userObj.data.objData;
+function MyPage({ authUser }) {
+  const { uid } = useParams();
+  const [userInfo, setUserInfo] = useState({});
+  const [isIdentify, setIsIdentify] = useState(false);
+
+  useEffect(() => {
+    userService.getUserByUid(uid).then((res) => {
+      console.log(res);
+      setUserInfo(res.data.objData);
+    });
+  }, [uid]);
+
+  console.log(userInfo);
+
+  useEffect(() => {
+    uid === authUser.uid ? setIsIdentify(true) : setIsIdentify(false);
+  }, [uid, authUser.uid]);
 
   return (
     <div>
-      <div>
-        {user.profile_img ? (
-          <img src={user.profile_img} alt="프로필 이미지" />
-        ) : (
-          <AccountCircle />
-        )}
-      </div>
-      <div>닉네임 : {user.nickname}</div>
+      <UserInfo userInfo={userInfo} isIdentify={isIdentify} />
     </div>
   );
 }

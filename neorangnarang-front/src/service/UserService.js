@@ -3,13 +3,22 @@ import Axios from "../config/axios-config";
 const AUTH = "/auth";
 const USER = "/user";
 
-const getUserInfo = async (callback) => {
-  return Axios.get(`${USER}/getUser`).then((response) => {
-    console.log(response);
-    callback(response);
-  });
+/* 로그인 한 유저의 정보 */
+const getAuthUserInfo = async () => {
+  return await Axios.get(`${USER}`);
 };
 
+const getUserByUid = async (uid) => {
+  console.log(`getUserByUid uid: ${uid}`);
+  return await Axios.get(`${USER}/${uid}`);
+};
+
+/* 마이페이지 */
+const updateUser = async (userObj) => {
+  return await Axios.put(`${USER}`, userObj);
+};
+
+/* 인증 */
 const login = async (loginObj) => {
   return Axios.post(`${AUTH}/signin`, loginObj).then((response) => {
     console.log(response);
@@ -49,7 +58,9 @@ const checkAuthCode = async (emailCheckObj, callback) => {
 };
 
 export const userService = {
-  getUserInfo,
+  getAuthUserInfo,
+  getUserByUid,
+  updateUser,
   login,
   logout,
   signup,

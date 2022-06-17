@@ -25,12 +25,36 @@ public class UserController {
         return userService.selectTime();
     }
 
-    @GetMapping("/getUser")
-    public ResponseEntity<?> getUser(Authentication authentication) {
+    @GetMapping
+    public ResponseEntity<?> getAuthUser(Authentication authentication) {
         log.info("getUser authentication: {}", authentication.getPrincipal());
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new ResponseDTO(userPrincipal));
+        return ResponseEntity.ok(userPrincipal);
+    }
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<?> getUserInfo(@PathVariable("uid") String uid) {
+        log.info("getUserInfo uid: {}", uid);
+        User user = User.builder().uid(uid).build();
+        ResponseDTO<User> response = ResponseDTO.<User>builder().objData(userService.getUserInfo(user)).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(Authentication authentication, @RequestBody UserDTO userDTO) {
+        log.info("updateUser authentication: {}", authentication);
+        log.info("updateUser userDTO: {}", userDTO);
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        User user = User.builder()
+                .uid(userPrincipal.getUsername())
+                .nickname(userDTO.getNickname())
+                .profile_img(userDTO.getProfile_img())
+                .build();
+
+        User updateUser = userService.updateUser(user);
+        ResponseDTO<User> response = ResponseDTO.<User>builder().objData(updateUser).build();
+        return ResponseEntity.ok(response);
     }
 }

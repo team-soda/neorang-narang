@@ -10,4 +10,5 @@ public interface UserMapper {
     User findByUserId(String userId);
     User findByProvider(String provider);
     User findByProviderId(String providerId);
+    void updateUser(User user);
 }

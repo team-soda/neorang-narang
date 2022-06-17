@@ -54,6 +54,27 @@ public class UserService {
         return tokenProvider.create(authentication);
     }
 
+    public User updateUser(final User user) {
+        log.info("updateUser user: {}", user);
+        User originUser = getUserInfo(user);
+        log.info("updateUser originUser: {}", originUser);
+
+        User updateReq = null;
+        if (originUser != null) {
+            updateReq = User.builder()
+                    .user_idx(originUser.getUser_idx())
+                    .uid(originUser.getUid())
+                    .nickname(user.getNickname())
+                    .profile_img(user.getProfile_img())
+                    .build();
+            userMapper.updateUser(updateReq);
+        }
+
+        User resultUser = getUserInfo(updateReq);
+        log.info("updateUser resultUser: {}", resultUser);
+        return resultUser;
+    }
+
     public void createUser(final User user) {
         User encodingUser = User.builder()
                 .uid(user.getUid())
@@ -85,17 +106,29 @@ public class UserService {
             e.printStackTrace();
         }
 
-        redisService.setDataExpire(authCode, user.getEmail(), 60*5L);
+        redisService.setDataExpire(authCode, user.getEmail(), 60 * 5L);
 
         return authCode;
     }
 
     public String getUserEmailByCode(String code) {
         String email = redisService.getData(code);
-        if(email != null) {
+        if (email != null) {
             return email;
         }
 
         return null;
+    }
+
+    private void validate(final User user) {
+        if (user == null) {
+            log.warn("user null");
+            throw new RuntimeException("user null");
+        }
+
+        if (user.getUid() == null) {
+            log.warn("user id null");
+            throw new RuntimeException("user id null");
+        }
     }
 }

@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import MyPage from "../routes/user/MyPage";
 
-function UserRouter({ userObj }) {
+function UserRouter({ authUser }) {
   return (
     <Routes>
-      <Route path="/mypage" element={<MyPage userObj={userObj} />} />
+      <Route path="/mypage/:uid" element={<MyPage authUser={authUser} />} />
     </Routes>
   );
 }
