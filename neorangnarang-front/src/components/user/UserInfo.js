@@ -36,9 +36,12 @@ function UserInfo({ userInfo, isIdentify }) {
 
   return (
     <div>
+      {isIdentify && <button onClick={onEditToggleHandler}>수정하기</button>}
       <form onSubmit={onUpdateSubmitHandler}>
         <div style={{ width: "100px", height: "100px" }}>
-          {userInfo.profile_img ? (
+          {isEdit ? (
+            <input type="file" accept="image/*" />
+          ) : userInfo.profile_img ? (
             <img src={userInfo.profile_img} alt="프로필 이미지" />
           ) : (
             "이미지 없음"
@@ -53,8 +56,8 @@ function UserInfo({ userInfo, isIdentify }) {
             readOnly={!isEdit}
           />
         </div>
+        {isEdit && <button type="submit">저장하기</button>}
       </form>
-      {isIdentify && <button onClick={onEditToggleHandler}>수정하기</button>}
     </div>
   );
 }
