@@ -18,6 +18,8 @@ const updateUser = async (userObj) => {
   return await Axios.put(`${USER}`, userObj);
 };
 
+const imgUpload = async () => {};
+
 /* 인증 */
 const login = async (loginObj) => {
   return Axios.post(`${AUTH}/signin`, loginObj).then((response) => {
@@ -61,6 +63,7 @@ export const userService = {
   getAuthUserInfo,
   getUserByUid,
   updateUser,
+  imgUpload,
   login,
   logout,
   signup,
