@@ -20,7 +20,7 @@ function App() {
     return (
         <div className="App">
             <NavBar/>
-            <Container maxWidth="md" style={{backgroundColor:'#fbf7f2'}}>
+            <Container maxWidth="lg" style={{backgroundColor:'#fbf7f2'}}>
             <AppRouter userObj={userObj} isLogin={Boolean(userObj)}/>
             </Container>
         </div>

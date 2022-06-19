@@ -1,11 +1,11 @@
 import Card from "@mui/material/Card";
 import RegisterComponent from "../../components/board/RegisterComponent";
 
-const BoardRegisterPage = () => {
+const BoardRegisterPage = ({userObj}) => {
   return (
     <>
       <Card>
-        <RegisterComponent />
+        <RegisterComponent userObj={userObj} />
       </Card>
     </>
   );

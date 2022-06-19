@@ -23,7 +23,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {boardService} from "../../service/BoardService";
 
-const ReadComponent = ({ board_idx }) => {
+const ReadComponent = ({ board_idx, isLogin }) => {
+
+  alert('read component isLogin?? ' + isLogin);
 
   const boardDTOState = {
     created_dt:'',

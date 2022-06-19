@@ -20,11 +20,11 @@ export default function ButtonAppBar() {
                             </div>
                         </Link>
                     </Typography>
-                    <Button color="inherit"><Link href="/mainboard" underline="none"
+                    <Button color="inherit"><Link to="/mainboard" underline="none"
                                                   color="initial">게시판</Link></Button>
-                    <Button color="inherit"><Link href="/mainboard" underline="none"
+                    <Button color="inherit"><Link to="/user/mypage" underline="none"
                                                   color="initial">마이페이지</Link></Button>
-                    <Button color="inherit"><Link href="/auth/signin" underline="none"
+                    <Button color="inherit"><Link to="/auth/signin" underline="none"
                                                   color="initial">로그인</Link></Button>
                 </Toolbar>
             </AppBar>
