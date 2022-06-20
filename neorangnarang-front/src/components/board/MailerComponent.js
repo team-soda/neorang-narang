@@ -26,7 +26,7 @@ const MailerComponent = () => {
                  backgroundSize: 'cover',
                  textAlign: 'center'
              }}>
-            <form className="row" style={{padding: '80px'}} onSubmit={sendEmail}>
+            <form className="row" style={{padding: '80px', display: 'flex'}} onSubmit={sendEmail}>
                 <h1>Contact Us</h1>
                 <p>문의 사항을 보내주세요.</p>
                 <TextField id="filled-basic" label="보내는 분 성함" variant="filled" placeholder="ex) 룸메찾는룸메리스"

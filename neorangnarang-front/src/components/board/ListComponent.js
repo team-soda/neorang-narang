@@ -18,8 +18,6 @@ const ListComponent = () => {
         });
     }, [setBoardList]);
 
-    console.log(boardList);
-
     const columns = [
         {
             field: "id",

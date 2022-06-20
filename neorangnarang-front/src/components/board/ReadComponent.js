@@ -111,26 +111,26 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                 sx={{display: "flex", textAlign: "center", justifyContent: "center"}}
             >
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         전·월세
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.pay_division}
                     </Typography>
                 </CardContent>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         평수
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.square_feet}평
                     </Typography>
                 </CardContent>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         금액
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.price}원
                     </Typography>
                 </CardContent>
@@ -160,7 +160,7 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                     </Typography>
                 </CardContent>
                 <CardContent style={{padding: 10}}>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         <Button>
                             <LocationOnIcon/>
                             {boardDTO.dto.location}
