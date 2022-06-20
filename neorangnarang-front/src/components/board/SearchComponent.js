@@ -33,7 +33,7 @@ const SearchComponent = ({boardList, setBoardList}) => {
 
     return (
         <Box
-            sx={{width: "25%", textAlign: "center", margin: "0 auto"}}
+            sx={{width: "fit-content", textAlign: "center", alignItems: "end", margin: "0 auto", marginBottom: 5, display: 'flex'}}
             component="form"
             noValidate
             autoComplete="off"

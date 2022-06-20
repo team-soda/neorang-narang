@@ -27,17 +27,17 @@ const registerBoard = async (boardDTO) => {
     return await Axios.post(`${MAIN_BOARD}/register`, boardDTO).then(
         (response) => {
             response.status === 200
-                ? alert("작성이 완료되었습니다!")(window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`)
+                ? alert("작성이 완료되었습니다!")(window.location = `/${MAIN_BOARD}/list`)
                 : alert("작성에 실패하였습니다. 다시 시도해주세요.")
         });
 };
 
 // board Modify
-const modifyBoard = async (boardDTO) => {
+const modifyBoard = async (newBoard) => {
     console.log("modifyBoard at React.js");
-    return await Axios.post(`${MAIN_BOARD}/modify`, boardDTO).then((response) => {
+    return await Axios.post(`${MAIN_BOARD}/modify`, newBoard).then((response) => {
         response.status === 200
-            ? alert("수정이 완료되었습니다!")(window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`)
+            ? alert("수정이 완료되었습니다!")
             : alert("수정에 실패하였습니다. 다시 시도해주세요.")
     });
 };
@@ -49,7 +49,7 @@ const removeBoard = async (boardDTO) => {
         `${MAIN_BOARD}/delete/${boardDTO.dto.board_idx}`
     ).then((response) => {
         response.status === 200
-            ? alert("삭제가 완료되었습니다!")(window.location = `/mainboard/list`)
+            ? alert("삭제가 완료되었습니다!")
             : alert("삭제에 실패하였습니다. 다시 시도해주세요.")
     });
 };

@@ -15,8 +15,6 @@ const RegisterComponent = ({userObj}) => {
     const {user} = userObj.data.objData;
     const editorRef = useRef(null);
 
-    // alert('user 닉네임?? >>> '+user.nickname);
-
     function submitData(e) {
         e.preventDefault();
 
@@ -33,6 +31,7 @@ const RegisterComponent = ({userObj}) => {
         };
 
         boardService.registerBoard(boardDTO);
+        window.location = "/mainboard/list"
     }
 
     return (

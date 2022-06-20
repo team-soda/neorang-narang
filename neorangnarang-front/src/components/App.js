@@ -3,6 +3,8 @@ import {userService} from "../service/UserService";
 import AppRouter from "./AppRouter";
 import NavBar from "./NavBar";
 import {Container} from "@material-ui/core";
+import Footer from "./Footer";
+import MapComponent from "./board/MapComponent";
 
 function App() {
     const [userObj, setUserObj] = useState(null);
@@ -20,9 +22,10 @@ function App() {
     return (
         <div className="App">
             <NavBar/>
-            <Container maxWidth="lg" style={{backgroundColor:'#fbf7f2'}}>
+            <Container maxWidth="lg">
             <AppRouter userObj={userObj} isLogin={Boolean(userObj)}/>
             </Container>
+            <Footer />
         </div>
     );
 }

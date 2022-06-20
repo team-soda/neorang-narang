@@ -7,13 +7,12 @@ import { useState } from "react";
 
 export default function BoardRouter({ isLogin, userObj }) {
   const [boardDTO, setBoardDTO] = useState({});
-  alert("board Router isLogin?? " + isLogin);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<BoardListPage />} />
-        <Route path="/list" element={<BoardListPage />} />
+        <Route path="/list" element={<BoardListPage userObj={userObj} />} />
         <Route
           path="/register"
           element={
@@ -44,6 +43,7 @@ export default function BoardRouter({ isLogin, userObj }) {
           element={
             isLogin ? (
               <BoardModifyPage
+                isLogin={isLogin}
                 userObj={userObj}
                 boardDTO={boardDTO}
                 setBoardDTO={setBoardDTO}

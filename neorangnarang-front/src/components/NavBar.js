@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-export default function ButtonAppBar() {
+export default function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -28,17 +28,17 @@ export default function ButtonAppBar() {
             </Link>
           </Typography>
           <Button color="inherit">
-            <Link to="/mainboard" underline="none" color="initial">
+            <Link to="/mainboard" style={{textDecoration: 'none', color: 'grey'}}>
               게시판
             </Link>
           </Button>
           <Button color="inherit">
-            <Link to="/user/mypage" underline="none" color="initial">
+            <Link to="/user/mypage" style={{textDecoration: 'none'}}>
               마이페이지
             </Link>
           </Button>
           <Button color="inherit">
-            <Link to="/auth/signin" underline="none" color="initial">
+            <Link to="/auth/signin" style={{textDecoration: 'none'}}>
               로그인
             </Link>
           </Button>

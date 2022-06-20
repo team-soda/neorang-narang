@@ -5,6 +5,7 @@ import GuestRouter from "./GuestRouter";
 import BoardRouter from "../components/BoardRouter";
 
 function AppRouter({ userObj, isLogin }) {
+
   console.log(isLogin);
 
   return (

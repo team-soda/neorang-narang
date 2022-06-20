@@ -1,58 +1,57 @@
-// import React, {Component} from 'react';
-// import '../../App.css';
-//
-// class MapComponent extends Component {
-//
-//     componentDidMount() {
-//         const script = document.createElement('script');
-//         script.async = true;
-//         script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&autoload=false";
-//         document.head.appendChild(script);
-//     }
-//
-//     render() {
-//         return (
-//             <div id="map"></div>
-//         );
-//     }
-// }
-//
-// //
-// // export default App;
-// //     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-// //         mapOption = {
-// //             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-// //             level: 3 // 지도의 확대 레벨
-// //         };
-// //
-// // // 지도를 생성합니다
-// //     var map = new kakao.maps.Map(mapContainer, mapOption);
-// //
-// // // 주소-좌표 변환 객체를 생성합니다
-// //     var geocoder = new kakao.maps.services.Geocoder();
-// //
-// // // 주소로 좌표를 검색합니다
-// //     geocoder.addressSearch('경기도 고양시 덕양구 삼송로 209', function (result, status) {
-// //
-// //         // 정상적으로 검색이 완료됐으면
-// //         if (status === kakao.maps.services.Status.OK) {
-// //
-// //             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-// //
-// //             // 결과값으로 받은 위치를 마커로 표시합니다
-// //             var marker = new kakao.maps.Marker({
-// //                 map: map,
-// //                 position: coords
-// //             });
-// //
-// //             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-// //             map.setCenter(coords);
-// //         }
-// //     });
-// //
-// //     return (
-// //         <div id="map" style="width:100%;height:350px;"/>
-// //     )
-// // }
-//
-// export default MapComponent;
+import React, {useEffect, useState} from 'react';
+
+const {kakao} = window;
+
+const MapComponent = (mapLocation) => {
+
+    console.log(mapLocation+'받아왔나요??');
+
+    useEffect(() => {
+        const container = document.getElementById('myMap');
+        const options = {
+            center: new kakao.maps.LatLng(35.12, 129.1),
+            level: 3
+        };
+
+        // 지도를 생성합니다.
+        const map = new kakao.maps.Map(container, options);
+        // 주소-좌표 변환 객체를 생성합니다.
+        const geocoder = new kakao.maps.services.Geocoder();
+        // 주소로 좌표를 검색합니다.
+        geocoder.addressSearch(mapLocation, function (result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">위치</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        })
+    }, []);
+
+    return (
+        <div id='myMap' style={{
+            border: '1px solid whitesmoke',
+            borderRadius: '20px',
+            margin: '0 auto',
+            width: '300px',
+            height: '300px'
+        }}/>
+    );
+}
+
+export default MapComponent;

@@ -1,4 +1,4 @@
-import {Button, TextField} from "@material-ui/core";
+import {Button, InputLabel, TextField} from "@material-ui/core";
 import SendIcon from '@mui/icons-material/Send';
 import React from "react";
 import emailjs from "emailjs-com";
@@ -30,7 +30,8 @@ const MailerComponent = () => {
             <form className="row" style={{padding: '80px'}} onSubmit={sendEmail}>
                 <h1>Contact Us</h1>
                 <p>궁금하신 점이 있으신가요? 메일로 보내주세요!</p>
-                <TextField id="filled-basic" label="보내는 분 성함" variant="filled" placeholder="ex) 룸메찾는룸메리스"
+                <InputLabel style={{display:'flex'}}>보내는 분 성함</InputLabel>
+                <TextField id="filled-basic" variant="filled" placeholder="ex) 룸메찾는룸메리스"
                            name="name"/>
                 <TextField id="filled-basic" label="E-mail" variant="filled"
                            placeholder="ex) neorangnarang@gmail.com" name="user_email"/>

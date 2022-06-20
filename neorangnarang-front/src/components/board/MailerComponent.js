@@ -22,8 +22,6 @@ const MailerComponent = () => {
         <div className="container border"
              style={{
                  marginTop: "50px",
-                 // width: '50%',
-                 backgroundImage: `url('https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/p-s75-jir-0417-teddy-01-job570-1.jpg?w=1200&h=1200&dpr=1&fit=clip&crop=default&fm=jpg&q=75&vib=3&con=3&usm=15&cs=srgb&bg=F4F4F3&ixlib=js-2.2.1&s=9b34badc50c5365e071e0d935d783a8d')`,
                  backgroundPosition: 'center',
                  backgroundSize: 'cover',
                  textAlign: 'center'
