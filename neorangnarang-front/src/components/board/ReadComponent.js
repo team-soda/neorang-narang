@@ -22,10 +22,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {boardService} from "../../service/BoardService";
+import {useDispatch, useSelector} from "react-redux";
+import {getIsLoginState} from "../../redux/user/selector/authSelector";
+import {useNavigate, useParams} from "react-router-dom";
 import {Link} from "react-router-dom";
 import MapComponent from "./MapComponent";
+import {getUserImg, getUserInfo} from "../../redux/user/thunk/userThunk";
+import {getUserFileNameState, getUserImgState, getUserState} from "../../redux/user/selector/userSelector";
 
-const ReadComponent = ({board_idx, isLogin, userObj}) => {
+const ReadComponent = ({board_idx}) => {
+    const isLogin = useSelector(getIsLoginState);
+    const navigate = useNavigate();
+
+    // console.log(`리드..... ${isLogin}`);
 
     const boardDTOState = {
         created_dt: "",
@@ -33,16 +42,22 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
         dto: [],
     };
 
-    const {user} = userObj.data.objData;
     const [boardDTO, setBoardDTO] = useState(boardDTOState);
     const [expanded, setExpanded] = useState(false);
     const [isWishAdd, setIsWishAdd] = useState(false);
 
     useEffect(() => {
-        boardService.getBoardRead(board_idx).then((res) => {
-            setBoardDTO(res.data);
-        });
-    }, [board_idx]);
+        if (!isLogin) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/mainboard/list", {replace: true});
+        } else {
+            boardService.getBoardRead(board_idx).then((res) => {
+                setBoardDTO(res.data);
+            });
+        }
+
+        //imgCheck();
+    }, [board_idx, setBoardDTO, isLogin, navigate]);
 
     const ExpandMore = styled((props) => {
         const {expand, ...other} = props;
@@ -68,6 +83,7 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
     const onRemoveHandler = () => {
         boardService.removeBoard(boardDTO);
         window.location = `/mainboard/list`;
+        alert('삭제가 완료되었습니다!');
     };
 
     return (
@@ -75,13 +91,8 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
             <CardHeader title={boardDTO.dto.title}/>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
-                        <img
-                            src={
-                                user.profile_img
-                                    ? user.profile_img
-                                    : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
-                            }/>
+                    <Avatar sx={{bgcolor: red[500]}} aria-label="userProfile">
+
                     </Avatar>
                 }
                 action={
@@ -90,7 +101,7 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                     </IconButton>
                 }
                 title={boardDTO.dto.writer}
-                subheader={boardDTO.dto.created_dt}
+                subheader={boardDTO.created_dt}
             />
             <div className="thumbnail-wrapper">
                 <div className="thumbnail">
@@ -163,14 +174,14 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                     <Typography variant="body2" color="secondary">
                         <Button>
                             <LocationOnIcon/>
-                            {boardDTO.dto.location}
+                            {boardDTO.dto.short_location}
                         </Button>
                         <Typography variant="caption">
                             개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!
                         </Typography>
                     </Typography>
                 </CardContent>
-                <MapComponent mapLocation={boardDTO.dto.location}/>
+                <MapComponent mapLocation={boardDTO.dto.short_location}/>
             </Collapse>
             <CardActions className="menuBar">
                 <div>
@@ -179,7 +190,7 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                     </Button>
                 </div>
                 <div>
-                    {user.nickname === boardDTO.dto.writer ?
+                    {/*{user.nickname === boardDTO.dto.writer ?*/}
                         (<div>
                             <Button>
                                 <Link to={`/mainboard/modify/${boardDTO.dto.board_idx}`}
@@ -188,8 +199,9 @@ const ReadComponent = ({board_idx, isLogin, userObj}) => {
                             <Button color="secondary" onClick={onRemoveHandler}>
                                 삭제
                             </Button>
-                        </div>) : (<div/>)
-                    }
+                        </div>)
+                    {/*: (<div/>)*/}
+                    {/*}*/}
                 </div>
             </CardActions>
         </Card>

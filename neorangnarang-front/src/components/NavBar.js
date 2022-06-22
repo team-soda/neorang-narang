@@ -1,12 +1,12 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 
-export default function NavBar() {
+export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -28,17 +28,17 @@ export default function NavBar() {
             </Link>
           </Typography>
           <Button color="inherit">
-            <Link to="/mainboard" style={{textDecoration: 'none', color: 'grey'}}>
+            <Link to="/mainboard" style={{textDecoration: 'none', color: 'black'}}>
               게시판
             </Link>
           </Button>
           <Button color="inherit">
-            <Link to="/user/mypage" style={{textDecoration: 'none'}}>
+            <Link to="/user/mypage" style={{textDecoration: 'none', color: 'black'}}>
               마이페이지
             </Link>
           </Button>
           <Button color="inherit">
-            <Link to="/auth/signin" style={{textDecoration: 'none'}}>
+            <Link to="/auth/signin" style={{textDecoration: 'none', color: 'black'}}>
               로그인
             </Link>
           </Button>

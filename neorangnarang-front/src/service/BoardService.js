@@ -27,7 +27,7 @@ const registerBoard = async (boardDTO) => {
     return await Axios.post(`${MAIN_BOARD}/register`, boardDTO).then(
         (response) => {
             response.status === 200
-                ? alert("작성이 완료되었습니다!")(window.location = `/${MAIN_BOARD}/list`)
+                ? console.log("작성 완료")
                 : alert("작성에 실패하였습니다. 다시 시도해주세요.")
         });
 };
@@ -49,7 +49,7 @@ const removeBoard = async (boardDTO) => {
         `${MAIN_BOARD}/delete/${boardDTO.dto.board_idx}`
     ).then((response) => {
         response.status === 200
-            ? alert("삭제가 완료되었습니다!")
+            ? console.log("삭제 완료")
             : alert("삭제에 실패하였습니다. 다시 시도해주세요.")
     });
 };

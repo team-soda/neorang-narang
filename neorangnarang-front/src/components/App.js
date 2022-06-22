@@ -1,33 +1,35 @@
-import {useEffect, useState} from "react";
-import {userService} from "../service/UserService";
-import AppRouter from "./AppRouter";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthUser } from "../redux/user/thunk/authThunk";
+import {
+  getAuthState,
+  getIsLoginState,
+} from "../redux/user/selector/authSelector";
+import { Container } from "@material-ui/core";
 import NavBar from "./NavBar";
-import {Container} from "@material-ui/core";
+import AppRouter from "./AppRouter";
 import Footer from "./Footer";
-import MapComponent from "./board/MapComponent";
 
 function App() {
-    const [userObj, setUserObj] = useState(null);
+  const authUser = useSelector(getAuthState);
+  const isLogin = useSelector(getIsLoginState);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        localStorage.getItem("accessToken")
-            ? userService.getUserInfo((res) => {
-                setUserObj(res);
-            })
-            : setUserObj(null);
-    }, [setUserObj]);
+  useEffect(() => {
+    isLogin && dispatch(getAuthUser());
+  }, [isLogin, dispatch]);
 
-    console.log(userObj);
+  console.log(authUser);
 
-    return (
-        <div className="App">
-            <NavBar/>
-            <Container maxWidth="lg">
-            <AppRouter userObj={userObj} isLogin={Boolean(userObj)}/>
-            </Container>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="App">
+      <NavBar/>
+      <Container>
+        <AppRouter />
+      </Container>
+      <Footer />
+    </div>
+  );
 }
 
 export default App;

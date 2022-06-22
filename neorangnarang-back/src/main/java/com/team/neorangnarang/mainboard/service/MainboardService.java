@@ -13,5 +13,5 @@ public interface MainboardService {
     Long register(MainboardDTO mainboardDTO);
     MainboardDTO read(long board_idx);
     void delete(long board_idx);
-    boolean modify(MainboardDTO mainboardDTO);
+    boolean modify(MainboardDTO newBoard);
 }

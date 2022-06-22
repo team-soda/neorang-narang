@@ -21,7 +21,7 @@
 
     <select id="getBoardList" resultType="map">
         SELECT
-            board_idx, title, writer, content, like_count, view_count, created_at
+            board_idx, title, writer, content, like_count, view_count, pay_division, location, created_at
         FROM
             tb_board
         <include refid="search"></include>
@@ -35,8 +35,8 @@
     </select>
 
     <insert id="insert" parameterType="map">
-        insert into tb_board(title, content, writer, location, square_feet, pay_division, like_count, price)
-        values(#{title}, #{content}, #{writer}, #{location}, #{square_feet}, #{pay_division}, #{like_count}, #{price})
+        insert into tb_board(title, content, writer, location, short_location, square_feet, pay_division, like_count, price, uid)
+        values(#{title}, #{content}, #{writer}, #{location}, #{short_location}, #{square_feet}, #{pay_division}, #{like_count}, #{price}, #{uid})
 
         <selectKey order="AFTER" resultType="long" keyProperty="board_idx">
             select last_insert_id()
@@ -59,7 +59,8 @@
             price=#{price},
             pay_division=#{pay_division},
             square_feet=#{square_feet},
-            location=#{location}
+            location=#{location},
+            short_location=#{short_location}
         where board_idx = #{board_idx}
     </update>
 

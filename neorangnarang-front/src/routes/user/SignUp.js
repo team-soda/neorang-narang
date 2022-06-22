@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { userService } from "../../service/UserService";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [isSendEmail, setIsSendEmail] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const navigate = useNavigate();
 
   const onChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -14,25 +17,30 @@ function SignUp() {
     setCode(event.target.value);
   };
 
-  const onSendAuthMailHandler = () => {
+  const onSendAuthMailHandler = async () => {
     console.log(`onSendAuthMailHandler email? : ${email}`);
     const reqEmail = {
       email: email,
     };
-    userService.sendAuthEmail(reqEmail);
+    const sendCheck = await userService.sendAuthEmail(reqEmail);
+    setIsSendEmail(sendCheck);
   };
 
-  const onAuthCodeCheck = () => {
-    console.log(`onAuthCodeCheck email? : ${email}`);
-    console.log(`onAuthCodeCheck email? : ${code}`);
+  const onAuthCodeCheck = async () => {
+    if (!isSendEmail) {
+      alert("인증 메일 보내기를 클릭해주세요.");
+      return;
+    }
+
     const reqObj = {
       email: email,
       code: code,
     };
 
-    userService.checkAuthCode(reqObj, (res) => {
-      setIsAuth(true);
-    });
+    const codeCheck = await userService.checkAuthCode(reqObj);
+
+    setIsAuth(codeCheck);
+    isAuth && alert("확인되었습니다.");
   };
 
   const onSignupHandler = (event) => {
@@ -42,30 +50,26 @@ function SignUp() {
     const userObj = {
       uid: data.get("uid"),
       password: data.get("password"),
-      email: data.get("email"),
       gender: data.get("gender"),
+      email: data.get("email"),
     };
 
-    console.log(userObj);
-    console.log(`isAuth? : ${isAuth}`);
-
-    userService
-      .signup(userObj)
-      .then((res) => {
-        console.log(res);
-        if (isAuth) {
-          setEmail("");
-          setCode("");
-          setIsAuth(false);
-          window.location.replace("/");
-        } else {
-          alert("이메일 인증을 진행해 주세요.");
-          return false;
-        }
-      })
-      .catch((error) => {
-        alert("올바르지 않은 요청입니다.");
-      });
+    if (userObj) {
+      if (isAuth) {
+        userService.signup(userObj);
+        setEmail("");
+        setCode("");
+        setIsSendEmail(false);
+        setIsAuth(false);
+        alert("회원가입이 완료되었습니다.");
+        navigate("/", { replace: true });
+      } else {
+        alert("이메일 인증을 진행해 주세요.");
+      }
+    } else {
+      alert("회원 정보를 입력해 주세요.");
+      return;
+    }
   };
 
   return (
@@ -79,6 +83,20 @@ function SignUp() {
         <div>
           <label htmlFor="upw">비밀번호</label>
           <input type="password" id="upw" name="password" />
+        </div>
+        <div>
+          <label>성별</label>
+          <div>
+            <input
+              type="radio"
+              id="genderIsFemale"
+              name="gender"
+              value="female"
+            />
+            <label htmlFor="genderIsFemale">여성</label>
+            <input type="radio" id="genderIsMale" name="gender" value="male" />
+            <label htmlFor="genderIsMale">남성</label>
+          </div>
         </div>
         <div>
           <label htmlFor="email">이메일</label>
@@ -97,20 +115,7 @@ function SignUp() {
           />
           <input type="button" value="확인" onClick={onAuthCodeCheck} />
         </div>
-        <div>
-          <label>성별</label>
-          <div>
-            <input
-              type="radio"
-              id="genderIsFemale"
-              name="gender"
-              value="female"
-            />
-            <label htmlFor="genderIsFemale">여성</label>
-            <input type="radio" id="genderIsMale" name="gender" value="male" />
-            <label htmlFor="genderIsMale">남성</label>
-          </div>
-        </div>
+
         <button>가입하기</button>
       </form>
     </div>

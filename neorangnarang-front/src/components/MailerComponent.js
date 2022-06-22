@@ -35,10 +35,10 @@ const MailerComponent = () => {
                            name="name"/>
                 <TextField id="filled-basic" label="E-mail" variant="filled"
                            placeholder="ex) neorangnarang@gmail.com" name="user_email"/>
-                <TextField id="filled-basic" label="내용" variant="filled" multiline rows={4}
+                <TextField id="filled-basic" label="내용" variant="filled" multiline minRows={4}
                            placeholder="ex) 메인 화면의 버튼을 개선해주세요!" name="message"/>
                 <div className="flexDiv">
-                    <Button style={{marginTop: 30}} variant="outlined" type="submit" color="black" value="Send"
+                    <Button style={{marginTop: 30}} variant="outlined" type="submit" color="default" value="Send"
                             endIcon={<SendIcon/>}>Send</Button>
                 </div>
             </form>

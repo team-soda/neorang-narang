@@ -1,10 +1,12 @@
-import {Navigate, Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MyPage from "../routes/user/MyPage";
+import UserInfoPage from "../routes/user/UserInfoPage";
 
-function UserRouter({ userObj, isLogin }) {
+function UserRouter() {
   return (
     <Routes>
-      <Route path="/mypage" element={<MyPage userObj={userObj} />} />
+      <Route path="/mypage" element={<MyPage />} />
+      <Route path="/info/:uid" element={<UserInfoPage />} />
     </Routes>
   );
 }

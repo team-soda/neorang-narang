@@ -1,19 +1,22 @@
-function MyPage({ userObj }) {
-  const { user } = userObj.data.objData;
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthState } from "../../redux/user/selector/authSelector";
+import { getAuthUser } from "../../redux/user/thunk/authThunk";
+import MyInfo from "../../components/user/MyInfo";
+
+function MyPage() {
+  const dispatch = useDispatch();
+  const authUser = useSelector(getAuthState);
+
+  console.log(authUser);
+
+  useEffect(() => {
+    dispatch(getAuthUser());
+  }, [dispatch]);
 
   return (
     <div>
-      <div>
-        <img
-          src={
-            user.profile_img
-              ? user.profile_img
-              : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
-          }
-          alt="프로필 이미지"
-        />
-      </div>
-      <div>닉네임 : {user.nickname}</div>
+      <MyInfo />
     </div>
   );
 }

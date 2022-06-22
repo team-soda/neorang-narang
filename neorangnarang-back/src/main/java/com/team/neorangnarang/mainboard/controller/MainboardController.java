@@ -4,7 +4,7 @@ import com.team.neorangnarang.mainboard.dto.MainboardDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,19 +36,18 @@ public class MainboardController {
         return getSearchListMap;
     }
 
-//    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
     public void register() {
     }
 
     @PostMapping("/register")
-    public String registerPost(@RequestBody MainboardDTO boardDTO, RedirectAttributes redirectAttributes) {
+    public Long registerPost(@RequestBody MainboardDTO boardDTO, RedirectAttributes redirectAttributes) {
 
         Long board_idx = boardService.register(boardDTO);
 
         redirectAttributes.addFlashAttribute("board_idx", board_idx);
 
-        return "redirect:/mainboard/read?board_idx=" + board_idx;
+        return board_idx;
     }
 
     @GetMapping(value = {"/read", "/modify"})
@@ -72,13 +71,11 @@ public class MainboardController {
     }
 
     @PostMapping("/modify")
-    public String modifyPost(MainboardDTO mainboardDTO, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> modifyPost(@RequestBody MainboardDTO newBoard) {
 
-        if (boardService.modify(mainboardDTO)) {
-            redirectAttributes.addFlashAttribute("result", "modified");
-        }
+        boardService.modify(newBoard);
 
-        return "redirect:/mainboard/read?board_idx=" + mainboardDTO.getBoard_idx();
+        return ResponseEntity.ok("result");
     }
 
     @ResponseBody

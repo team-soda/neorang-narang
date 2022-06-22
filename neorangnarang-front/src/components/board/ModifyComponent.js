@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import {Editor} from "@tinymce/tinymce-react";
 import {boardService} from "../../service/BoardService";
+import ZipSearchComponent from "./ZipSearchComponent";
+import Typography from "@mui/material/Typography";
 
 function ModifyComponent({board_idx, isLogin}) {
 
@@ -43,7 +45,8 @@ function ModifyComponent({board_idx, isLogin}) {
             pay_division: data.get("pay_division"),
             square_feet: data.get("square_feet"),
             price: data.get("price"),
-            location: data.get("location")
+            location: data.get("location"),
+            short_location: data.get("short_location")
         });
 
         boardService.modifyBoard(newBoard).then(res =>
@@ -64,14 +67,12 @@ function ModifyComponent({board_idx, isLogin}) {
                     variant="standard"
                     value={boardDTO.dto.title}
                     name="title"
-                    // onChange={onChangeHandler}
                 />
                 <InputLabel className="inputLabel">전월세</InputLabel>
                 <TextField
                     id="standard-basic"
                     variant="standard"
                     value={boardDTO.dto.pay_division}
-                    // onChange={onChangeHandler}
                     name="pay_division"
                 />
                 <InputLabel className="inputLabel">평수</InputLabel>
@@ -80,7 +81,6 @@ function ModifyComponent({board_idx, isLogin}) {
                         id="standard-basic"
                         variant="standard"
                         value={boardDTO.dto.square_feet}
-                        // onChange={onChangeHandler}
                         name="square_feet"
                     />
                     평
@@ -91,56 +91,37 @@ function ModifyComponent({board_idx, isLogin}) {
                         id="standard-basic"
                         variant="standard"
                         value={boardDTO.dto.price}
-                        // onChange={onChangeHandler}
                         name="price"
                     />
                     원
                 </div>
-                <Editor
-                    apiKey="7vg6ljyq1brs6eapvpt76mhps7wgko123tgdlrw40ve47amn"
-                    onInit={(evt, editor) => (editorRef.current = editor)}
-                    initialValue={boardDTO.dto.content}
-                    init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            "advlist",
-                            "autolink",
-                            "lists",
-                            "link",
-                            "image",
-                            "charmap",
-                            "preview",
-                            "anchor",
-                            "searchreplace",
-                            "visualblocks",
-                            "code",
-                            "fullscreen",
-                            "insertdatetime",
-                            "media",
-                            "table",
-                            "help",
-                            "wordcount",
-                        ],
-                        toolbar:
-                            "undo redo | blocks | " +
-                            "image | bold italic underline backcolor | alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
-                            "table code help",
-                        content_style:
-                            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                    }}
-                    textareaName="editorContent"
-                    onEditorChange={(editorContent, editor) => SetEditorValue(editorContent)}
-                />
-                <InputLabel className="inputLabel">주소</InputLabel>
-                <TextField
-                    id="standard-basic"
-                    variant="standard"
-                    value={boardDTO.dto.location}
-                    // onChange={onChangeHandler}
-                    name="location"
-                />
+                <div className="editor">
+                    <Editor
+                        apiKey="7vg6ljyq1brs6eapvpt76mhps7wgko123tgdlrw40ve47amn"
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        initialValue={boardDTO.dto.content}
+                        init={{
+                            height: 500,
+                            menubar: false,
+                            plugins: [
+                                "advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor", "searchreplace",
+                                "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "help", "wordcount",
+                            ],
+                            toolbar:
+                                "undo redo | blocks | " +
+                                "image | bold italic underline backcolor | alignleft aligncenter " +
+                                "alignright alignjustify | bullist numlist outdent indent | " +
+                                "table code help",
+                            content_style:
+                                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        }}
+                        textareaName="editorContent"
+                        onEditorChange={(editorContent, editor) => SetEditorValue(editorContent)}
+                    />
+                </div>
+                <ZipSearchComponent/>
+                <Typography style={{margin: 20}} variant="caption" display="block" gutterBottom>
+                    기존 주소: {boardDTO.dto.location}</Typography>
                 <CardActions className="menuBar">
                     <Button variant="outlined" color="secondary" href="/mainboard/list">
                         목록으로

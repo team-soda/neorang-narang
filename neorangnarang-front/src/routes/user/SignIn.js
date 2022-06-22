@@ -1,138 +1,63 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+import {
+  GOOGLE_AUTH_URL,
+  KAKAO_AUTH_URL,
+  NAVER_AUTH_URL,
+} from "../../config/url-config";
+import { login } from "../../redux/user/thunk/authThunk";
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Neorang-narang
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+function SignIn() {
+  const dispatch = useDispatch();
 
-const theme = createTheme();
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
 
-export default function SignInSide() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const data = new FormData(event.target);
+    const loginIObj = {
+      uid: data.get("uid"),
+      password: data.get("password"),
     };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
-                        <div className="logoDiv">
-                            <img
-                                className="logoText"
-                                style={{ width: 30 }}
-                                src="/img/logo-neona.png"
-                            />
-                            <img
-                                className="logoText"
-                                style={{ width: 100 }}
-                                src="/img/text-neona.png"
-                            />
-                        </div>
-                        {/*</Avatar>*/}
-                        <Typography component="h1" variant="h5">
-                            Login
-                        </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                로그인
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        비밀번호를 잊어버리셨나요?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"계정이 없다면? 지금 가입하세요!"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                            <Copyright sx={{ mt: 5 }} />
-                        </Box>
-                    </Box>
-                </Grid>
-            </Grid>
-        </ThemeProvider>
-    );
+    dispatch(login(loginIObj));
+  };
+
+  const onSocialLogin = (event) => {
+    const { name } = event.target;
+
+    switch (name) {
+      case "google":
+        return (window.location.href = GOOGLE_AUTH_URL);
+      case "kakao":
+        return (window.location.href = KAKAO_AUTH_URL);
+      case "naver":
+        return (window.location.href = NAVER_AUTH_URL);
+      default:
+        console.log("지원하지 않는 소셜 로그인");
+        return;
+    }
+  };
+
+  return (
+    <div className="App">
+      로그인페이지
+      <form onSubmit={onSubmitHandler}>
+        <label htmlFor="uid">아이디</label>
+        <input id="uid" name="uid" type="text" />
+        <label htmlFor="upw">패스워드</label>
+        <input id="upw" name="password" type="password" />
+        <button>로그인</button>
+      </form>
+      <button name="google" onClick={onSocialLogin}>
+        구글 로그인
+      </button>
+      <button name="kakao" onClick={onSocialLogin}>
+        카카오 로그인
+      </button>
+      <button name="naver" onClick={onSocialLogin}>
+        네이버 로그인
+      </button>
+    </div>
+  );
 }
+
+export default SignIn;

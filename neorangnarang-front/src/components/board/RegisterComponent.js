@@ -9,6 +9,7 @@ import {
     TextField,
 } from "@material-ui/core";
 import {Editor} from "@tinymce/tinymce-react";
+import ZipSearchComponent from "./ZipSearchComponent";
 
 const RegisterComponent = ({userObj}) => {
 
@@ -28,10 +29,12 @@ const RegisterComponent = ({userObj}) => {
             square_feet: data.get("square_feet"),
             price: data.get("price"),
             location: data.get("location"),
+            short_location: data.get("short_location")
         };
 
         boardService.registerBoard(boardDTO);
-        window.location = "/mainboard/list"
+        window.location = `/mainboard/list`;
+        alert('작성이 완료되었습니다!');
     }
 
     return (
@@ -94,23 +97,8 @@ const RegisterComponent = ({userObj}) => {
                             height: 500,
                             menubar: false,
                             plugins: [
-                                "advlist",
-                                "autolink",
-                                "lists",
-                                "link",
-                                "image",
-                                "charmap",
-                                "preview",
-                                "anchor",
-                                "searchreplace",
-                                "visualblocks",
-                                "code",
-                                "fullscreen",
-                                "insertdatetime",
-                                "media",
-                                "table",
-                                "help",
-                                "wordcount",
+                                "advlist", "autolink", "lists", "link", "image", "charmap", "preview", "anchor", "searchreplace",
+                                "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "help", "wordcount",
                             ],
                             toolbar:
                                 "undo redo | blocks | " +
@@ -123,13 +111,8 @@ const RegisterComponent = ({userObj}) => {
                         textareaName="content"
                     />
                 </div>
-                <TextField
-                    id="standard-basic"
-                    label="주소"
-                    variant="standard"
-                    placeholder="ex) 서울특별시 중구 세종대로 110"
-                    name="location"
-                />
+                <ZipSearchComponent/>
+
                 <CardActions className="menuBar">
                     <Button variant="outlined" color="secondary" href="/mainboard/list">
                         목록으로

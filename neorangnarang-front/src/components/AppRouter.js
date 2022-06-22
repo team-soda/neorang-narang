@@ -1,34 +1,28 @@
+import { useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { getIsLoginState } from "../redux/user/selector/authSelector";
 import Home from "../routes/Home";
-import UserRouter from "./UserRouter";
 import GuestRouter from "./GuestRouter";
+import UserRouter from "./UserRouter";
 import BoardRouter from "../components/BoardRouter";
 
-function AppRouter({ userObj, isLogin }) {
+function AppRouter() {
+  const isLogin = useSelector(getIsLoginState);
 
   console.log(isLogin);
 
   return (
     <Routes>
+      <Route path="/mainboard/*" element={<BoardRouter />} />
       <Route
         path="/user/*"
-        element={
-          isLogin ? (
-            <UserRouter userObj={userObj} />
-          ) : (
-            <Navigate replace to="/" />
-          )
-        }
+        element={isLogin ? <UserRouter /> : <Navigate replace to="/" />}
       />
       <Route
         path="/auth/*"
         element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
       />
-      <Route path="/" element={<Home userObj={userObj} />} />
-      <Route
-        path="/mainboard/*"
-        element={<BoardRouter userObj={userObj} isLogin={isLogin} />}
-      />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 }
