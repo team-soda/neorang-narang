@@ -13,7 +13,7 @@ function Redirect() {
 
   useEffect(() => {
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("accessToken", accessToken);
     }
 
     window.location.href = "/";

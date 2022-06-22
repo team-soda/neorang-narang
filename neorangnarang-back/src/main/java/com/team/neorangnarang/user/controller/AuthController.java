@@ -1,6 +1,8 @@
 package com.team.neorangnarang.user.controller;
 
 import com.team.neorangnarang.common.dto.ResponseDTO;
+import com.team.neorangnarang.exception.BadRequestException;
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
@@ -36,11 +38,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         log.info("userDTO: {}", userDTO);
-
         try {
             userDTO.setNickname(userDTO.getUid());
             User user = User.toUser(userDTO);
-
             userService.createUser(user);
             return ResponseEntity.ok().body("성공");
         } catch (Exception e) {
@@ -52,18 +52,47 @@ public class AuthController {
     @PostMapping("/signup/authEmailSend")
     public ResponseEntity<?> authEmailSend(@RequestBody UserDTO userDTO) {
         log.info("authEmailSend userDTO: {}", userDTO.toString());
-        User user = User.builder().email(userDTO.getEmail()).build();
-        return ResponseEntity.ok(userService.sendAuthEmail(user));
+        try {
+            User user = User.builder().email(userDTO.getEmail()).build();
+            String code = userService.sendAuthEmail(user);
+            return ResponseEntity.ok(code);
+        } catch (Exception e) {
+            ResponseDTO response = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @PostMapping("/signup/authCodeCheck")
     public ResponseEntity<?> authCodeCheck(@RequestBody EmailCheckDTO emailCheckDTO) {
         log.info("authCodeCheck emailCheckDTO: {}", emailCheckDTO.toString());
         String getEmail = userService.getUserEmailByCode(emailCheckDTO.getCode());
-        if(getEmail.equals(emailCheckDTO.getEmail())) {
+
+        if (getEmail == null) {
+            throw new UserNotFoundException("요청된 코드로 검색된 이메일이 존재하지 않습니다.");
+        }
+
+        if (getEmail.equals(emailCheckDTO.getEmail())) {
             return ResponseEntity.ok("인증 성공");
         }
 
-        return ResponseEntity.badRequest().body("에러");
+        return ResponseEntity.badRequest().body(new BadRequestException("인증코드가 일치하지 않습니다."));
     }
+
+    /*@PostMapping("/signup/authCodeCheck")
+    public ResponseEntity<Boolean> authCodeCheck(@RequestBody EmailCheckDTO emailCheckDTO) {
+        log.info("authCodeCheck emailCheckDTO: {}", emailCheckDTO.toString());
+        try {
+            String getEmail = userService.getUserEmailByCode(emailCheckDTO.getCode());
+            //User user = User.builder().email(getEmail).build();
+            if (getEmail.equals(emailCheckDTO.getEmail())) {
+                return ResponseEntity.ok(true);
+            }
+            return ResponseEntity.ok(false);
+        } catch (Exception e) {
+            //ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            //e.printStackTrace();
+            return ResponseEntity.badRequest().body(false);
+        }
+
+    }*/
 }

@@ -1,29 +1,22 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import UserInfo from "../../components/user/UserInfo";
-import { userService } from "../../service/UserService";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthState } from "../../redux/user/selector/authSelector";
+import { getAuthUser } from "../../redux/user/thunk/authThunk";
+import MyInfo from "../../components/user/MyInfo";
 
-function MyPage({ authUser }) {
-  const { uid } = useParams();
-  const [userInfo, setUserInfo] = useState({});
-  const [isIdentify, setIsIdentify] = useState(false);
+function MyPage() {
+  const dispatch = useDispatch();
+  const authUser = useSelector(getAuthState);
 
-  useEffect(() => {
-    userService.getUserByUid(uid).then((res) => {
-      console.log(res);
-      setUserInfo(res.data.objData);
-    });
-  }, [uid]);
-
-  console.log(userInfo);
+  console.log(authUser);
 
   useEffect(() => {
-    uid === authUser.uid ? setIsIdentify(true) : setIsIdentify(false);
-  }, [uid, authUser.uid]);
+    dispatch(getAuthUser());
+  }, [dispatch]);
 
   return (
     <div>
-      <UserInfo userInfo={userInfo} isIdentify={isIdentify} />
+      <MyInfo />
     </div>
   );
 }

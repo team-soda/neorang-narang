@@ -21,25 +21,37 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import {boardService} from "../../service/BoardService";
+import { boardService } from "../../service/BoardService";
+import { useSelector } from "react-redux";
+import { getIsLoginState } from "../../redux/user/selector/authSelector";
+import { useNavigate } from "react-router-dom";
 
 const ReadComponent = ({ board_idx }) => {
+  const isLogin = useSelector(getIsLoginState);
+  const navigate = useNavigate();
+  console.log(`리드..... ${isLogin}`);
 
   const boardDTOState = {
-    created_dt:'',
-    imageTags: '',
-    dto: []
-  }
+    created_dt: "",
+    imageTags: "",
+    dto: [],
+  };
 
   const [boardDTO, setBoardDTO] = useState(boardDTOState);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    boardService.getBoardRead(board_idx).then((res) => {
-      setBoardDTO(res.data);
-    });
+    if (!isLogin) {
+      alert("로그인 한 사용자만 열람할 수 있습니다.");
+      navigate("/mainboard/list", { replace: true });
+    } else {
+      boardService.getBoardRead(board_idx).then((res) => {
+        setBoardDTO(res.data);
+      });
+    }
+
     //imgCheck();
-  }, [board_idx, setBoardDTO]);
+  }, [board_idx, setBoardDTO, isLogin, navigate]);
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -147,7 +159,9 @@ const ReadComponent = ({ board_idx }) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detail:</Typography>
-          <Typography paragraph>{Parser().parse(boardDTO.dto.content)}</Typography>
+          <Typography paragraph>
+            {Parser().parse(boardDTO.dto.content)}
+          </Typography>
           <Typography variant="body2" color="text.secondary">
             <Button>
               <LocationOnIcon />

@@ -1,21 +1,24 @@
+import { useDispatch } from "react-redux";
 import {
   GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
 } from "../../config/url-config";
-import { userService } from "../../service/UserService";
+import { login } from "../../redux/user/thunk/authThunk";
 
 function SignIn() {
+  const dispatch = useDispatch();
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
     const data = new FormData(event.target);
-    const loginInfo = {
+    const loginIObj = {
       uid: data.get("uid"),
       password: data.get("password"),
     };
 
-    userService.login(loginInfo);
+    dispatch(login(loginIObj));
   };
 
   const onSocialLogin = (event) => {

@@ -1,5 +1,7 @@
 package com.team.neorangnarang.user.service;
 
+import com.team.neorangnarang.exception.BadRequestException;
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.ProviderType;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
@@ -76,6 +78,7 @@ public class UserService {
     }
 
     public void createUser(final User user) {
+        log.info("createUser user : {}", user.toString());
         User encodingUser = User.builder()
                 .uid(user.getUid())
                 .password(passwordEncoder.encode(user.getPassword()))
@@ -91,6 +94,10 @@ public class UserService {
     }
 
     public String sendAuthEmail(User user) {
+        if (user.getEmail() == null) {
+            throw new UserNotFoundException("입력된 이메일이 존재하지 않습니다.");
+        }
+
         Random random = new Random();
         String authCode = String.valueOf(random.nextInt(899999) + 100000);
 
@@ -102,12 +109,11 @@ public class UserService {
             helper.setText("너랑 나랑 회원가입 폼에 인증 코드를 입력해 주세요.", true);
             helper.setText("코드 : " + authCode, true);
             javaMailSender.send(mimeMessage);
+            redisService.setDataExpire(authCode, user.getEmail(), 60 * 5L);
         } catch (MessagingException e) {
             e.printStackTrace();
+            throw new UserNotFoundException("입력된 이메일이 존재하지 않습니다.");
         }
-
-        redisService.setDataExpire(authCode, user.getEmail(), 60 * 5L);
-
         return authCode;
     }
 

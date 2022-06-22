@@ -1,11 +1,14 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { getIsLoginState } from "../redux/user/selector/authSelector";
 import BoardListPage from "../routes/board/BoardListPage";
 import BoardReadPage from "../routes/board/BoardReadPage";
-import { Navigate, Route, Routes } from "react-router-dom";
 import BoardModifyPage from "../routes/board/BoardModifyPage";
 import BoardRegisterPage from "../routes/board/BoardRegisterPage";
-import { useState } from "react";
 
-export default function BoardRouter({ isLogin }) {
+export default function BoardRouter() {
+  const isLogin = useSelector(getIsLoginState);
   console.log(`BoardRouter isLogin : ${isLogin}`);
 
   const [boardDTO, setBoardDTO] = useState({});
