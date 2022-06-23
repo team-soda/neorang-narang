@@ -3,27 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser } from "../redux/user/thunk/authThunk";
 import {
   getAuthState,
-  getIsLoginState,
 } from "../redux/user/selector/authSelector";
 import { Container } from "@material-ui/core";
-import NavBar from "./NavBar";
 import AppRouter from "./AppRouter";
-import Footer from "./Footer";
+import Footer from "./layout/Footer";
+import Header from "./layout/Header";
 
 function App() {
-  const authUser = useSelector(getAuthState);
-  const isLogin = useSelector(getIsLoginState);
-  const dispatch = useDispatch();
+    const authUser = useSelector(getAuthState);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    isLogin && dispatch(getAuthUser());
-  }, [isLogin, dispatch]);
+    useEffect(() => {
+        sessionStorage.getItem("accessToken") && dispatch(getAuthUser());
+    }, [dispatch]);
 
-  console.log(authUser);
+    console.log(authUser);
 
   return (
     <div className="App">
-      <NavBar/>
+      <Header/>
       <Container>
         <AppRouter />
       </Container>

@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setIsLogin } from "../../redux/user/slice/authSlice";
+import {getAuthUser} from "../../redux/user/thunk/authThunk";
 
 function Redirect() {
   const [accessToken, setAccessToken] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const url = window.location.search;
-    const urlParams = new URLSearchParams(url);
-    console.log(urlParams);
-
-    setAccessToken(urlParams.get("token"));
+    const params = new URLSearchParams(window.location.search);
+    setAccessToken(params.get("token"));
   }, []);
 
   useEffect(() => {
     if (accessToken) {
       sessionStorage.setItem("accessToken", accessToken);
+      dispatch(getAuthUser());
+      navigate("/", { replace: true });
     }
-
-    window.location.href = "/";
-  }, [accessToken]);
+  }, [accessToken, navigate]);
   return <div>리다이렉트</div>;
 }
 

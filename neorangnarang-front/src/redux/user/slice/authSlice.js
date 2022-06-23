@@ -11,45 +11,55 @@ import {
 
 const authIntiState = {
   authInfo: {},
-  fileName: "",
-  profileImgView: "",
-  tempPath: "",
+  fileName: null,
+  defaultImg: "/img/default-profile-img.png",
+  tempPath: null,
   isLogin: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState: authIntiState,
-  reducers: {},
+  reducers: {
+    setIsLogin: (state) => {
+      state.isLogin = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, { payload }) => {
-        console.log(payload);
-        sessionStorage.setItem("accessToken", payload.accessToken);
-        state.isLogin = true;
-      })
-      .addCase(getAuthUser.fulfilled, (state, { payload }) => {
-        const local = `E:\\workspace\\spring-upload\\`;
-        state.authInfo = payload;
-        state.fileName = payload.profile_img?.replace(local, "");
-        state.isLogin = true;
-      })
-      .addCase(getAuthUserImg.fulfilled, (state, { payload }) => {
-        state.profileImgView = payload;
-      })
-      .addCase(uploadProfileImg.fulfilled, (state, { payload }) => {
-        state.tempPath = payload.path;
-        state.fileName = payload.newName;
-      })
-      .addCase(updateUser.fulfilled, (state, { payload }) => {
-        state.authInfo = payload;
-      })
-      .addCase(logout.fulfilled, (state) => {
-        sessionStorage.removeItem("accessToken");
-        state.initialState = authIntiState;
-      })
-      .addCase(PURGE, () => authIntiState);
+        .addCase(login.fulfilled, (state, { payload }) => {
+          console.log(payload);
+          state.isLogin = true;
+          sessionStorage.setItem("accessToken", payload.accessToken);
+        })
+        .addCase(getAuthUser.fulfilled, (state, { payload }) => {
+          console.log(payload);
+          state.isLogin = true;
+          state.authInfo = payload;
+          if (payload.profile_img) {
+            const local = `E:\\workspace\\spring-upload\\`;
+            state.fileName = payload.profile_img.replace(local, "");
+          }
+          //console.log(state.fileName);
+        })
+        .addCase(getAuthUserImg.fulfilled, (state, { payload }) => {
+          //state.profileImgView = payload;
+        })
+        .addCase(uploadProfileImg.fulfilled, (state, { payload }) => {
+          state.tempPath = payload.path;
+          state.fileName = payload.newName;
+        })
+        .addCase(updateUser.fulfilled, (state, { payload }) => {
+          state.authInfo = payload;
+        })
+        .addCase(logout.fulfilled, (state) => {
+          sessionStorage.clear();
+          state.authIntiState = authIntiState;
+        })
+        .addCase(PURGE, () => authIntiState);
   },
 });
+
+export const { setIsLogin } = authSlice.actions;
 
 export default authSlice.reducer;

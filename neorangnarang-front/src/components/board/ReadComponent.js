@@ -34,7 +34,7 @@ const ReadComponent = ({board_idx}) => {
     const isLogin = useSelector(getIsLoginState);
     const navigate = useNavigate();
 
-    // console.log(`리드..... ${isLogin}`);
+    console.log(`리드..... ${isLogin}`);
 
     const boardDTOState = {
         created_dt: "",
@@ -47,14 +47,14 @@ const ReadComponent = ({board_idx}) => {
     const [isWishAdd, setIsWishAdd] = useState(false);
 
     useEffect(() => {
-        if (!isLogin) {
-            alert("로그인이 필요한 서비스입니다.");
-            navigate("/mainboard/list", {replace: true});
-        } else {
+        // if (!isLogin) {
+        //     alert("로그인이 필요한 서비스입니다.");
+        //     navigate("/mainboard/list", {replace: true});
+        // } else {
             boardService.getBoardRead(board_idx).then((res) => {
                 setBoardDTO(res.data);
             });
-        }
+        // }
 
         //imgCheck();
     }, [board_idx, setBoardDTO, isLogin, navigate]);
@@ -191,7 +191,8 @@ const ReadComponent = ({board_idx}) => {
                 </div>
                 <div>
                     {/*{user.nickname === boardDTO.dto.writer ?*/}
-                        (<div>
+                    {/*    (*/}
+                    <div>
                             <Button>
                                 <Link to={`/mainboard/modify/${boardDTO.dto.board_idx}`}
                                       style={{textDecoration: 'none', color: '#f50057'}}>수정</Link>
@@ -199,7 +200,8 @@ const ReadComponent = ({board_idx}) => {
                             <Button color="secondary" onClick={onRemoveHandler}>
                                 삭제
                             </Button>
-                        </div>)
+                        </div>
+                    {/*)*/}
                     {/*: (<div/>)*/}
                     {/*}*/}
                 </div>

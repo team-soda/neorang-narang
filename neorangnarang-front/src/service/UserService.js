@@ -1,4 +1,4 @@
-import Axios from "../config/axios-config";
+import Axios, { imgAxios } from "../config/axios-config";
 
 const AUTH = "/auth";
 const USER = "/user";
@@ -14,8 +14,12 @@ const getUserByUid = async (uid) => {
 };
 
 /* 마이페이지 */
-const updateUser = async (userObj) => {
+/* const updateUser = async (userObj) => {
   return await Axios.put(`${USER}`, userObj);
+}; */
+
+const updateUser = async (userObj) => {
+  return await imgAxios.put(`${USER}`, userObj);
 };
 
 const uploadProfileImg = async (fileObj) => {
@@ -60,8 +64,8 @@ const sendAuthEmail = async (email) => {
 const checkAuthCode = async (emailCheckObj) => {
   try {
     const response = await Axios.post(
-      `${AUTH}/signup/authCodeCheck`,
-      emailCheckObj
+        `${AUTH}/signup/authCodeCheck`,
+        emailCheckObj
     );
     console.log(response);
     return true;

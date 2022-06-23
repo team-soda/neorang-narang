@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/user/thunk/authThunk";
 import { getIsLoginState } from "../redux/user/selector/authSelector";
 import { Link, useNavigate } from "react-router-dom";
-import MailerComponent from "../components/MailerComponent";
+import MailerComponent from "../components/main/MailerComponent";
 
 function Home() {
   const isLogin = useSelector(getIsLoginState);
