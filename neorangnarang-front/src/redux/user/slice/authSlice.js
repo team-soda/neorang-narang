@@ -20,22 +20,26 @@ const authIntiState = {
 const authSlice = createSlice({
   name: "auth",
   initialState: authIntiState,
-  reducers: {},
+  reducers: {
+    setIsLogin: (state) => {
+      state.isLogin = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
         console.log(payload);
-        sessionStorage.setItem("accessToken", payload.accessToken);
         state.isLogin = true;
+        sessionStorage.setItem("accessToken", payload.accessToken);
       })
       .addCase(getAuthUser.fulfilled, (state, { payload }) => {
         console.log(payload);
+        state.isLogin = true;
         state.authInfo = payload;
         if (payload.profile_img) {
           const local = `E:\\workspace\\spring-upload\\`;
           state.fileName = payload.profile_img.replace(local, "");
         }
-        state.isLogin = true;
         //console.log(state.fileName);
       })
       .addCase(getAuthUserImg.fulfilled, (state, { payload }) => {
@@ -55,5 +59,7 @@ const authSlice = createSlice({
       .addCase(PURGE, () => authIntiState);
   },
 });
+
+export const { setIsLogin } = authSlice.actions;
 
 export default authSlice.reducer;

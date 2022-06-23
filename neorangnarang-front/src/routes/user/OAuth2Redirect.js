@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setIsLogin } from "../../redux/user/slice/authSlice";
 
 function Redirect() {
   const [accessToken, setAccessToken] = useState();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +16,7 @@ function Redirect() {
   useEffect(() => {
     if (accessToken) {
       sessionStorage.setItem("accessToken", accessToken);
-
+      dispatch(setIsLogin());
       navigate("/", { replace: true });
     }
   }, [accessToken, navigate]);
