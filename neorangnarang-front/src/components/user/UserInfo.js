@@ -6,6 +6,7 @@ import {
   getUserState,
 } from "../../redux/user/selector/userSelector";
 import { getUserImg } from "../../redux/user/thunk/userThunk";
+import StarRating from "./StarRating";
 
 function UserInfo() {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ function UserInfo() {
       <div>
         닉네임 :
         <input type="text" name="nickname" value={userInfo.nickname} readOnly />
+      </div>
+      <div>
+        <StarRating />
       </div>
     </div>
   );

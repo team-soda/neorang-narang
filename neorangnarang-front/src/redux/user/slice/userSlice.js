@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getUserImg, getUserInfo } from "../thunk/userThunk";
 
 const userInitState = {
-  userInfo: {},
+  userInfo: null,
   fileName: "",
   profileImgView: "",
 };

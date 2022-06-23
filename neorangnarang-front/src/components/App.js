@@ -1,22 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser } from "../redux/user/thunk/authThunk";
-import {
-  getAuthState,
-  getIsLoginState,
-} from "../redux/user/selector/authSelector";
+import { getAuthState } from "../redux/user/selector/authSelector";
 import { Container } from "@material-ui/core";
 import NavBar from "./NavBar";
 import AppRouter from "./AppRouter";
 
 function App() {
   const authUser = useSelector(getAuthState);
-  const isLogin = useSelector(getIsLoginState);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    isLogin && dispatch(getAuthUser());
-  }, [isLogin, dispatch]);
+    sessionStorage.getItem("accessToken") && dispatch(getAuthUser());
+  }, [dispatch]);
 
   console.log(authUser);
 

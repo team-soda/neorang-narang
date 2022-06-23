@@ -11,9 +11,9 @@ import {
 
 const authIntiState = {
   authInfo: {},
-  fileName: "",
-  profileImgView: "",
-  tempPath: "",
+  fileName: null,
+  defaultImg: "/img/default-profile-img.png",
+  tempPath: null,
   isLogin: false,
 };
 
@@ -29,13 +29,17 @@ const authSlice = createSlice({
         state.isLogin = true;
       })
       .addCase(getAuthUser.fulfilled, (state, { payload }) => {
-        const local = `E:\\workspace\\spring-upload\\`;
+        console.log(payload);
         state.authInfo = payload;
-        state.fileName = payload.profile_img?.replace(local, "");
+        if (payload.profile_img) {
+          const local = `E:\\workspace\\spring-upload\\`;
+          state.fileName = payload.profile_img.replace(local, "");
+        }
         state.isLogin = true;
+        //console.log(state.fileName);
       })
       .addCase(getAuthUserImg.fulfilled, (state, { payload }) => {
-        state.profileImgView = payload;
+        //state.profileImgView = payload;
       })
       .addCase(uploadProfileImg.fulfilled, (state, { payload }) => {
         state.tempPath = payload.path;
@@ -45,8 +49,8 @@ const authSlice = createSlice({
         state.authInfo = payload;
       })
       .addCase(logout.fulfilled, (state) => {
-        sessionStorage.removeItem("accessToken");
-        state.initialState = authIntiState;
+        sessionStorage.clear();
+        state.authIntiState = authIntiState;
       })
       .addCase(PURGE, () => authIntiState);
   },

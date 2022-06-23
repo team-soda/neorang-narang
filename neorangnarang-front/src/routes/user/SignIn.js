@@ -9,7 +9,7 @@ import { login } from "../../redux/user/thunk/authThunk";
 function SignIn() {
   const dispatch = useDispatch();
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const data = new FormData(event.target);

@@ -3,12 +3,14 @@ package com.team.neorangnarang.user.service;
 import com.team.neorangnarang.exception.BadRequestException;
 import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.ProviderType;
+import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
 import com.team.neorangnarang.user.security.TokenProvider;
 import com.team.neorangnarang.user.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,9 +20,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.Random;
 
 @Log4j2
@@ -33,6 +37,9 @@ public class UserService {
     private final RedisUtil redisService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
 
     // mapper 연결 test용
     public String selectTime() {
@@ -77,6 +84,10 @@ public class UserService {
         return resultUser;
     }
 
+    public void profileImgUpload(MultipartFile file) throws IOException {
+
+    }
+
     public void createUser(final User user) {
         log.info("createUser user : {}", user.toString());
         User encodingUser = User.builder()
@@ -87,9 +98,10 @@ public class UserService {
                 .nickname(user.getNickname())
                 .profile_img(user.getProfile_img())
                 .phone(user.getPhone())
-                .role(user.getRole())
+                .role(Role.USER)
                 .provider(ProviderType.LOCAL)
                 .build();
+        log.info("createUser encodingUser : {}", encodingUser.toString());
         userMapper.saveUser(encodingUser);
     }
 

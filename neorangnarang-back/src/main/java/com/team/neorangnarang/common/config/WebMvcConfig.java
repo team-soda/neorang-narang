@@ -23,9 +23,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .maxAge(MAX_AGE_SECS);
     }
 
-    @Override
+    /*@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/user/profile-image/**")
                 .addResourceLocations("file:///E:/workspace/spring-upload/");
-    }
+    }*/
 }

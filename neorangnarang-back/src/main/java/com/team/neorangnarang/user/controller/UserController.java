@@ -1,6 +1,8 @@
 package com.team.neorangnarang.user.controller;
 
 import com.team.neorangnarang.common.dto.ResponseDTO;
+import com.team.neorangnarang.exception.BadRequestException;
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.AuthResponseDTO;
 import com.team.neorangnarang.user.dto.ProfileImgDTO;
@@ -18,13 +20,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -43,11 +48,20 @@ public class UserController {
         return userService.selectTime();
     }
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<?> getAuthUser(Authentication authentication) {
         log.info("getAuthUser authentication: {}", authentication.getPrincipal());
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        UserPrincipal userInfo = UserPrincipal.builder().user(userService.getUserInfo(userPrincipal.getUser())).build();
+
+        return ResponseEntity.ok(userInfo);
+    }*/
+
+    @GetMapping
+    public ResponseEntity<?> getAuthUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        log.info("getAuthUser userPrincipal: {}", userPrincipal.toString());
+
         UserPrincipal userInfo = UserPrincipal.builder().user(userService.getUserInfo(userPrincipal.getUser())).build();
 
         return ResponseEntity.ok(userInfo);
@@ -61,16 +75,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/profile-image-upload")
+    /*@PostMapping("/profile-image-upload")
     public ResponseEntity<?> profileImgUpload(@RequestBody ProfileImgDTO imgDTO) {
         log.info("profileImgUpload imgDTO: {}", imgDTO.toString());
         try {
-            if(imgDTO.getPath().isEmpty()) {
+            if (imgDTO.getPath().isEmpty()) {
                 throw new Exception("No Image");
             }
 
             Path root = Paths.get(uploadPath);
-            if(!Files.exists(root)) {
+            if (!Files.exists(root)) {
                 Files.createDirectories(root);
             }
 
@@ -93,7 +107,7 @@ public class UserController {
             ResponseDTO response = ResponseDTO.<ProfileImgDTO>builder().error(e.getMessage()).build();
             return ResponseEntity.badRequest().body(response);
         }
-    }
+    }*/
 
     /*@GetMapping("/profile-image/{fileName}")
     public ResponseEntity<Resource> getProfileImg(@PathVariable("fileName") String fileName) throws IOException {
@@ -105,27 +119,59 @@ public class UserController {
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }*/
 
-    @GetMapping("/profile-image/{fileName}")
+    /*@GetMapping("/profile-image/{fileName}")
     public ResponseEntity<?> getProfileImg(@PathVariable("fileName") String fileName) throws IOException {
         log.info("getProfileImg fileName: {}", fileName);
+        if(fileName.isEmpty() || fileName.equals("")) {
+            throw new NoSuchFileException("파일을 찾을 수 없습니다.");
+        }
         Path path = Paths.get(uploadPath + fileName);
         Resource resource = new InputStreamResource(Files.newInputStream(path));
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(path))).body(resource);
-    }
+    }*/
 
-    @PutMapping
+    /*@PutMapping
     public ResponseEntity<?> updateUser(Authentication authentication, @RequestBody UserDTO userDTO) {
         log.info("updateUser authentication: {}", authentication);
         log.info("updateUser userDTO: {}", userDTO);
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        User user = User.builder()
-                .uid(userPrincipal.getUsername())
-                .nickname(userDTO.getNickname())
-                .profile_img(userDTO.getProfile_img())
-                .build();
+        try {
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            User user = User.builder()
+                    .uid(userPrincipal.getUsername())
+                    .nickname(userDTO.getNickname())
+                    .profile_img(userDTO.getProfile_img())
+                    .build();
 
-        User updateUser = userService.updateUser(user);
-        ResponseDTO<User> response = ResponseDTO.<User>builder().objData(updateUser).build();
-        return ResponseEntity.ok(response);
+            User updateUser = userService.updateUser(user);
+            ResponseDTO<User> response = ResponseDTO.<User>builder().objData(updateUser).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ResponseDTO response = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }*/
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                        @RequestPart String nickname,
+                                        @RequestPart MultipartFile file) throws IOException {
+        log.info("updateUser userPrincipal: {}", userPrincipal.toString());
+        log.info("updateUser nickname: {}", nickname);
+        log.info("updateUser file: {}", file);
+        return null;
+        /*try {
+            User user = User.builder()
+                    .uid(userPrincipal.getUsername())
+                    .nickname(nickname)
+                    .profile_img(userDTO.getProfile_img())
+                    .build();
+
+            User updateUser = userService.updateUser(user);
+            ResponseDTO<User> response = ResponseDTO.<User>builder().objData(updateUser).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            ResponseDTO response = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }*/
     }
 }
