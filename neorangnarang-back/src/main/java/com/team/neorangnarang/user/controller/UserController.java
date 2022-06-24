@@ -2,20 +2,21 @@ package com.team.neorangnarang.user.controller;
 
 import com.team.neorangnarang.common.dto.ResponseDTO;
 import com.team.neorangnarang.user.domain.User;
-import com.team.neorangnarang.user.dto.AuthResponseDTO;
-import com.team.neorangnarang.user.dto.UserDTO;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
 import com.team.neorangnarang.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -24,41 +25,33 @@ public class UserController {
         return userService.selectTime();
     }
 
-    @GetMapping("/getUser")
-    public ResponseEntity<?> getUser(Authentication authentication) {
-        log.info("getUser authentication: {}", authentication.getPrincipal());
-
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-        return ResponseEntity.ok(new ResponseDTO(userPrincipal));
+    @GetMapping
+    public ResponseEntity<?> getAuthUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        log.info("getAuthUser userPrincipal: {}", userPrincipal.toString());
+        UserPrincipal userInfo = UserPrincipal.builder().user(userService.getUserInfo(userPrincipal.getUser())).build();
+        return ResponseEntity.ok(userInfo);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-        log.info("userDTO: {}", userDTO);
+    @GetMapping("/{uid}")
+    public ResponseEntity<?> getUserInfo(@PathVariable("uid") String uid) {
+        log.info("getUserInfo uid: {}", uid);
+        User user = User.builder().uid(uid).build();
+        ResponseDTO<User> response = ResponseDTO.<User>builder().objData(userService.getUserInfo(user)).build();
+        return ResponseEntity.ok(response);
+    }
 
+    @PutMapping
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                        @RequestPart(required = false) String nickname,
+                                        @RequestPart(required = false) MultipartFile file) throws IOException {
+        log.info("updateUser userPrincipal: {}", userPrincipal.toString());
+        log.info("updateUser nickname: {}", nickname);
         try {
-            userDTO.setNickname(userDTO.getUid());
-            User user = User.toUser(userDTO);
-
-            userService.createUser(user);
-            return ResponseEntity.ok().body("성공");
+            User updateResult = userService.updateUser(userPrincipal.getUser(), nickname, file);
+            return ResponseEntity.ok(updateResult);
         } catch (Exception e) {
-            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-            return ResponseEntity.badRequest().body(responseDTO);
+            ResponseDTO response = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
         }
     }
-
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-        log.info("authenticate userDTO: {}", userDTO.toString());
-
-        User user = User.builder()
-                .uid(userDTO.getUid())
-                .password(userDTO.getPassword())
-                .build();
-        String token = userService.authenticateUser(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
-    }
-
 }

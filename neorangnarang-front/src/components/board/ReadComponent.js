@@ -1,63 +1,98 @@
-import React, {useEffect, useState} from 'react';
-import BoardService from "../../service/BoardService";
+import {useEffect, useState} from "react";
 import {Parser} from "html-to-react";
 import {
-    Avatar, Box, Button,
+    Avatar,
+    Box,
+    Button,
     CardActions,
-    CardContent, CardHeader,
+    CardContent,
+    CardHeader,
     CardMedia,
-    Collapse, createTheme,
+    Collapse,
+    createTheme,
     IconButton,
-    Typography
+    Typography,
 } from "@material-ui/core";
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import {red} from "@material-ui/core/colors";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {boardService} from "../../service/BoardService";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getAuthState,
+    getIsLoginState,
+} from "../../redux/user/selector/authSelector";
+import {useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
+import MapComponent from "./MapComponent";
 
-const ReadComponent = ({board_idx, location}) => {
+const ReadComponent = ({board_idx}) => {
+    const authUser = useSelector(getAuthState);
+    const isLogin = useSelector(getIsLoginState);
+    const navigate = useNavigate();
 
-    const {boardInfo, boardDTO, setBoardDTO, getBoardRead, removeBoard} = BoardService();
+    const boardDTOState = {
+        created_dt: "",
+        imageTags: "",
+        dto: [],
+    };
+
+    const [boardDTO, setBoardDTO] = useState(boardDTOState);
+    const [expanded, setExpanded] = useState(false);
+    const [isWishAdd, setIsWishAdd] = useState(false);
+    const {dto} = boardDTO;
 
     useEffect(() => {
-        getBoardRead(board_idx)
-        imgCheck()
-    }, [board_idx])
+        if (!isLogin) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/auth/signin", {replace: true});
+        } else {
+            boardService.getBoardRead(board_idx).then((res) => {
+                setBoardDTO(res.data);
+            });
+        }
+
+        //imgCheck();
+    }, [board_idx, setBoardDTO, isLogin, navigate]);
 
     const ExpandMore = styled((props) => {
         const {expand, ...other} = props;
         return <IconButton {...other} />;
     })(({theme, expand}) => ({
-        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-        marginLeft: 'auto',
+        transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+        marginLeft: "auto",
     }));
-
-    const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     // 글에 등록된 이미지가 없을 경우 이미지 대체
-    function imgCheck() {
-        if (boardDTO.imageTags.length<1) {
-            document.querySelector('.centered').innerHTML =
-                `<img src="https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif">`;
+    /* const imgCheck = () => {
+        if (boardDTO.imageTags.length < 1) {
+          document.querySelector(
+            ".centered"
+          ).innerHTML = `<img src="https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif">`;
         }
-    }
+      }; */
+
+    const onRemoveHandler = () => {
+        boardService.removeBoard(boardDTO);
+        window.location = `/mainboard/list`;
+        alert("삭제가 완료되었습니다!");
+    };
 
     return (
         <Card>
             <CardHeader title={boardDTO.dto.title}/>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
-                        P
-                    </Avatar>
+                    <Avatar sx={{bgcolor: red[500]}} aria-label="userProfile"></Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
@@ -67,39 +102,45 @@ const ReadComponent = ({board_idx, location}) => {
                 title={boardDTO.dto.writer}
                 subheader={boardDTO.created_dt}
             />
-            <div class="thumbnail-wrapper">
-                <div class="thumbnail">
-                    <div class="centered">
+            <div className="thumbnail-wrapper">
+                <div className="thumbnail">
+                    <div className="centered">
                         <CardMedia
                             className="cardImg"
                             component="img"
-                            image={boardDTO.imageTags}
+                            image={
+                                boardDTO.imageTags
+                                    ? boardDTO.imageTags
+                                    : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
+                            }
                         />
                     </div>
                 </div>
             </div>
-            <Box sx={{display: 'flex', textAlign: 'center', justifyContent: 'center'}}>
+            <Box
+                sx={{display: "flex", textAlign: "center", justifyContent: "center"}}
+            >
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         전·월세
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.pay_division}
                     </Typography>
                 </CardContent>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         평수
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.square_feet}평
                     </Typography>
                 </CardContent>
                 <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="secondary">
                         금액
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" color="secondary">
                         {boardDTO.dto.price}원
                     </Typography>
                 </CardContent>
@@ -107,10 +148,12 @@ const ReadComponent = ({board_idx, location}) => {
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon/>
-                </IconButton> {boardDTO.dto.like_count}
+                </IconButton>{" "}
+                {boardDTO.dto.like_count}
                 <IconButton>
                     <VisibilityIcon/>
-                </IconButton> {boardDTO.dto.view_count}
+                </IconButton>{" "}
+                {boardDTO.dto.view_count}
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -119,31 +162,61 @@ const ReadComponent = ({board_idx, location}) => {
                 >
                     <ExpandMoreIcon/>
                 </ExpandMore>
+                펼쳐보기
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>Detail:</Typography>
+                <CardContent
+                    style={{
+                        border: "1px solid whitesmoke",
+                        borderRadius: 20,
+                        padding: 40,
+                    }}
+                >
                     <Typography paragraph>
                         {Parser().parse(boardDTO.dto.content)}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <Button><LocationOnIcon/>{boardDTO.dto.location}</Button>
-                        <Typography variant="caption">개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!</Typography>
+                </CardContent>
+                <CardContent style={{padding: 10}}>
+                    <Typography variant="body2" color="secondary">
+                        <Button>
+                            <LocationOnIcon/>
+                            {boardDTO.dto.short_location}
+                        </Button>
+                        <Typography variant="caption">
+                            개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!
+                        </Typography>
                     </Typography>
                 </CardContent>
+                <MapComponent mapLocation={boardDTO.dto.short_location}/>
             </Collapse>
             <CardActions className="menuBar">
                 <div>
-                    <Button color="secondary" href="/mainboard/list">돌아가기</Button>
+                    <Button color="secondary" href="/mainboard/list">
+                        돌아가기
+                    </Button>
                 </div>
                 <div>
-                    <Button color="secondary" href={`/mainboard/modify/${boardDTO.dto.board_idx}`}>수정</Button>
-                    <Button color="secondary" onClick={removeBoard}>삭제</Button>
+                    {authUser.nickname === dto.writer ? (
+                        <div>
+                            <Button>
+                                <Link
+                                    to={`/mainboard/modify/${boardDTO.dto.board_idx}`}
+                                    style={{textDecoration: "none", color: "#f50057"}}
+                                >
+                                    수정
+                                </Link>
+                            </Button>
+                            <Button color="secondary" onClick={onRemoveHandler}>
+                                삭제
+                            </Button>
+                        </div>
+                    ) : (
+                        <div/>
+                    )}
                 </div>
             </CardActions>
         </Card>
-    )
-        ;
+    );
 };
 
 export default ReadComponent;

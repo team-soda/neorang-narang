@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
-    <meta name="viewport" content="initial-scale=1, width=device-width"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
     <meta
             name="description"
@@ -11,32 +11,60 @@
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png"/>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-kopub@1.0">
-<!--    <script src="https://cdn.tiny.cloud/1/7vg6ljyq1brs6eapvpt76mhps7wgko123tgdlrw40ve47amn/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>-->
-    <title>제발 잘 좀 하자</title>
+    <title>React App</title>
 </head>
 <body>
 <style>
+    ul {
+        list-style: none;
+    }
+
+    a:hover {
+        color: #ffc576;
+    }
+
+    .logoDiv {
+        display: flex;
+        align-items: center;
+    }
+
+    .MuiDataGrid-root {
+        background: white;
+        letter-spacing: initial;
+        border-radius: 20px;
+        border: none;
+    }
+
+    .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-withBorder {
+        border-right: none;
+    }
+
+    .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-columnSeparator {
+        color: white;
+    }
+
+    .MuiTypography-root {
+        color: black;
+    }
+
     .rdw-editor-wrapper {
         margin-top: 30px;
     }
 
     .editor {
-        padding: 20px;
-        min-height: 400px;
+        margin-top: 30px;
     }
 
-    .inputMailContent{
+    .inputMailContent {
         height: 200px
     }
 
-    .tox-statusbar{
+    .tox-statusbar {
         visibility: hidden;
     }
 
-    .MuiCard-root {
-        padding: 100px;
+    .MuiContainer-root {
+        padding: 90px;
     }
 
     .thumbnail-wrappper {
@@ -79,28 +107,29 @@
 
     .MuiFormControl-root {
         display: flex;
-        margin-top: 20px;
-    }
-
-    .inputLabel{
-        margin-top: 20px;
     }
 
     .MuiCollapse-root {
         overflow: hidden;
     }
 
-    .inputLabel {
-        margin-top: 20px;
-    }
-
     .flexDiv {
         display: flex;
         align-items: end;
     }
+
+    .MuiPaper-root{
+        background-color: transparent;
+        box-shadow: revert;
+    }
+
+    .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+    .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+    .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden; background: #ffc576 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+    .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+    .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 </style>
 <div id="root"></div>
-<!--<script type="text/javascript"-->
-<!--        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&libraries=services"></script>-->
 </body>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&libraries=services"></script>
 </html>

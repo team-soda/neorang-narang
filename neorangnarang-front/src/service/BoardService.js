@@ -1,77 +1,64 @@
-import {useState} from "react";
-import axios from "axios";
+import Axios from "../config/axios-config";
 import {API_BASE_URL} from "../config/url-config";
 
-// List 출력
-const boardInfoState = {
-    type: '',
-    keyword: '',
-    searchResult: []
-}
+const MAIN_BOARD = `/mainboard`;
 
-// 상세 글 조회
-const boardDTOState = {
-    created_dt:'',
-    imageTags: '',
-    dto: []
-}
+const getBoardList = async () => {
+    return await Axios.get(`${MAIN_BOARD}/list`);
+};
 
-export default () => {
+const getSearchBoardList = async (type, keyword, setBoardList) => {
+    return await Axios.get(
+        `${MAIN_BOARD}/list?type=${type}&keyword=${keyword}`
+    ).then((response) => {
+        console.log(response);
+        setBoardList(response.data);
+    });
+};
 
-    const [reload, setReload] = useState(false)
+const getBoardRead = async (board_idx) => {
+    console.log("getBoardRead at React.js");
+    return await Axios.get(`${MAIN_BOARD}/read?board_idx=${board_idx}`);
+};
 
-    // board List
-    const [boardInfo, setBoardInfo] = useState(boardInfoState)
+// board Register
+const registerBoard = async (boardDTO) => {
+    console.log("registerBoard at React.js");
+    return await Axios.post(`${MAIN_BOARD}/register`, boardDTO).then(
+        (response) => {
+            response.status === 200
+                ? console.log("작성 완료")
+                : alert("작성에 실패하였습니다. 다시 시도해주세요.")
+        });
+};
 
-    const getBoardList = async (type, keyword) => {
-        const response = await axios.get(`${API_BASE_URL}/mainboard/list?type=${type}&keyword=${keyword}`)
-        setBoardInfo(response.data)
-    }
+// board Modify
+const modifyBoard = async (newBoard) => {
+    console.log("modifyBoard at React.js");
+    return await Axios.post(`${MAIN_BOARD}/modify`, newBoard).then((response) => {
+        response.status === 200
+            ? alert("수정이 완료되었습니다!")
+            : alert("수정에 실패하였습니다. 다시 시도해주세요.")
+    });
+};
 
-    // board Read
-    const [boardDTO, setBoardDTO] = useState(boardDTOState)
+// board Delete
+const removeBoard = async (boardDTO) => {
+    alert("정말 삭제할까요?");
+    return await Axios.post(
+        `${MAIN_BOARD}/delete/${boardDTO.dto.board_idx}`
+    ).then((response) => {
+        response.status === 200
+            ? console.log("삭제 완료")
+            : alert("삭제에 실패하였습니다. 다시 시도해주세요.")
+    });
+};
 
-    const getBoardRead = async (board_idx) => {
-        console.log('getBoardRead at React.js')
-        const response = await axios.get(`${API_BASE_URL}/mainboard/read?board_idx=${board_idx}`)
-        setBoardDTO(response.data)
-        console.log('read 불러왔음!');
-    }
-
-    // board Register
-    const registerBoard = async (boardDTO) => {
-        console.log('registerBoard at React.js')
-        const response = await axios.post(`${API_BASE_URL}/mainboard/register`, boardDTO)
-        alert('작성이 완료되었습니다!')
-        window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`;
-    }
-
-    // board Modify
-    const modifyBoard = async (boardDTO) => {
-        console.log('modifyBoard at React.js')
-        const response = await axios.post(`${API_BASE_URL}/mainboard/modify`, boardDTO)
-        alert('수정이 완료되었습니다!')
-        window.location = `/mainboard/read?board_idx=${boardDTO.dto.board_idx}`;
-    }
-
-    // board Delete
-    const removeBoard = async () => {
-        alert('정말 삭제할까요?')
-        const response = await axios.post(`${API_BASE_URL}/mainboard/delete/${boardDTO.dto.board_idx}`)
-        alert('삭제가 완료되었습니다!')
-        window.location = `/mainboard/list`
-    }
-
-    return {
-        reload,
-        boardInfo,
-        setBoardInfo,
-        getBoardList,
-        boardDTO,
-        setBoardDTO,
-        getBoardRead,
-        registerBoard,
-        modifyBoard,
-        removeBoard
-    }
-}
+export const boardService = {
+    getBoardList,
+    getSearchBoardList,
+    getBoardRead,
+    registerBoard,
+    modifyBoard,
+    removeBoard,
+};

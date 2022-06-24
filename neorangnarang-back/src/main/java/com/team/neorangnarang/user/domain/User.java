@@ -30,6 +30,10 @@ public class User {
         return this.role.getKey();
     }
 
+    public void updateProfileImg(String profile_img) {
+        this.profile_img = profile_img;
+    }
+
     public static User toUser(final UserDTO userDTO) {
         GenderType gender;
         if(userDTO.getGender().equals("female")) {

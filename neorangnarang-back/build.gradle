@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.team'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 configurations {
     compileOnly {
@@ -21,6 +21,10 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'org.modelmapper:modelmapper:3.1.0'
+
+    /* Email 인증 */
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     /* MyBatis, jdbc */
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.0'

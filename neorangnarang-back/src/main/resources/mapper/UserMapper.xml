@@ -12,6 +12,12 @@
         VALUES (#{uid}, #{password}, #{email}, #{gender}, #{nickname}, #{phone}, #{role}, #{provider}, #{provider_id})
     </insert>
 
+    <update id="updateUser" parameterType="User">
+        UPDATE tb_user
+        SET nickname = #{nickname}, profile_img = #{profile_img}
+        WHERE user_idx = #{user_idx}
+    </update>
+
     <select id="findByUserId" resultType="User">
         SELECT * FROM tb_user WHERE uid = #{uid}
     </select>

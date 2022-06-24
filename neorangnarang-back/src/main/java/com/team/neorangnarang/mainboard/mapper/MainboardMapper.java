@@ -14,5 +14,5 @@ public interface MainboardMapper {
     MainboardDTO select(long board_idx);
     void updateViewCount(long board_idx);
     void delete(long board_idx);
-    Long update(MainboardDTO mainboardDTO);
+    Long update(MainboardDTO newBoard);
 }

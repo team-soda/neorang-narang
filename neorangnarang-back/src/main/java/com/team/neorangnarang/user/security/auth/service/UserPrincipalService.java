@@ -1,5 +1,6 @@
 package com.team.neorangnarang.user.security.auth.service;
 
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
@@ -11,8 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /*
+
 1. security config에 설정된 url(ex : .loginProcessingUrl("url"))로 요청이 오면
 2. loadUserByUsername 메소드가 실행됨
+
  */
 
 @Log4j2
@@ -27,10 +30,9 @@ public class UserPrincipalService implements UserDetailsService {
 
         User user = userMapper.findByUserId(username);
 
-        if(user != null) {
-            return UserPrincipal.create(user);
+        if (user == null) {
+            throw new UserNotFoundException("");
         }
-
-        return null;
+        return UserPrincipal.create(user);
     }
 }

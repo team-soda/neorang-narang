@@ -1,55 +1,71 @@
 import React, {useEffect, useState} from "react";
-import BoardService from "../../service/BoardService";
 import {DataGrid} from "@mui/x-data-grid";
-import {Link} from "@material-ui/core";
-import EditorComponent from "./EditorComponent";
+import {boardService} from "../../service/BoardService";
+import {Link} from "react-router-dom";
 
 const ListComponent = () => {
+    const boardInfoState = {
+        type: "",
+        keyword: "",
+        searchResult: [],
+    };
 
-    const {getBoardList, boardInfo, setBoardInfo, reload} = BoardService()
+    const [boardList, setBoardList] = useState(boardInfoState);
+
+    useEffect(() => {
+        boardService.getBoardList().then((res) => {
+            setBoardList(res.data);
+        });
+    }, [setBoardList]);
+
     const columns = [
         {
-            field: 'id', headerName: 'No.', flex: 0.3,
-        },
-        {
-            field: 'title',
-            headerName: 'Title',
-            flex: 1.4,
-            renderCell: (id, title) => {
-                return <Link href={`/mainboard/read/${id.row.id}`}>{id.row.title}</Link>;
-            }
-        },
-        {
-            field: 'writer',
-            headerName: 'Author',
-            flex: 0.8,
-        },
-        {
-            field: 'like_count',
-            headerName: '♡',
-            type: 'number',
+            field: "id",
+            headerName: "　",
             flex: 0.3,
         },
         {
-            field: 'created_at',
-            headerName: 'Date',
+            field: "pay_division",
+            headerName: "전월세",
+            flex: 0.3,
+        },
+        {
+            field: "title",
+            headerName: "제목",
+            flex: 1.4,
+            renderCell: (id) => {
+                return <Link to={`/mainboard/read/${id.row.id}`}
+                             style={{textDecoration: 'none', color: '#ffc44b'}}>{id.row.title}</Link>;
+            },
+        },
+        {
+            field: "writer",
+            headerName: "글쓴이",
+            flex: 0.8,
+        },
+        {
+            field: "created_at",
+            headerName: "작성일",
             flex: 1,
         },
-    ]
-    const rows = boardInfo.searchResult.map((board) => {
+        {
+            field: "like_count",
+            headerName: "♡",
+            type: "number",
+            flex: 0.3,
+        },
+    ];
+
+    const rows = boardList.searchResult.map((board) => {
         return {
             id: board.board_idx,
             title: board.title,
             writer: board.writer,
             like_count: board.like_count,
             created_at: board.created_at,
-        }
-    })
-
-    useEffect(() => {
-        getBoardList()
-    }, [])
-
+            pay_division: board.pay_division,
+        };
+    });
 
     return (
         <>

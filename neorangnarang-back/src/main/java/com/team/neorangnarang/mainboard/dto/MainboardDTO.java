@@ -21,7 +21,7 @@ public class MainboardDTO {
 
     private Long board_idx;
     // 제목, 글쓴이, 내용, 건물 위치, 평수, 전월세 구분
-    private String title, writer, content, location, square_feet, pay_division;
+    private String title, writer, uid, content, location, short_location, square_feet, pay_division;
     // 금액, 찜하기 수, 조회수
     private Integer price, view_count;
 
@@ -59,6 +59,8 @@ public class MainboardDTO {
                 .title(title)
                 .content(content)
                 .writer(writer)
+                .uid(uid)
+                .short_location(short_location)
                 .location(location)
                 .square_feet(square_feet)
                 .pay_division(pay_division)

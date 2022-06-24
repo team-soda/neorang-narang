@@ -42,14 +42,16 @@ public class MainboardServiceImpl implements MainboardService {
     }
 
     @Override
-    public void delete(long board_idx) {
-        boardMapper.delete(board_idx);
+    public boolean modify(MainboardDTO newBoard) {
+
+        log.info("board Service Impl modify 결과 >>> ");
+        log.info(boardMapper.update(newBoard) > 0);
+
+        return boardMapper.update(newBoard) > 0;
     }
 
     @Override
-    public boolean modify(MainboardDTO mainboardDTO) {
-        Long board_idx = mainboardDTO.getDTO().getBoard_idx();
-
-        return boardMapper.update(mainboardDTO) > 0;
+    public void delete(long board_idx) {
+        boardMapper.delete(board_idx);
     }
 }

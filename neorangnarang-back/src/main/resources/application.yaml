@@ -8,6 +8,7 @@ spring:
         - db
         - oauth
         - app
+        - mail
   thymeleaf:
     cache: 'false'
   mvc:
@@ -18,7 +19,7 @@ spring:
       max-file-size: 10MB
       enabled: 'true'
       max-request-size: 30MB
-      location: C:\upload
+      location: E:\\workspace\\spring-upload\\
   main:
     allow-circular-references: true
 logging:

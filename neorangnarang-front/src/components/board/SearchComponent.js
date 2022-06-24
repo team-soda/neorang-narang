@@ -5,33 +5,39 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    useFormControl
+    useFormControl,
 } from "@material-ui/core";
 import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import BoardService from "../../service/BoardService";
+import {boardService} from "../../service/BoardService";
 
-const SearchComponent = () => {
+const SearchComponent = ({boardList, setBoardList}) => {
 
-    const {getBoardList, boardInfo, setBoardInfo} = BoardService()
-    const [type, setType, keyword, setKeyword] = useState()
-
-    // useEffect((type, keyword) => {
-    //     getBoardList(type, keyword)
-    // }, [reload])
+    const [type, setType] = useState("");
+    const [keyword, setKeyword] = useState("");
 
     const typeChange = (event) => {
-        setBoardInfo(event.target.value);
+        setType(event.target.value);
     };
 
     const keywordChange = (event) => {
-        setBoardInfo(event.target.value);
-    }
+        setKeyword(event.target.value);
+    };
+
+    const onSearchHandler = () => {
+        boardService.getSearchBoardList(type, keyword, (res) =>
+            setBoardList(res.data)
+        );
+    };
 
     return (
-        <Box sx={{width: '25%', textAlign: 'center', margin: '0 auto'}}
-             component="form" noValidate autoComplete="off">
+        <Box
+            sx={{width: "fit-content", textAlign: "center", alignItems: "end", margin: "0 auto", marginBottom: 5, display: 'flex'}}
+            component="form"
+            noValidate
+            autoComplete="off"
+        >
             <FormControl variant="standard" sx={{m: 1}}>
                 <InputLabel id="demo-simple-select-standard-label">type</InputLabel>
                 <Select
@@ -48,17 +54,20 @@ const SearchComponent = () => {
                     <MenuItem value={"W"}>작성자</MenuItem>
                 </Select>
             </FormControl>
-            <FormControl sx={{width: '25ch'}}>
+            <FormControl sx={{width: "25ch"}}>
                 <InputLabel id="demo-simple-select-standard-label">keyword</InputLabel>
-                <Input value={keyword}
-                       onChange={keywordChange}
-                       placeholder="검색어를 입력하세요!"/>
+                <Input
+                    value={keyword}
+                    onChange={keywordChange}
+                    placeholder="검색어를 입력하세요!"
+                />
             </FormControl>
-            <Button sx={{width: 'fit-content'}}>
-                >> 검색
+            <Button sx={{width: "fit-content"}} onClick={onSearchHandler}>
+                {" "}
+                검색
             </Button>
         </Box>
     );
-}
+};
 
 export default SearchComponent;
