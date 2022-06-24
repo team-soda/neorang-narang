@@ -5,14 +5,9 @@ const getUserState = createSelector(
   (userInfo) => userInfo
 );
 
-const getUserFileNameState = createSelector(
-  (state) => state.user.fileName,
-  (fileName) => fileName
+const getDefaultImgState = createSelector(
+  (state) => state.user.defaultImg,
+  (defaultImg) => defaultImg
 );
 
-const getUserImgState = createSelector(
-  (state) => state.user.profileImgView,
-  (profileImgView) => profileImgView
-);
-
-export { getUserState, getUserFileNameState, getUserImgState };
+export { getUserState, getDefaultImgState };

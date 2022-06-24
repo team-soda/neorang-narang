@@ -26,13 +26,19 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         log.info("authenticate userDTO: {}", userDTO.toString());
-
         User user = User.builder()
                 .uid(userDTO.getUid())
                 .password(userDTO.getPassword())
                 .build();
         String token = userService.authenticateUser(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+
+        if (token != null) {
+            User resultUser = userService.getUserInfo(user);
+            return ResponseEntity.ok(new AuthResponseDTO(token, resultUser));
+        } else {
+            ResponseDTO response = ResponseDTO.builder().error("로그인 실패").build();
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @PostMapping("/signup")

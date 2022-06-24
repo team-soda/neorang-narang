@@ -12,7 +12,9 @@ const BoardListPage = () => {
       <ListComponent />
       <CardActions>
         <Button color="secondary">
-          <Link to="/mainboard/register" style={{textDecoration: 'none'}}>새 글 쓰기</Link>
+          <Link to="/mainboard/register" style={{ textDecoration: "none" }}>
+            새 글 쓰기
+          </Link>
         </Button>
       </CardActions>
     </Card>

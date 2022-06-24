@@ -14,22 +14,8 @@ const getUserByUid = async (uid) => {
 };
 
 /* 마이페이지 */
-/* const updateUser = async (userObj) => {
-  return await Axios.put(`${USER}`, userObj);
-}; */
-
 const updateUser = async (userObj) => {
   return await imgAxios.put(`${USER}`, userObj);
-};
-
-const uploadProfileImg = async (fileObj) => {
-  return await Axios.post(`${USER}/profile-image-upload`, fileObj);
-};
-
-const getProfileImg = async (fileName) => {
-  const downRes = await Axios.get(`${USER}/profile-image/${fileName}`);
-  const { baseURL, url } = downRes.config;
-  return `${baseURL}${url}`;
 };
 
 /* 인증 */
@@ -64,8 +50,8 @@ const sendAuthEmail = async (email) => {
 const checkAuthCode = async (emailCheckObj) => {
   try {
     const response = await Axios.post(
-        `${AUTH}/signup/authCodeCheck`,
-        emailCheckObj
+      `${AUTH}/signup/authCodeCheck`,
+      emailCheckObj
     );
     console.log(response);
     return true;
@@ -80,8 +66,6 @@ export const userService = {
   getAuthUserInfo,
   getUserByUid,
   updateUser,
-  uploadProfileImg,
-  getProfileImg,
   login,
   logout,
   signup,

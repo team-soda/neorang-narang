@@ -1,44 +1,26 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getUserImgState,
-  getUserFileNameState,
-  getUserState,
-} from "../../redux/user/selector/userSelector";
-import { getUserImg } from "../../redux/user/thunk/userThunk";
+import { useSelector } from "react-redux";
+import { API_BASE_URL } from "../../config/url-config";
+import { getDefaultImgState } from "../../redux/user/selector/userSelector";
+import StarRating from "./StarRating";
 
-function UserInfo() {
-  const dispatch = useDispatch();
-  const userInfo = useSelector(getUserState);
-  const fileName = useSelector(getUserFileNameState);
-  const profileImgView = useSelector(getUserImgState);
-
-  useEffect(() => {
-    dispatch(getUserImg(fileName));
-  }, [dispatch, fileName]);
+function UserInfo({ userInfo }) {
+  const { profile_img } = userInfo;
+  const defaultImg = useSelector(getDefaultImgState);
 
   return (
     <div>
-      {profileImgView ? (
-        <div style={{ width: "100px", height: "100px" }}>
-          <img
-            src={profileImgView}
-            alt="프로필 이미지"
-            style={{ width: "100%" }}
-          />
-        </div>
-      ) : (
-        <div style={{ width: "100px", height: "100px" }}>
-          <img
-            src="https://www.nicepng.com/png/detail/136-1366211_group-of-10-guys-login-user-icon-png.png"
-            alt="프로필 이미지"
-            style={{ width: "100%" }}
-          />
-        </div>
-      )}
       <div>
-        닉네임 :
-        <input type="text" name="nickname" value={userInfo.nickname} readOnly />
+        <img
+          src={profile_img ? `${API_BASE_URL}/user/${profile_img}` : defaultImg}
+          alt="프로필 이미지"
+          style={{ width: "150px" }}
+        />
+      </div>
+      <div>
+        닉네임 :<span>{userInfo?.nickname}</span>
+      </div>
+      <div>
+        <StarRating />
       </div>
     </div>
   );

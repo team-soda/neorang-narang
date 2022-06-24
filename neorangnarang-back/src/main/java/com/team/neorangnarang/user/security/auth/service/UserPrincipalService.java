@@ -1,5 +1,6 @@
 package com.team.neorangnarang.user.security.auth.service;
 
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
@@ -29,10 +30,9 @@ public class UserPrincipalService implements UserDetailsService {
 
         User user = userMapper.findByUserId(username);
 
-        if(user != null) {
-            return UserPrincipal.create(user);
+        if (user == null) {
+            throw new UserNotFoundException("");
         }
-
-        return null;
+        return UserPrincipal.create(user);
     }
 }
