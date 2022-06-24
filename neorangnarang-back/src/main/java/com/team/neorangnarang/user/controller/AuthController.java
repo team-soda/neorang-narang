@@ -26,13 +26,18 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         log.info("authenticate userDTO: {}", userDTO.toString());
-
         User user = User.builder()
                 .uid(userDTO.getUid())
                 .password(userDTO.getPassword())
                 .build();
         String token = userService.authenticateUser(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+
+        if(token != null) {
+            User resultUser = userService.getUserInfo(user);
+            return ResponseEntity.ok(new AuthResponseDTO(token, resultUser));
+        }
+
+        return ResponseEntity.badRequest().body("로그인 실패");
     }
 
     @PostMapping("/signup")
@@ -77,22 +82,4 @@ public class AuthController {
 
         return ResponseEntity.badRequest().body(new BadRequestException("인증코드가 일치하지 않습니다."));
     }
-
-    /*@PostMapping("/signup/authCodeCheck")
-    public ResponseEntity<Boolean> authCodeCheck(@RequestBody EmailCheckDTO emailCheckDTO) {
-        log.info("authCodeCheck emailCheckDTO: {}", emailCheckDTO.toString());
-        try {
-            String getEmail = userService.getUserEmailByCode(emailCheckDTO.getCode());
-            //User user = User.builder().email(getEmail).build();
-            if (getEmail.equals(emailCheckDTO.getEmail())) {
-                return ResponseEntity.ok(true);
-            }
-            return ResponseEntity.ok(false);
-        } catch (Exception e) {
-            //ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-            //e.printStackTrace();
-            return ResponseEntity.badRequest().body(false);
-        }
-
-    }*/
 }

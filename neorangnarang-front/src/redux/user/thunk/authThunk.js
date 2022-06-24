@@ -5,8 +5,10 @@ import { userService } from "../../../service/UserService";
 const AUTH = "auth";
 
 export const login = createAsyncThunk(`${AUTH}/login`, async (loginObj) => {
+  console.log(loginObj);
   try {
     const response = await userService.login(loginObj);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -51,9 +53,10 @@ export const updateUser = createAsyncThunk(
   async (userObj) => {
     console.log(userObj);
     try {
-      const response = await imgAxios.put(`/user`, userObj);
+      const response = await userService.updateUser(userObj);
       console.log(response);
-      //return response;
+      alert("수정 완료!");
+      return response.data;
     } catch (error) {
       console.log(error);
     }

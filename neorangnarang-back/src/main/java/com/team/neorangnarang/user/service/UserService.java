@@ -1,6 +1,5 @@
 package com.team.neorangnarang.user.service;
 
-import com.team.neorangnarang.exception.BadRequestException;
 import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.ProviderType;
 import com.team.neorangnarang.user.domain.Role;
@@ -20,12 +19,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.util.UUID;
 
 @Log4j2
 @Component
@@ -63,29 +68,67 @@ public class UserService {
         return tokenProvider.create(authentication);
     }
 
-    public User updateUser(final User user) {
+    public User updateUser(final User user, String nickname, MultipartFile file) throws IOException {
         log.info("updateUser user: {}", user);
         User originUser = getUserInfo(user);
         log.info("updateUser originUser: {}", originUser);
+        User resultUser = null;
+        try {
+            if (!ObjectUtils.isEmpty(file)) {
+                log.info("파일있음");
+                originUser = profileImgUpload(originUser, file);
+                log.info(originUser);
+            }
 
-        User updateReq = null;
-        if (originUser != null) {
-            updateReq = User.builder()
-                    .user_idx(originUser.getUser_idx())
-                    .uid(originUser.getUid())
-                    .nickname(user.getNickname())
-                    .profile_img(user.getProfile_img())
-                    .build();
-            userMapper.updateUser(updateReq);
+            User updateReq = null;
+            if (originUser != null) {
+                updateReq = User.builder()
+                        .user_idx(originUser.getUser_idx())
+                        .uid(originUser.getUid())
+                        .nickname(nickname)
+                        .profile_img(originUser.getProfile_img())
+                        .build();
+                userMapper.updateUser(updateReq);
+            }
+
+            resultUser = getUserInfo(updateReq);
+            log.info("updateUser resultUser: {}", resultUser);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        User resultUser = getUserInfo(updateReq);
-        log.info("updateUser resultUser: {}", resultUser);
         return resultUser;
     }
 
-    public void profileImgUpload(MultipartFile file) throws IOException {
+    public User profileImgUpload(User user, MultipartFile file) throws IOException {
+        try {
+            String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+            String uploadDir = Paths.get(uploadPath).toString();
+            String profileImgDir = Paths.get("profile_image", today).toString();
+            String finalPath = Paths.get(uploadDir, profileImgDir).toString();
 
+            File dir = new File(finalPath);
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            UUID uuid = UUID.randomUUID();
+            String newImgName = uuid + "_" + file.getOriginalFilename();
+
+            File target = new File(finalPath, newImgName);
+            file.transferTo(target);
+
+            user.updateProfileImg(profileImgDir + "\\" + newImgName);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("profileImgUpload user: {}", user.toString());
+
+        return user;
     }
 
     public void createUser(final User user) {

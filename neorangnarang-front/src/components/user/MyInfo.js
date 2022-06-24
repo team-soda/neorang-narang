@@ -14,9 +14,11 @@ import {
 } from "../../redux/user/thunk/authThunk";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { API_BASE_URL } from "../../config/url-config";
 
 function MyInfo({
   authUser,
+  isEdit,
   imgPreview,
   profileImgRef,
   newName,
@@ -24,13 +26,12 @@ function MyInfo({
   onNameChangeHandler,
   onUpdateSubmitHandler,
   onClearHandler,
+  onEditToggleHandler,
 }) {
   const { profile_img } = authUser;
   const defaultImg = useSelector(getDefaultImgState);
-  const [isEdit, setIsEdit] = useState(false);
-  const onEditToggleHandler = () => {
-    setIsEdit((prev) => !prev);
-  };
+
+  console.log(`${API_BASE_URL}/user/${profile_img}`);
 
   return (
     <div>
@@ -51,9 +52,12 @@ function MyInfo({
         )}
         <div>
           <img
-            src={imgPreview || (profile_img ? profile_img : defaultImg)}
-            alt="사진"
-            style={{ width: "100px", height: "100px" }}
+            src={
+              imgPreview ||
+              (profile_img ? `${API_BASE_URL}/user/${profile_img}` : defaultImg)
+            }
+            alt="프로필 이미지"
+            style={{ width: "150px" }}
           />
         </div>
       </div>

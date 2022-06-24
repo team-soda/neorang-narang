@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
@@ -8,17 +9,18 @@ import { login } from "../../redux/user/thunk/authThunk";
 
 function SignIn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const data = new FormData(event.target);
-    const loginIObj = {
+    const loginObj = {
       uid: data.get("uid"),
       password: data.get("password"),
     };
 
-    dispatch(login(loginIObj));
+    dispatch(login(loginObj));
   };
 
   const onSocialLogin = (event) => {

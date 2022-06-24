@@ -5,11 +5,6 @@ const getAuthState = createSelector(
   (authInfo) => authInfo
 );
 
-const getAuthFileNameState = createSelector(
-  (state) => state.auth.fileName,
-  (fileName) => fileName
-);
-
 const getDefaultImgState = createSelector(
   (state) => state.auth.defaultImg,
   (defaultImg) => defaultImg
@@ -20,9 +15,4 @@ const getIsLoginState = createSelector(
   (isLogin) => isLogin
 );
 
-export {
-  getAuthState,
-  getAuthFileNameState,
-  getDefaultImgState,
-  getIsLoginState,
-};
+export { getAuthState, getDefaultImgState, getIsLoginState };
