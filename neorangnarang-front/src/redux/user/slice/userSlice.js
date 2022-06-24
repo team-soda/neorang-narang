@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserImg, getUserInfo } from "../thunk/userThunk";
+import { getUserInfo } from "../thunk/userThunk";
 
 const userInitState = {
   userInfo: {},

@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { imgAxios } from "../../../config/axios-config";
 import { userService } from "../../../service/UserService";
 
 const AUTH = "auth";
@@ -23,30 +22,6 @@ export const getAuthUser = createAsyncThunk(`${AUTH}/getAuthUser`, async () => {
     console.log(error);
   }
 });
-
-export const getAuthUserImg = createAsyncThunk(
-  `${AUTH}/getAuthUserImg`,
-  async (fileName) => {
-    try {
-      const response = await userService.getProfileImg(fileName);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
-export const uploadProfileImg = createAsyncThunk(
-  `${AUTH}/uploadProfileImg`,
-  async (imgObj) => {
-    try {
-      const response = await userService.uploadProfileImg(imgObj);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
 
 export const updateUser = createAsyncThunk(
   `${AUTH}/updateUser`,

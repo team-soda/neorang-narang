@@ -1,19 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getAuthFileNameState,
-  getAuthImgState,
-  getAuthState,
-  getDefaultImgState,
-  getIsLoginState,
-} from "../../redux/user/selector/authSelector";
-import {
-  getAuthUserImg,
-  updateUser,
-  uploadProfileImg,
-} from "../../redux/user/thunk/authThunk";
-import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
+import { getDefaultImgState } from "../../redux/user/selector/authSelector";
 import { API_BASE_URL } from "../../config/url-config";
 
 function MyInfo({
