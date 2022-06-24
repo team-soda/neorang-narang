@@ -6,14 +6,17 @@ import {
   NAVER_AUTH_URL,
 } from "../../config/url-config";
 import { login } from "../../redux/user/thunk/authThunk";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import {
+  Grid,
+  CssBaseline,
+  Paper,
+  Box,
+  TextField,
+  Button,
+  Link,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 
 const theme = createTheme();
 
@@ -131,18 +134,21 @@ function SignIn() {
                   name="naver"
                   style={{ cursor: "pointer", borderRadius: 5 }}
                   src="/img/naverLogin.png"
+                  alt="네이버 로그인"
                 />
                 <img
                   onClick={onSocialLogin}
                   name="kakao"
                   style={{ cursor: "pointer", borderRadius: 5 }}
                   src="/img/kakaoLogin.png"
+                  alt="카카오 로그인"
                 />
                 <img
                   onClick={onSocialLogin}
                   name="google"
                   style={{ cursor: "pointer", borderRadius: 5 }}
                   src="/img/googleLogin.png"
+                  alt="구글 로그인"
                 />
               </div>
             </Box>

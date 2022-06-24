@@ -20,6 +20,7 @@ export const getAuthUser = createAsyncThunk(`${AUTH}/getAuthUser`, async () => {
     return response.data.user;
   } catch (error) {
     console.log(error);
+    return false;
   }
 });
 

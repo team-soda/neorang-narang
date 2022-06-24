@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 //import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -89,6 +90,6 @@ public class SecurityConfig {
 
     @Autowired
     public void configAuthBuilder(final AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userPrincipalService);
+        builder.userDetailsService(userPrincipalService).passwordEncoder(passwordEncoder());
     }
 }
