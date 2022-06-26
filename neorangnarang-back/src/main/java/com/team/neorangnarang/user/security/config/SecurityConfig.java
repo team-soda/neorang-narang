@@ -55,9 +55,10 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //.antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest()
+                .antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
+                //.antMatchers("/**").permitAll()
+                .antMatchers("/user/**", "/review/**").hasRole("USER")
+                .anyRequest()//.hasRole("USER")
                 .authenticated()
                 .and()
                 .formLogin().disable()
@@ -85,7 +86,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/user/**");
+        return (web) -> web.ignoring().antMatchers("/view/**");
     }
 
     @Autowired

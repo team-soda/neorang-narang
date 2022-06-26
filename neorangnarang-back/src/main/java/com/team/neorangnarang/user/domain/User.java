@@ -33,28 +33,4 @@ public class User {
     public void updateProfileImg(String profile_img) {
         this.profile_img = profile_img;
     }
-
-    public static User toUser(final UserDTO userDTO) {
-        GenderType gender;
-        if(userDTO.getGender().equals("female")) {
-            gender = GenderType.FEMALE;
-        } else {
-            gender = GenderType.MALE;
-        }
-
-        return User.builder()
-                .token(userDTO.getToken())
-                .user_idx(userDTO.getUser_idx())
-                .uid(userDTO.getUid())
-                .password(userDTO.getPassword())
-                .email(userDTO.getEmail())
-                .gender(gender)
-                .nickname(userDTO.getNickname())
-                .profile_img(userDTO.getProfile_img())
-                .phone(userDTO.getPhone())
-                .role(Role.USER)
-                .provider(userDTO.getProvider())
-                .provider_id(userDTO.getProviderId())
-                .build();
-    }
 }

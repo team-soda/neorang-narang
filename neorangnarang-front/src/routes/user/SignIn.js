@@ -72,6 +72,8 @@ function SignIn() {
             backgroundPosition: "center",
           }}
         />
+
+        {/* .MuiPaper-root box-shadow: revert ==============*/}
         <Grid
           item
           xs={12}
@@ -82,6 +84,8 @@ function SignIn() {
           square
           style={{ margin: "0 auto", maxWidth: "30%" }}
         >
+          {/* .MuiPaper-root box-shadow: revert ==============*/}
+
           <Box
             sx={{
               my: 8,

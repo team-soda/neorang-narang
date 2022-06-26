@@ -2,6 +2,7 @@ package com.team.neorangnarang.user.service;
 
 import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.ProviderType;
+import com.team.neorangnarang.user.domain.Review;
 import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
@@ -12,9 +13,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,11 +30,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Log4j2
 @Component
@@ -55,6 +60,10 @@ public class UserService {
         return userMapper.findByUserId(user.getUid());
     }
 
+    public User getUserInfoByIdx(final User user) {
+        return userMapper.findByUserIdx(user.getUser_idx());
+    }
+
     public String authenticateUser(final User user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -62,6 +71,7 @@ public class UserService {
                         user.getPassword()
                 )
         );
+        log.info("authenticateUser authentication: {}", authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return tokenProvider.create(authentication);
     }
@@ -73,9 +83,7 @@ public class UserService {
         User resultUser = null;
         try {
             if (!ObjectUtils.isEmpty(file)) {
-                log.info("파일있음");
                 originUser = profileImgUpload(originUser, file);
-                log.info(originUser);
             }
 
             User updateReq = null;
@@ -113,13 +121,15 @@ public class UserService {
             }
 
             UUID uuid = UUID.randomUUID();
-            String newImgName = uuid + "_" + file.getOriginalFilename();
+
+            // 파일명이 한글이면 깨지기 때문에 인코딩 해줘야 함.
+            String convertName = URLEncoder.encode(file.getOriginalFilename(), "UTF-8");
+            String newImgName = uuid + "_" + convertName;
 
             File target = new File(finalPath, newImgName);
             file.transferTo(target);
 
             user.updateProfileImg(profileImgDir + "\\" + newImgName);
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,6 +137,24 @@ public class UserService {
         log.info("profileImgUpload user: {}", user.toString());
 
         return user;
+    }
+
+    public List<Review> registerReview(final Review review) {
+        if (review == null) {
+            throw new RuntimeException("입력된 리뷰 정보가 없습니다.");
+        }
+        userMapper.registerReview(review);
+        return getReviewList(review);
+    }
+
+    public List<Review> getUserReviewList(final User user) {
+        User findUser = getUserInfo(user);
+        Review review = Review.builder().target_idx(findUser.getUser_idx()).build();
+        return getReviewList(review);
+    }
+
+    public List<Review> getReviewList(final Review review) {
+        return userMapper.findReviewByTargetIdx(review.getTarget_idx());
     }
 
     public void createUser(final User user) {
@@ -147,10 +175,6 @@ public class UserService {
     }
 
     public String sendAuthEmail(User user) {
-        if (user.getEmail() == null) {
-            throw new UserNotFoundException("입력된 이메일이 존재하지 않습니다.");
-        }
-
         Random random = new Random();
         String authCode = String.valueOf(random.nextInt(899999) + 100000);
 

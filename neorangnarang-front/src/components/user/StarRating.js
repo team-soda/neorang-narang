@@ -1,17 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Box, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 const labels = {
-  0.5: "완전 최악이에",
-  1: "",
-  1.5: "",
-  2.0: "",
-  2.5: "",
+  1: "완전 최악이에",
+  2: "별로임",
   3: "보통이에요",
-  3.5: "",
-  4: "",
-  4.5: "",
+  4: "친절해요",
   5: "최고최고",
 };
 
@@ -19,22 +14,18 @@ const getLabelText = (value) => {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 };
 
-function StarRating() {
-  const [value, setValue] = useState(2);
-  const [hover, setHover] = useState(-1);
-
-  const onChangeValue = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const onChangeHoverActive = (event, newHover) => {
-    setHover(newHover);
-  };
-
+function StarRating({
+  value,
+  hover,
+  onChangeValue,
+  onChangeHoverActive,
+  onSetRatingHandler,
+}) {
+  //console.log(value);
   return (
     <Box
       sx={{
-        width: 200,
+        width: 300,
         display: "flex",
         alignItems: "center",
       }}
@@ -42,16 +33,16 @@ function StarRating() {
       <Rating
         name="hover-feedback"
         value={value}
-        precision={0.5}
+        precision={1}
         getLabelText={getLabelText}
         onChange={onChangeValue}
         onChangeActive={onChangeHoverActive}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
         defaultValue={0}
-        size="large"
+        //size="large"
       />
       {value !== null && (
-        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+        <Box sx={{ ml: 1 }}>{labels[hover !== -1 ? hover : value]}</Box>
       )}
     </Box>
   );

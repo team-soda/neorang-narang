@@ -40,7 +40,7 @@ function MyInfo({
           <img
             src={
               imgPreview ||
-              (profile_img ? `${API_BASE_URL}/user/${profile_img}` : defaultImg)
+              (profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg)
             }
             alt="프로필 이미지"
             style={{ width: "150px" }}

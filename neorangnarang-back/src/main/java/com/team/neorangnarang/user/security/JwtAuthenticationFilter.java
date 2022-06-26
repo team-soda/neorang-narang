@@ -1,12 +1,15 @@
 package com.team.neorangnarang.user.security;
 
+import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
 import com.team.neorangnarang.user.security.auth.service.UserPrincipalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -19,6 +22,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Optional;
 
 @Log4j2
 @Component
@@ -36,11 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             log.info("Jwt Filter is running...");
 
-            if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+            AbstractAuthenticationToken authentication = new AnonymousAuthenticationToken(
+                    "anonymous", Optional.empty(), Collections.singletonList(new SimpleGrantedAuthority("anonymous"))
+            );
+
+            log.info("authentication : {}", authentication);
+
+            if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
                 String userId = tokenProvider.validateAndGetUserId(token);
 
                 UserPrincipal userPrincipal = (UserPrincipal) userPrincipalsService.loadUserByUsername(userId);
-                User setUserToken = User.builder()
+                /*User setUserToken = User.builder()
                         .token(token)
                         .user_idx(userPrincipal.getUser().getUser_idx())
                         .uid(userPrincipal.getUsername())
@@ -55,9 +66,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .created_at(userPrincipal.getUser().getCreated_at())
                         .state(userPrincipal.getUser().isState())
                         .build();
-                userPrincipal.setUser(setUserToken);
+                userPrincipal.setUser(setUserToken);*/
 
-                AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                authentication = new UsernamePasswordAuthenticationToken(
                         userPrincipal, null, userPrincipal.getAuthorities()
                 );
 
@@ -70,6 +81,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
+            throw new UserNotFoundException("로그인 실패");
         }
 
         filterChain.doFilter(request, response);
@@ -78,7 +90,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String parseBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
 

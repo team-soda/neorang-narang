@@ -2,6 +2,7 @@ import Axios, { imgAxios } from "../config/axios-config";
 
 const AUTH = "/auth";
 const USER = "/user";
+const REVIEW = "/review";
 
 /* 로그인 한 유저의 정보 */
 const getAuthUserInfo = async () => {
@@ -16,6 +17,18 @@ const getUserByUid = async (uid) => {
 /* 마이페이지 */
 const updateUser = async (userObj) => {
   return await imgAxios.put(`${USER}`, userObj);
+};
+
+const registerReview = async (reviewObj) => {
+  return await Axios.post(`${REVIEW}`, reviewObj);
+};
+
+const getUserReviews = async (uid) => {
+  return await Axios.get(`${REVIEW}/${uid}`);
+};
+
+const getWriterInfo = async (writerIdx) => {
+  return await Axios.post(`${REVIEW}/findWriterInfo`, writerIdx);
 };
 
 /* 인증 */
@@ -43,6 +56,7 @@ const sendAuthEmail = async (email) => {
     return true;
   } catch (error) {
     console.log(error);
+    alert(error.response.data.error);
     return false;
   }
 };
@@ -54,6 +68,7 @@ const checkAuthCode = async (emailCheckObj) => {
       emailCheckObj
     );
     console.log(response);
+    response.status === 200 && alert("인증 성공");
     return true;
   } catch (error) {
     console.log(error);
@@ -66,6 +81,9 @@ export const userService = {
   getAuthUserInfo,
   getUserByUid,
   updateUser,
+  registerReview,
+  getUserReviews,
+  getWriterInfo,
   login,
   logout,
   signup,
