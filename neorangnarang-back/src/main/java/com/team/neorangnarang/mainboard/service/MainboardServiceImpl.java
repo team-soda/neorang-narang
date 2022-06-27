@@ -1,12 +1,15 @@
 package com.team.neorangnarang.mainboard.service;
 
 import com.team.neorangnarang.mainboard.dto.MainboardDTO;
+import com.team.neorangnarang.mainboard.dto.PageRequestDTO;
+import com.team.neorangnarang.mainboard.dto.PageResponseDTO;
 import com.team.neorangnarang.mainboard.mapper.MainboardMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -16,9 +19,15 @@ public class MainboardServiceImpl implements MainboardService {
     private MainboardMapper boardMapper;
 
     @Override
-    public List<Map<String,Object>> getBoardList(Map<String, Object> paramMap) {
+    public PageResponseDTO<MainboardDTO> getBoardList(Map<String, Object> param) {
 
-        return boardMapper.getBoardList(paramMap);
+        List<MainboardDTO> dtoList = boardMapper.getBoardList((Map<String, Object>) param).stream().map(mainboardDTO -> mainboardDTO.getDTO()).collect(Collectors.toList());
+
+        PageResponseDTO<MainboardDTO> pageResponseDTO = PageResponseDTO.<MainboardDTO>builder()
+                .dtoList(dtoList)
+                .build();
+
+        return pageResponseDTO;
     }
 
     @Override

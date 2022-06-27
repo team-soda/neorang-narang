@@ -1,7 +1,8 @@
-import Axios, { imgAxios } from "../config/axios-config";
+import Axios, {imgAxios} from "../config/axios-config";
 
 const AUTH = "/auth";
 const USER = "/user";
+const REVIEW = "/review";
 
 /* 로그인 한 유저의 정보 */
 const getAuthUserInfo = async () => {
@@ -14,22 +15,20 @@ const getUserByUid = async (uid) => {
 };
 
 /* 마이페이지 */
-/* const updateUser = async (userObj) => {
-  return await Axios.put(`${USER}`, userObj);
-}; */
-
 const updateUser = async (userObj) => {
   return await imgAxios.put(`${USER}`, userObj);
 };
 
-const uploadProfileImg = async (fileObj) => {
-  return await Axios.post(`${USER}/profile-image-upload`, fileObj);
+const registerReview = async (reviewObj) => {
+  return await Axios.post(`${REVIEW}`, reviewObj);
 };
 
-const getProfileImg = async (fileName) => {
-  const downRes = await Axios.get(`${USER}/profile-image/${fileName}`);
-  const { baseURL, url } = downRes.config;
-  return `${baseURL}${url}`;
+const getUserReviews = async (uid) => {
+  return await Axios.get(`${REVIEW}/${uid}`);
+};
+
+const getWriterInfo = async (writerIdx) => {
+  return await Axios.post(`${REVIEW}/findWriterInfo`, writerIdx);
 };
 
 /* 인증 */
@@ -57,6 +56,7 @@ const sendAuthEmail = async (email) => {
     return true;
   } catch (error) {
     console.log(error);
+    alert(error.response.data.error);
     return false;
   }
 };
@@ -64,10 +64,11 @@ const sendAuthEmail = async (email) => {
 const checkAuthCode = async (emailCheckObj) => {
   try {
     const response = await Axios.post(
-        `${AUTH}/signup/authCodeCheck`,
-        emailCheckObj
+      `${AUTH}/signup/authCodeCheck`,
+      emailCheckObj
     );
     console.log(response);
+    response.status === 200 && alert("인증 성공");
     return true;
   } catch (error) {
     console.log(error);
@@ -80,8 +81,9 @@ export const userService = {
   getAuthUserInfo,
   getUserByUid,
   updateUser,
-  uploadProfileImg,
-  getProfileImg,
+  registerReview,
+  getUserReviews,
+  getWriterInfo,
   login,
   logout,
   signup,

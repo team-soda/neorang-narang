@@ -5,16 +5,16 @@ import {Link} from "react-router-dom";
 
 const ListComponent = () => {
     const boardInfoState = {
-        type: "",
-        keyword: "",
-        searchResult: [],
+        // type: "",
+        // keyword: "",
+        dtoList: [],
     };
 
     const [boardList, setBoardList] = useState(boardInfoState);
 
     useEffect(() => {
         boardService.getBoardList().then((res) => {
-            setBoardList(res.data);
+            setBoardList(res.data.dto);
         });
     }, [setBoardList]);
 
@@ -56,7 +56,7 @@ const ListComponent = () => {
         },
     ];
 
-    const rows = boardList.searchResult.map((board) => {
+    const rows = boardList.dtoList.map((board) => {
         return {
             id: board.board_idx,
             title: board.title,

@@ -12,6 +12,7 @@ import {Editor} from "@tinymce/tinymce-react";
 import ZipSearchComponent from "./ZipSearchComponent";
 import {useSelector} from "react-redux";
 import {getAuthState} from "../../redux/user/selector/authSelector";
+import {Alert, Stack} from "@mui/material";
 
 const RegisterComponent = () => {
 

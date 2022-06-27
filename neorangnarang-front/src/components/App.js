@@ -8,6 +8,8 @@ import { Container } from "@material-ui/core";
 import AppRouter from "./AppRouter";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
+import "../assets/css/slick.css";
+import "../assets/css/slick-theme.css";
 
 function App() {
     const authUser = useSelector(getAuthState);

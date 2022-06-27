@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 //import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -54,9 +55,10 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //.antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest()
+                .antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
+                //.antMatchers("/**").permitAll()
+                .antMatchers("/user/**", "/review/**").hasRole("USER")
+                .anyRequest()//.hasRole("USER")
                 .authenticated()
                 .and()
                 .formLogin().disable()
@@ -84,11 +86,11 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/user/**");
+        return (web) -> web.ignoring().antMatchers("/view/**");
     }
 
     @Autowired
     public void configAuthBuilder(final AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userPrincipalService);
+        builder.userDetailsService(userPrincipalService).passwordEncoder(passwordEncoder());
     }
 }

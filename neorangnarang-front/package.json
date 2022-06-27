@@ -16,16 +16,19 @@
     "@testing-library/user-event": "^13.5.0",
     "@tinymce/tinymce-react": "^4.1.0",
     "axios": "^0.27.2",
+    "chroma-js": "^2.4.2",
     "html-to-react": "^1.4.8",
     "react": "^17.0.2",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^17.0.2",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "react-redux": "^8.0.2",
+    "react-slick": "^0.29.0",
     "redux-persist": "^6.0.0",
-    "uuidv4": "^6.2.13"
+    "slick-carousel": "^1.8.1",
+    "uuidv4": "^6.2.13",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

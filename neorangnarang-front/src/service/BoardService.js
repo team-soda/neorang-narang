@@ -1,5 +1,4 @@
 import Axios from "../config/axios-config";
-import {API_BASE_URL} from "../config/url-config";
 
 const MAIN_BOARD = `/mainboard`;
 
@@ -7,12 +6,12 @@ const getBoardList = async () => {
     return await Axios.get(`${MAIN_BOARD}/list`);
 };
 
-const getSearchBoardList = async (type, keyword, setBoardList) => {
+const getSearchBoardList = async (pageRequestDTO, setBoardList) => {
     return await Axios.get(
-        `${MAIN_BOARD}/list?type=${type}&keyword=${keyword}`
+        `${MAIN_BOARD}/list?type=${pageRequestDTO.type}&keyword=${pageRequestDTO.keyword}`
     ).then((response) => {
         console.log(response);
-        setBoardList(response.data);
+        setBoardList(response.data.dto);
     });
 };
 

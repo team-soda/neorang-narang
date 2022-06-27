@@ -19,9 +19,9 @@
        </where>
     </sql>
 
-    <select id="getBoardList" resultType="map">
+    <select id="getBoardList" resultType="com.team.neorangnarang.mainboard.dto.MainboardDTO">
         SELECT
-            board_idx, title, writer, content, like_count, view_count, pay_division, location, created_at
+            *
         FROM
             tb_board
         <include refid="search"></include>

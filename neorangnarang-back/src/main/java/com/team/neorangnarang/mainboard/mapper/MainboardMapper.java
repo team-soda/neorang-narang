@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface MainboardMapper {
 
-    List<Map<String, Object>> getBoardList(Map<String, Object> param);
+    List<MainboardDTO> getBoardList(Map<String, Object> param);
     Long insert(MainboardDTO mainboardDTO);
     MainboardDTO select(long board_idx);
     void updateViewCount(long board_idx);

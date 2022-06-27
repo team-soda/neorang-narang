@@ -28,6 +28,7 @@ const Footer = () => {
         },
         {
             description: ['Resource'],
+            href: 'https://www.youtube.com'
         },
         {
             description: ['View Source'],
@@ -46,7 +47,7 @@ const Footer = () => {
         >
             <Grid container spacing={4} justifyContent="space-evenly">
                 {footers.map((footer) => (
-                    <Grid item xs={6} sm={3} key={footer.title}>
+                    <Grid item xs={6} sm={3} key={footer.description}>
                         <ul>
                             {footer.description.map((item) => (
                                 <li key={item}>

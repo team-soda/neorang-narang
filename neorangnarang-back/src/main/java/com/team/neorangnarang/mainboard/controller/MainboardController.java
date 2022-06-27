@@ -1,6 +1,8 @@
 package com.team.neorangnarang.mainboard.controller;
 
 import com.team.neorangnarang.mainboard.dto.MainboardDTO;
+import com.team.neorangnarang.mainboard.dto.PageRequestDTO;
+import com.team.neorangnarang.mainboard.dto.PageResponseDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,18 +24,19 @@ public class MainboardController {
 
     private final MainboardService boardService;
 
+    @ResponseBody
     @GetMapping("/list")
     public Map<String, Object> getList(@RequestParam Map<String, Object> param) {
 
-        log.info("boardController getList!!!");
+        PageResponseDTO<MainboardDTO> responseDTO = boardService.getBoardList(param);
 
-        List<Map<String, Object>> getSearchList = boardService.getBoardList(param);
+        Map<String, Object> dto = new HashMap<>();
 
-        Map<String, Object> getSearchListMap = new HashMap<>();
+        dto.put("dto",responseDTO);
 
-        getSearchListMap.put("searchResult", getSearchList);
+//        log.info("받아왔니?>>>"+dto);
 
-        return getSearchListMap;
+        return dto;
     }
 
     @GetMapping("/register")
@@ -52,8 +55,6 @@ public class MainboardController {
 
     @GetMapping(value = {"/read", "/modify"})
     public Map<Object, Object> read(@RequestParam(value = "board_idx", required = false) Long board_idx) {
-
-        log.info("boardController read or modify!!!");
 
         MainboardDTO dto = boardService.read(board_idx);
 

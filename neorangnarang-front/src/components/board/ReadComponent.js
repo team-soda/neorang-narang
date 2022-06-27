@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {forwardRef, useEffect, useRef, useState} from "react";
 import {Parser} from "html-to-react";
 import {
     Avatar,
@@ -9,8 +9,7 @@ import {
     CardHeader,
     CardMedia,
     Collapse,
-    createTheme,
-    IconButton,
+    IconButton, List, ListItemIcon, ListItemText, ListSubheader,
     Typography,
 } from "@material-ui/core";
 import Card from "@mui/material/Card";
@@ -45,7 +44,6 @@ const ReadComponent = ({board_idx}) => {
     const [boardDTO, setBoardDTO] = useState(boardDTOState);
     const [expanded, setExpanded] = useState(false);
     const [isWishAdd, setIsWishAdd] = useState(false);
-    const {dto} = boardDTO;
 
     useEffect(() => {
         if (!isLogin) {
@@ -141,7 +139,7 @@ const ReadComponent = ({board_idx}) => {
                         금액
                     </Typography>
                     <Typography variant="h6" color="secondary">
-                        {boardDTO.dto.price}원
+                        {boardDTO.dto.price}만원
                     </Typography>
                 </CardContent>
             </Box>
@@ -196,7 +194,7 @@ const ReadComponent = ({board_idx}) => {
                     </Button>
                 </div>
                 <div>
-                    {authUser.nickname === dto.writer ? (
+                    {authUser.uid === boardDTO.dto.uid ? (
                         <div>
                             <Button>
                                 <Link
