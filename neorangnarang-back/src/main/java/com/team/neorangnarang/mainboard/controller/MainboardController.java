@@ -34,8 +34,6 @@ public class MainboardController {
 
         dto.put("dto",responseDTO);
 
-//        log.info("받아왔니?>>>"+dto);
-
         return dto;
     }
 
@@ -58,14 +56,9 @@ public class MainboardController {
 
         MainboardDTO dto = boardService.read(board_idx);
 
-        LocalDateTime created_at = dto.getCreated_at();
-
-        String created_dt = created_at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
         Map<Object, Object> dtoMap = new HashMap<>();
 
         dtoMap.put("dto", dto);
-        dtoMap.put("created_dt", created_dt);
         dtoMap.put("imageTags", dto.getImageTags());
 
         return dtoMap;

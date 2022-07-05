@@ -28,7 +28,7 @@ export default function Home() {
         });
     }, [setBoardList]);
 
-    console.log('제발..'+JSON.stringify(boardList.dtoList.imageTags));
+    console.log('제발..'+boardList.dtoList.imageTags);
 
     return (
         <main>

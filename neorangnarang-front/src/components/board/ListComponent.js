@@ -5,8 +5,6 @@ import {Link} from "react-router-dom";
 
 const ListComponent = () => {
     const boardInfoState = {
-        // type: "",
-        // keyword: "",
         dtoList: [],
     };
 
@@ -62,7 +60,7 @@ const ListComponent = () => {
             title: board.title,
             writer: board.writer,
             like_count: board.like_count,
-            created_at: board.created_at,
+            created_at: board.created_dt,
             pay_division: board.pay_division,
         };
     });

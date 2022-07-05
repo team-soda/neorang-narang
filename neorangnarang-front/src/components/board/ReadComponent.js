@@ -36,7 +36,6 @@ const ReadComponent = ({board_idx}) => {
     const navigate = useNavigate();
 
     const boardDTOState = {
-        created_dt: "",
         imageTags: "",
         dto: [],
     };
@@ -98,7 +97,7 @@ const ReadComponent = ({board_idx}) => {
                     </IconButton>
                 }
                 title={boardDTO.dto.writer}
-                subheader={boardDTO.created_dt}
+                subheader={boardDTO.dto.created_dt}
             />
             <div className="thumbnail-wrapper">
                 <div className="thumbnail">

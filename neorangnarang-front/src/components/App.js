@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAuthUser } from "../redux/user/thunk/authThunk";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {getAuthUser} from "../redux/user/thunk/authThunk";
 import {
-  getAuthState,
+    getAuthState,
 } from "../redux/user/selector/authSelector";
-import { Container } from "@material-ui/core";
+import {Container, StylesProvider} from "@material-ui/core";
 import AppRouter from "./AppRouter";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
@@ -21,15 +21,17 @@ function App() {
 
     console.log(authUser);
 
-  return (
-    <div className="App">
-      <Header/>
-      <Container>
-        <AppRouter />
-      </Container>
-      <Footer />
-    </div>
-  );
+    return (
+        <div className="App">
+            <StylesProvider injectFirst>
+                <Header/>
+                <Container>
+                    <AppRouter/>
+                </Container>
+                <Footer/>
+            </StylesProvider>
+        </div>
+    );
 }
 
 export default App;

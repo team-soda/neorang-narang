@@ -6,14 +6,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {getAuthState, getIsLoginState} from "../../redux/user/selector/authSelector";
+import {getIsLoginState} from "../../redux/user/selector/authSelector";
 import {logout} from "../../redux/user/thunk/authThunk";
 import {persistor} from "../../index";
 
 export default function Header() {
 
     const isLogin = useSelector(getIsLoginState);
-    const authUser = useSelector(getAuthState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
