@@ -103,11 +103,13 @@ function SignUp() {
                 className="logoText"
                 style={{ width: 30 }}
                 src="/img/logo-neona.png"
+                alt="로고"
               />
               <img
                 className="logoText"
                 style={{ width: 100 }}
                 src="/img/text-neona.png"
+                alt="로고"
               />
             </div>
             회원가입
@@ -126,7 +128,7 @@ function SignUp() {
                   required
                   fullWidth
                   id="uid"
-                  label="ID"
+                  label="아이디"
                   autoFocus
                 />
               </Grid>
@@ -161,7 +163,7 @@ function SignUp() {
                   required
                   type="email"
                   id="email"
-                  label="Email"
+                  label="이메일"
                   name="email"
                   autoComplete="email"
                   onChange={onChangeEmail}

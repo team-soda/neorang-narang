@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser } from "../redux/user/thunk/authThunk";
 import { getAuthState } from "../redux/user/selector/authSelector";
-import { Container } from "@material-ui/core";
+import { Container, StylesProvider } from "@material-ui/core";
 import AppRouter from "./AppRouter";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
+import { StyledEngineProvider } from "@mui/material";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,11 +20,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      <Container>
-        <AppRouter />
-      </Container>
-      <Footer />
+      <StylesProvider injectFirst>
+        <Header />
+        <Container>
+          <AppRouter />
+        </Container>
+        <Footer />
+      </StylesProvider>
     </div>
   );
 }

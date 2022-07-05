@@ -1,45 +1,47 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
 .logoDiv {
   display: flex;
   align-items: center;
-}
-
-.MuiDataGrid-root {
-  background: white;
-  letter-spacing: initial;
-  border-radius: 20px;
-  border: none;
-}
-
-.css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-withBorder {
-  border-right: none;
-}
-
-.css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-columnSeparator {
-  color: white;
-}
-
-.MuiTypography-root {
-  color: black;
-}
-
-.rdw-editor-wrapper {
-  margin-top: 30px;
-}
-
-.editor {
-  margin-top: 30px;
 }
 
 .inputMailContent {
   height: 200px
 }
 
-.tox-statusbar {
-  visibility: hidden;
+.editor {
+  margin-top: 30px;
 }
 
-.MuiContainer-root {
-  padding: 90px;
+.menuBar {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexDiv {
+  display: flex;
+  align-items: flex-end;
+}
+
+.rdw-editor-wrapper {
+  margin-top: 30px;
+}
+
+.tox-statusbar {
+  visibility: hidden;
 }
 
 .thumbnail-wrappper {
@@ -72,30 +74,6 @@
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-
-.menuBar {
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.MuiFormControl-root {
-  display: flex;
-}
-
-.MuiCollapse-root {
-  overflow: hidden;
-}
-
-.flexDiv {
-  display: flex;
-  align-items: flex-end;
-}
-
-.MuiPaper-root {
-  background-color: transparent;
-  box-shadow: revert;
 }
 
 .customoverlay {

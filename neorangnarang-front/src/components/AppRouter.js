@@ -5,26 +5,28 @@ import Home from "../routes/Home";
 import GuestRouter from "./GuestRouter";
 import UserRouter from "./UserRouter";
 import BoardRouter from "../components/BoardRouter";
+import MailerComponent from "./main/MailerComponent";
 
 function AppRouter() {
-  const isLogin = useSelector(getIsLoginState);
+    const isLogin = useSelector(getIsLoginState);
 
-  console.log(isLogin);
+    console.log(isLogin);
 
-  return (
-    <Routes>
-      <Route path="/mainboard/*" element={<BoardRouter />} />
-      <Route
-        path="/user/*"
-        element={isLogin ? <UserRouter /> : <Navigate replace to="/" />}
-      />
-      <Route
-        path="/auth/*"
-        element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
-      />
-      <Route path="/" element={<Home />} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route path="/mainboard/*" element={<BoardRouter/>}/>
+            <Route
+                path="/user/*"
+                element={isLogin ? <UserRouter/> : <Navigate replace to="/"/>}
+            />
+            <Route
+                path="/auth/*"
+                element={isLogin ? <Navigate replace to="/"/> : <GuestRouter/>}
+            />
+            <Route path="/" element={<Home/>}/>
+            <Route path="/contactUs" element={<MailerComponent/>}/>
+        </Routes>
+    );
 }
 
 export default AppRouter;

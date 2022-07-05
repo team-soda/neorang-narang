@@ -119,9 +119,10 @@ function ModifyComponent({board_idx, isLogin}) {
                         onEditorChange={(editorContent, editor) => SetEditorValue(editorContent)}
                     />
                 </div>
-                <ZipSearchComponent/>
-                <Typography style={{margin: 20}} variant="caption" display="block" gutterBottom>
-                    기존 주소: {boardDTO.dto.location}</Typography>
+                <ZipSearchComponent fullAddress={boardDTO.dto.location}/>
+                <Typography style={{margin: 20}} variant="caption" display="block" gutterBottom>기존
+                    주소: {boardDTO.dto.location}</Typography>
+                {/*value={boardDTO.dto.location}*/}
                 <CardActions className="menuBar">
                     <Button variant="outlined" color="secondary" href="/mainboard/list">
                         목록으로

@@ -1,52 +1,77 @@
-import { persistor } from "..";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/user/thunk/authThunk";
-import { getIsLoginState } from "../redux/user/selector/authSelector";
-import { Link, useNavigate } from "react-router-dom";
-import MailerComponent from "../components/main/MailerComponent";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import {useEffect, useState} from "react";
+import {boardService} from "../service/BoardService";
+import Carousel from "../components/main/Carousel";
 
-function Home() {
-  const isLogin = useSelector(getIsLoginState);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const onLogoutHandler = async () => {
-    dispatch(logout());
-    setTimeout(async () => await persistor.purge(), 200);
-    navigate("/", { replace: true });
-  };
+export default function Home() {
 
-  return (
-    <>
-      <ul>
-        {isLogin ? (
-          <>
-            <li>
-              <Link to="/user/mypage">마이페이지</Link>
-            </li>
-            <li>
-              <button onClick={onLogoutHandler}>로그아웃</button>
-            </li>
-            <li>
-              <Link to="/user/info/NAVER_BVBqfnrSe7M7qRPguvt0i7dUSKHnuMxeP7Er3j8Jcew">
-                테스트
-              </Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/auth/signin">로그인 페이지로 이동</Link>
-            </li>
-            <li>
-              <Link to="/auth/signup">회원가입 페이지로 이동</Link>
-            </li>
-          </>
-        )}
-      </ul>
-      <MailerComponent />
-    </>
-  );
+    const boardInfoState = {
+        // type: "",
+        // keyword: "",
+        dtoList: [],
+    };
+
+    const [boardList, setBoardList] = useState(boardInfoState);
+
+    useEffect(() => {
+        boardService.getBoardList().then((res) => {
+            setBoardList(res.data.dto);
+        });
+    }, [setBoardList]);
+
+    console.log('제발..'+JSON.stringify(boardList.dtoList.imageTags));
+
+    return (
+        <main>
+            <Carousel/>
+            <Container style={{padding: 'initial'}} maxWidth="md">
+                <Grid container spacing={4}>
+                    {boardList.dtoList.map((board) => (
+                        <Grid item key={board.title} xs={12} sm={6} md={4}>
+                            <Card
+                                sx={{maxHeight: '100%', display: 'flex', flexDirection: 'column'}}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    sx={{
+                                        // 16:9
+                                        pt: '56.25%',
+                                    }}
+                                    image={board.imageTags}
+                                />
+                                {/*<CardHeader*/}
+                                {/*    avatar={*/}
+                                {/*        <Avatar sx={{bgcolor: red[500]}} aria-label="userProfile"></Avatar>*/}
+                                {/*    }*/}
+                                {/*    title={board.writer}*/}
+                                {/*    subheader={board.view_count}*/}
+                                {/*/>*/}
+                                <CardContent sx={{flexGrow: 1, color: 'magenta'}}>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {board.title}
+                                    </Typography>
+                                    <Typography>
+                                        {board.pay_division} | {board.square_feet}평 | {board.price}만원
+                                    </Typography>
+                                    <Typography>{board.short_location}</Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small">보기</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+        </main>
+    );
 }
-
-export default Home;

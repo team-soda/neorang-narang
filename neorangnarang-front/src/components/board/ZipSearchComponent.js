@@ -43,10 +43,11 @@ function ZipSearchComponent(props) {
     }
 
     return (
-        <div className="zipSearchDiv">
+        <div className="zipSearchDiv" style={{marginTop:30}}>
             <InputLabel className="inputLabel">주소</InputLabel>
             <TextField
                 style={{width: '90%'}}
+                // label="주소"
                 id="standard-basic"
                 variant="standard"
                 name="location"

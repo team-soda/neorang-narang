@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -10,11 +11,17 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
 </head>
+
 <body>
-    <style>
-        body {
-            margin: 0;
+    <!-- <style>
+        ul {
+            list-style: none;
         }
+
+        a:hover {
+            color: #ffc576;
+        }
+
         .logoDiv {
             display: flex;
             align-items: center;
@@ -24,7 +31,7 @@
             background: white;
             letter-spacing: initial;
             border-radius: 20px;
-            border: none;
+            /*border: none;*/
         }
 
         .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-withBorder {
@@ -59,14 +66,28 @@
             padding: 90px;
         }
 
-        .thumbnail-wrappper {
-            width: 25%;
+        .rdw-editor-wrapper {
+            margin-top: 30px;
         }
 
-        .thumbnail {
-            position: relative;
-            padding-top: 50%;
-            overflow: hidden;
+        .editor {
+            margin-top: 30px;
+        }
+
+        .inputMailContent {
+            height: 200px
+        }
+
+        .tox-statusbar {
+            visibility: hidden;
+        }
+
+        .MuiContainer-root {
+            padding: 90px;
+        }
+
+        .MuiFormControl-root {
+            display: flex;
         }
 
         .thumbnail .centered {
@@ -80,51 +101,15 @@
             transform: translate(50%, 50%);
         }
 
-        .thumbnail .centered img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            max-width: 100%;
-            height: auto;
-            -webkit-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        .menuBar {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .MuiFormControl-root {
-            display: flex;
-        }
-
-        .MuiCollapse-root {
-            overflow: hidden;
-        }
-
         .flexDiv {
             display: flex;
-            align-items: flex-end;
+            align-items: end;
         }
 
         .MuiPaper-root {
             background-color: transparent;
             box-shadow: revert;
         }
-
-        .MuiInputBase-fullWidth {
-            height: 56px;
-        }
-
-        .MuiButton-root {
-            margin-top: 24px;
-            margin-bottom: 16px;
-        }
-
-
 
         .customoverlay {
             position: relative;
@@ -149,7 +134,7 @@
             font-size: 14px;
             font-weight: bold;
             overflow: hidden;
-            background: #ffc576 url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png") no-repeat right 14px center;
+            background: #ffc576 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
         }
 
         .customoverlay .title {
@@ -172,9 +157,24 @@
             height: 12px;
             background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
         }
-    </style>
+
+        /*.MuiFormControl-marginNormal {*/
+        /*    margin-top: 16px;*/
+        /*    margin-bottom: 8px;*/
+        /*}*/
+
+        .MuiInputBase-fullWidth {
+            height: 56px;
+        }
+
+        .MuiButton-root {
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+    </style> -->
     <div id="root"></div>
 </body>
 <script type="text/javascript"
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&libraries=services"></script>
+
 </html>

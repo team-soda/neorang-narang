@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   GOOGLE_AUTH_URL,
   KAKAO_AUTH_URL,
@@ -13,13 +14,18 @@ import {
   Box,
   TextField,
   Button,
-  Link,
   createTheme,
   ThemeProvider,
+  makeStyles,
 } from "@mui/material";
 
 const theme = createTheme();
+/* const useStyles = makeStyles({
+  root: {
 
+  }
+})
+ */
 function SignIn() {
   const dispatch = useDispatch();
 
@@ -56,11 +62,13 @@ function SignIn() {
       <Grid container component="main" style={{ justifyContent: "center" }}>
         <CssBaseline />
         <Grid
-          style={{ maxWidth: "45%" }}
+          style={{ maxWidth: "40%", borderRadius: 0 }}
           item
           xs={false}
           sm={4}
           md={7}
+          component={Paper}
+          elevation={6}
           sx={{
             backgroundImage: "url(https://source.unsplash.com/random)",
             backgroundRepeat: "no-repeat",
@@ -71,10 +79,7 @@ function SignIn() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-          variant="elevation"
         />
-
-        {/* .MuiPaper-root box-shadow: revert ==============*/}
         <Grid
           item
           xs={12}
@@ -83,10 +88,8 @@ function SignIn() {
           component={Paper}
           elevation={6}
           square
-          style={{ maxWidth: "40%", padding: "0 10%" }}
+          style={{ maxWidth: "500px", minWidth: "400px", padding: "0 10%" }}
         >
-          {/* .MuiPaper-root box-shadow: revert ==============*/}
-
           <Box
             sx={{
               my: 8,
@@ -122,15 +125,14 @@ function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                //sx={{ mt: 3, mb: 2 /* , background: "black" */ }}
-                style={{ backgroundColor: "black" }}
+                sx={{ mt: 3, mb: 2, background: "black" }}
               >
                 로그인
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"계정이 없다면? 지금 가입하세요!"}
+                  <Link to="/auth/signup" variant="body2">
+                    계정이 없다면? 지금 가입하세요!
                   </Link>
                 </Grid>
               </Grid>
