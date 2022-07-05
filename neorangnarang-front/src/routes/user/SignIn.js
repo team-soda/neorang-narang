@@ -53,7 +53,7 @@ function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" style={{ margin: "0 auto" }}>
+      <Grid container component="main" style={{ justifyContent: "center" }}>
         <CssBaseline />
         <Grid
           style={{ maxWidth: "45%" }}
@@ -71,6 +71,7 @@ function SignIn() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
+          variant="elevation"
         />
 
         {/* .MuiPaper-root box-shadow: revert ==============*/}
@@ -82,7 +83,7 @@ function SignIn() {
           component={Paper}
           elevation={6}
           square
-          style={{ margin: "0 auto", maxWidth: "30%" }}
+          style={{ maxWidth: "40%", padding: "0 10%" }}
         >
           {/* .MuiPaper-root box-shadow: revert ==============*/}
 
@@ -121,7 +122,8 @@ function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, background: "black" }}
+                //sx={{ mt: 3, mb: 2 /* , background: "black" */ }}
+                style={{ backgroundColor: "black" }}
               >
                 로그인
               </Button>

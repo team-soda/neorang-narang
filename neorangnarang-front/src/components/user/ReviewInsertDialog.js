@@ -10,11 +10,23 @@ import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
 import StarRating from "./StarRating";
 import { Box, TextField } from "@mui/material";
 import { getAuthState } from "../../redux/user/selector/authSelector";
-import { registerReview } from "../../redux/user/thunk/reviewThunk";
+import {
+  getUserReviews,
+  registerReview,
+} from "../../redux/user/thunk/reviewThunk";
+import {
+  closeInsertModal,
+  closeModal,
+  openInsertModal,
+  openModal,
+} from "../../redux/common/slice/modalSlice";
+import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 
-function ReviewInsertDialog({ open, onCloseHandler, userInfo }) {
+function ReviewInsertDialog({ /* open, */ /* onCloseHandler, */ userInfo }) {
   const { uid } = useParams();
   const dispatch = useDispatch();
+  const ratingAvg = useSelector(getRatingAvgState);
+  const insertOpen = useSelector((state) => state.modal.insertOpen);
   const navigate = useNavigate();
   //const reviewIdxRef = useRef(1);
 
@@ -30,10 +42,13 @@ function ReviewInsertDialog({ open, onCloseHandler, userInfo }) {
     dispatch(getUserInfo(uid));
   }, [dispatch, uid]); */
 
-  const onChangeValue = useCallback((event, newValue) => {
-    //console.log(newValue);
-    setValue(newValue);
-  }, []);
+  const onChangeValue = useCallback(
+    (event, newValue) => {
+      //console.log(newValue);
+      setValue(newValue);
+    },
+    [value]
+  );
   console.log(`보자보자 ${value}`);
 
   const onChangeHoverActive = useCallback(
@@ -61,50 +76,57 @@ function ReviewInsertDialog({ open, onCloseHandler, userInfo }) {
     dispatch(registerReview(reviewObj));
     setValue(0);
     setContent("");
-    onCloseHandler();
-    navigate(`/user/info/${uid}`, { replace: true });
-    //window.location.reload();
+    dispatch(closeInsertModal());
   };
 
+  /* const onCloseHandler = useCallback(() => {
+    dispatch(closeInsertModal());
+  }, [dispatch]); */
+
   return (
-    <BootstrapDialog
-      onClose={onCloseHandler}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-      fullWidth
-      maxWidth="sm"
-    >
-      <BootstrapDialogTitle
-        id="customized-dialog-title"
-        onClick={onCloseHandler}
+    <>
+      <Button variant="outlined" onClick={() => dispatch(openInsertModal())}>
+        리뷰남기기
+      </Button>
+      <BootstrapDialog
+        onClose={() => dispatch(closeInsertModal())}
+        aria-labelledby="customized-dialog-title"
+        open={insertOpen}
+        fullWidth
+        maxWidth="sm"
       >
-        {userInfo.nickname} 님을 평가해 주세요!
-      </BootstrapDialogTitle>
-      <DialogContent dividers>
-        <Box noValidate autoComplete="off">
-          <StarRating
-            value={value}
-            hover={hover}
-            onChangeValue={onChangeValue}
-            onChangeHoverActive={onChangeHoverActive}
-          />
-          <TextField
-            name="content"
-            value={content}
-            onChange={onChangeContentHandler}
-            margin="normal"
-            multiline
-            rows={4}
-            placeholder="악성 리뷰는 무통보 삭제될 수 있습니다."
-          />
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={onSubmitHandler}>
-          작성하기
-        </Button>
-      </DialogActions>
-    </BootstrapDialog>
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClick={() => dispatch(closeInsertModal())}
+        >
+          {userInfo.nickname} 님을 평가해 주세요!
+        </BootstrapDialogTitle>
+        <DialogContent dividers sx={{ backgroundColor: "white" }}>
+          <Box noValidate autoComplete="off">
+            <StarRating
+              value={value}
+              hover={hover}
+              onChangeValue={onChangeValue}
+              onChangeHoverActive={onChangeHoverActive}
+            />
+            <TextField
+              name="content"
+              value={content}
+              onChange={onChangeContentHandler}
+              margin="normal"
+              multiline
+              rows={4}
+              placeholder="악성 리뷰는 무통보 삭제될 수 있습니다."
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ backgroundColor: "white" }}>
+          <Button autoFocus onClick={onSubmitHandler}>
+            작성하기
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
+    </>
   );
 }
 

@@ -1,127 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="theme-color" content="#000000"/>
-    <meta
-            name="description"
-            content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png"/>
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>React App</title>
 </head>
 <body>
-<style>
-    .logoDiv {
-        display: flex;
-        align-items: center;
-    }
+    <style>
+        body {
+            margin: 0;
+        }
+        .logoDiv {
+            display: flex;
+            align-items: center;
+        }
 
-    .MuiDataGrid-root {
-        background: white;
-        letter-spacing: initial;
-        border-radius: 20px;
-        border: none;
-    }
+        .MuiDataGrid-root {
+            background: white;
+            letter-spacing: initial;
+            border-radius: 20px;
+            border: none;
+        }
 
-    .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-withBorder {
-        border-right: none;
-    }
+        .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-withBorder {
+            border-right: none;
+        }
 
-    .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-columnSeparator {
-        color: white;
-    }
+        .css-1r5v9hu-MuiDataGrid-root .MuiDataGrid-columnSeparator {
+            color: white;
+        }
 
-    .MuiTypography-root {
-        color: black;
-    }
+        .MuiTypography-root {
+            color: black;
+        }
 
-    .rdw-editor-wrapper {
-        margin-top: 30px;
-    }
+        .rdw-editor-wrapper {
+            margin-top: 30px;
+        }
 
-    .editor {
-        margin-top: 30px;
-    }
+        .editor {
+            margin-top: 30px;
+        }
 
-    .inputMailContent {
-        height: 200px
-    }
+        .inputMailContent {
+            height: 200px
+        }
 
-    .tox-statusbar {
-        visibility: hidden;
-    }
+        .tox-statusbar {
+            visibility: hidden;
+        }
 
-    .MuiContainer-root {
-        padding: 90px;
-    }
+        .MuiContainer-root {
+            padding: 90px;
+        }
 
-    .thumbnail-wrappper {
-        width: 25%;
-    }
+        .thumbnail-wrappper {
+            width: 25%;
+        }
 
-    .thumbnail {
-        position: relative;
-        padding-top: 50%;
-        overflow: hidden;
-    }
+        .thumbnail {
+            position: relative;
+            padding-top: 50%;
+            overflow: hidden;
+        }
 
-    .thumbnail .centered {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        -webkit-transform: translate(50%, 50%);
-        -ms-transform: translate(50%, 50%);
-        transform: translate(50%, 50%);
-    }
+        .thumbnail .centered {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            -webkit-transform: translate(50%, 50%);
+            -ms-transform: translate(50%, 50%);
+            transform: translate(50%, 50%);
+        }
 
-    .thumbnail .centered img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        max-width: 100%;
-        height: auto;
-        -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
+        .thumbnail .centered img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            max-width: 100%;
+            height: auto;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
 
-    .menuBar {
-        margin-top: 30px;
-        display: flex;
-        justify-content: space-between;
-    }
+        .menuBar {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
 
-    .MuiFormControl-root {
-        display: flex;
-    }
+        .MuiFormControl-root {
+            display: flex;
+        }
 
-    .MuiCollapse-root {
-        overflow: hidden;
-    }
+        .MuiCollapse-root {
+            overflow: hidden;
+        }
 
-    .flexDiv {
-        display: flex;
-        align-items: end;
-    }
+        .flexDiv {
+            display: flex;
+            align-items: flex-end;
+        }
 
-    /* .MuiPaper-root{
-        background-color: transparent;
-        box-shadow: revert;
-    } */
+        .MuiPaper-root {
+            background-color: transparent;
+            box-shadow: revert;
+        }
 
-    .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-    .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-    .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden; background: #ffc576 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-    .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-    .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-</style>
-<div id="root"></div>
+        .MuiInputBase-fullWidth {
+            height: 56px;
+        }
+
+        .MuiButton-root {
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+
+
+        .customoverlay {
+            position: relative;
+            bottom: 85px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            border-bottom: 2px solid #ddd;
+            float: left;
+        }
+
+        .customoverlay:nth-of-type(n) {
+            border: 0;
+            box-shadow: 0px 1px 2px #888;
+        }
+
+        .customoverlay a {
+            display: block;
+            text-decoration: none;
+            color: #000;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            background: #ffc576 url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png") no-repeat right 14px center;
+        }
+
+        .customoverlay .title {
+            display: block;
+            text-align: center;
+            background: #fff;
+            margin-right: 35px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .customoverlay:after {
+            content: '';
+            position: absolute;
+            margin-left: -12px;
+            left: 50%;
+            bottom: -12px;
+            width: 22px;
+            height: 12px;
+            background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+        }
+    </style>
+    <div id="root"></div>
 </body>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&libraries=services"></script>
+<script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bad56acfdbfae0214b42fcd42850bb46&libraries=services"></script>
 </html>

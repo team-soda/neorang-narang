@@ -14,6 +14,7 @@ const XXL = `@media (min-width: ${xxl}px)`;
 const sharedClasses = {
   paddingRight: `${pxToRem(24)} !important`,
   paddingLeft: `${pxToRem(24)} !important`,
+  margin: "90px", // 추가
   marginRight: "auto !important",
   marginLeft: "auto !important",
   width: "100% !important",

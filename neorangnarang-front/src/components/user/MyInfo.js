@@ -1,63 +1,64 @@
-import { useSelector } from "react-redux";
-import { getDefaultImgState } from "../../redux/user/selector/authSelector";
+import { useCallback, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { openProfileModal } from "../../redux/common/slice/modalSlice";
+import {
+  getAuthState,
+  getDefaultImgState,
+} from "../../redux/user/selector/authSelector";
 import { API_BASE_URL } from "../../config/url-config";
+import ProfileUpdateModal from "./MyProfileUpdateModal";
+import { Avatar, Chip } from "@mui/material";
 
-function MyInfo({
-  authUser,
-  isEdit,
-  imgPreview,
-  profileImgRef,
-  newName,
-  onImageChangeHandler,
-  onNameChangeHandler,
-  onUpdateSubmitHandler,
-  onClearHandler,
-  onEditToggleHandler,
-}) {
-  const { profile_img } = authUser;
+function MyInfo() {
+  const dispatch = useDispatch();
+  const profileImgRef = useRef();
+
+  const authUser = useSelector(getAuthState);
   const defaultImg = useSelector(getDefaultImgState);
+  const profileOpen = useSelector((state) => state.modal.profileOpen);
 
-  console.log(`${API_BASE_URL}/user/${profile_img}`);
+  const [imgPreview, setImgPreview] = useState(null);
+
+  const { profile_img, nickname } = authUser;
+
+  const onImageChangeHandler = useCallback(() => {
+    const reader = new FileReader();
+    const file = profileImgRef.current.files[0];
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgPreview(reader.result);
+    };
+  }, [profileImgRef, imgPreview]);
+
+  const onClearHandler = () => {
+    profileImgRef.current.value = null;
+    setImgPreview(null);
+  };
 
   return (
     <div>
-      <button onClick={onEditToggleHandler}>수정하기</button>
       <div>
-        {isEdit && (
-          <>
-            <input
-              ref={profileImgRef}
-              onChange={onImageChangeHandler}
-              name="profile_img"
-              id="profile_img"
-              type="file"
-              accept="image/*"
-            />
-            <button onClick={onClearHandler}>취소</button>
-          </>
-        )}
-        <div>
-          <img
-            src={
-              imgPreview ||
-              (profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg)
-            }
-            alt="프로필 이미지"
-            style={{ width: "150px" }}
-          />
-        </div>
-      </div>
-      <div>
-        닉네임 :
-        <input
-          type="text"
-          name="nickname"
-          value={newName}
-          onChange={onNameChangeHandler}
-          readOnly={!isEdit}
+        <Avatar
+          alt="프로필 사진"
+          src={profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg}
+          sx={{ width: 120, height: 120 }}
         />
       </div>
-      {isEdit && <button onClick={onUpdateSubmitHandler}>저장하기</button>}
+      <div>
+        <Chip
+          label={nickname}
+          variant="outlined"
+          onClick={() => dispatch(openProfileModal())}
+        />
+        <ProfileUpdateModal
+          open={profileOpen}
+          authUser={authUser}
+          profileImgRef={profileImgRef}
+          onImageChangeHandler={onImageChangeHandler}
+          onClearHandler={onClearHandler}
+          imgPreview={imgPreview}
+        />
+      </div>
     </div>
   );
 }

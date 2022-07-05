@@ -16,7 +16,7 @@ export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle sx={{ m: 0, p: 2, backgroundColor: "white" }} {...other}>
       {children}
       {onClose ? (
         <IconButton
@@ -36,8 +36,7 @@ export const BootstrapDialogTitle = (props) => {
   );
 };
 
-/* BootstrapDialogTitle.propTypes = {
+/*  BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
-};
- */
+}; */

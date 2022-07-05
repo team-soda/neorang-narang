@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@tinymce/tinymce-react": "^4.1.0",
     "axios": "^0.27.2",
+    "chroma-js": "^2.4.2",
     "html-to-react": "^1.4.8",
     "react": "^17.0.2",
     "react-daum-postcode": "^3.1.1",

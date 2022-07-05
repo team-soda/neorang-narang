@@ -12,6 +12,7 @@ export const registerReview = createAsyncThunk(
       const response = await userService.registerReview(reviewObj);
       console.log(response.data.listData);
       alert("리뷰 작성 완료!");
+      window.location.reload();
       return response.data.listData;
     } catch (error) {
       console.log(error);

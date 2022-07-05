@@ -10,14 +10,13 @@ import {
 } from "@material-ui/core";
 import { Editor } from "@tinymce/tinymce-react";
 import ZipSearchComponent from "./ZipSearchComponent";
-import { getAuthState } from "../../redux/user/selector/authSelector";
 import { useSelector } from "react-redux";
+import { getAuthState } from "../../redux/user/selector/authSelector";
+import { Alert, Stack } from "@mui/material";
 
 const RegisterComponent = () => {
-  const authUser = useSelector(getAuthState);
-  //const {user} = userObj.data.objData;
   const editorRef = useRef(null);
-  console.log(authUser);
+  const authUser = useSelector(getAuthState);
 
   function submitData(e) {
     e.preventDefault();
@@ -27,6 +26,7 @@ const RegisterComponent = () => {
     const boardDTO = {
       title: data.get("title"),
       writer: data.get("writer"),
+      uid: data.get("uid"),
       content: data.get("content"),
       pay_division: data.get("pay_division"),
       square_feet: data.get("square_feet"),
@@ -59,11 +59,14 @@ const RegisterComponent = () => {
         <TextField
           value={authUser.nickname}
           id="standard-basic"
-          label="작성자"
+          label=" "
           variant="standard"
-          placeholder="ex) 룸메찾는룸메리스"
           name="writer"
-          inputProps={{ readOnly: true }}
+        />
+        <TextField
+          value={authUser.uid}
+          name="uid"
+          style={{ display: "none" }}
         />
         <TextField
           id="standard-basic"
@@ -131,7 +134,6 @@ const RegisterComponent = () => {
           />
         </div>
         <ZipSearchComponent />
-
         <CardActions className="menuBar">
           <Button variant="outlined" color="secondary" href="/mainboard/list">
             목록으로

@@ -1,8 +1,21 @@
+import {
+  Box,
+  Button,
+  Container,
+  createTheme,
+  CssBaseline,
+  Grid,
+  Link,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate /* , Link */ } from "react-router-dom";
 import { userService } from "../../service/UserService";
 
 function SignUp() {
+  const theme = createTheme();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [isSendEmail, setIsSendEmail] = useState(false);
@@ -73,52 +86,138 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <h2>회원가입</h2>
-      <form onSubmit={onSignupHandler}>
-        <div>
-          <label htmlFor="uid">아이디</label>
-          <input type="text" id="uid" name="uid" />
-        </div>
-        <div>
-          <label htmlFor="upw">비밀번호</label>
-          <input type="password" id="upw" name="password" />
-        </div>
-        <div>
-          <label>성별</label>
-          <div>
-            <input
-              type="radio"
-              id="genderIsFemale"
-              name="gender"
-              value="female"
-            />
-            <label htmlFor="genderIsFemale">여성</label>
-            <input type="radio" id="genderIsMale" name="gender" value="male" />
-            <label htmlFor="genderIsMale">남성</label>
-          </div>
-        </div>
-        <div>
-          <label htmlFor="email">이메일</label>
-          <input type="text" id="email" name="email" onChange={onChangeEmail} />
-          <input
-            type="button"
-            value="인증메일보내기"
-            onClick={onSendAuthMailHandler}
-          />
-          <input
-            type="text"
-            id="authCode"
-            name="authCode"
-            placeholder="인증번호 입력"
-            onChange={onChangeCode}
-          />
-          <input type="button" value="확인" onClick={onAuthCodeCheck} />
-        </div>
-
-        <button>가입하기</button>
-      </form>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h6" component="div">
+            <div className="logoDiv" style={{ display: "inline-block" }}>
+              <img
+                className="logoText"
+                style={{ width: 30 }}
+                src="/img/logo-neona.png"
+              />
+              <img
+                className="logoText"
+                style={{ width: 100 }}
+                src="/img/text-neona.png"
+              />
+            </div>
+            회원가입
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={onSignupHandler}
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="uid"
+                  required
+                  fullWidth
+                  id="uid"
+                  label="ID"
+                  autoFocus
+                />
+              </Grid>
+              <Grid sx={{ mt: 3 }} item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="upw"
+                  label="비밀번호"
+                  type="password"
+                  name="password"
+                />
+              </Grid>
+              <Grid sx={{ mt: 3 }} item xs={"auto"} sm={12}>
+                <input
+                  type="radio"
+                  id="genderIsFemale"
+                  name="gender"
+                  value="female"
+                />
+                <label htmlFor="genderIsFemale"> 여성 </label>
+                <input
+                  type="radio"
+                  id="genderIsMale"
+                  name="gender"
+                  value="male"
+                />
+                <label htmlFor="genderIsMale"> 남성</label>
+              </Grid>
+              <Grid sx={{ alignSelf: "center" }} item xs={12} sm={10}>
+                <TextField
+                  required
+                  type="email"
+                  id="email"
+                  label="Email"
+                  name="email"
+                  autoComplete="email"
+                  onChange={onChangeEmail}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Button
+                  type="button"
+                  onClick={onSendAuthMailHandler}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, background: "black" }}
+                >
+                  전송
+                </Button>
+              </Grid>
+              <Grid sx={{ alignSelf: "center" }} item xs={12} sm={10}>
+                <TextField
+                  required
+                  label="인증번호"
+                  type="text"
+                  id="authCode"
+                  name="authCode"
+                  placeholder="인증번호 입력"
+                  onChange={onChangeCode}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Button
+                  type="button"
+                  onClick={onAuthCodeCheck}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, background: "black" }}
+                >
+                  확인
+                </Button>
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 8, mb: 2, background: "black" }}
+            >
+              회원가입
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/auth/signin" variant="body2">
+                  이미 계정이 있다면? 로그인!
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 

@@ -133,5 +133,24 @@ export default createTheme({
     MuiDialogContent: { ...dialogContent },
     MuiDialogContentText: { ...dialogContentText },
     MuiDialogActions: { ...dialogActions },
+
+    // 추가
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.transparent.main,
+          //boxShadow: boxShadows.colored.white,
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          "&.MuiInputBase-fullWidth": {
+            height: `${pxToRem(56)} !important`,
+          },
+        },
+      },
+    },
   },
 });

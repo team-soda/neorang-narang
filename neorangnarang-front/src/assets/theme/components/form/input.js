@@ -1,6 +1,7 @@
 import borders from "../../base/borders";
 import typography from "../../base/typography";
 import colors from "../../base/colors";
+import pxToRem from "../../functions/pxToRem";
 
 const { info, inputBorderColor, dark } = colors;
 const { size } = typography;

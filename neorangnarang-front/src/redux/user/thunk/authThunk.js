@@ -32,6 +32,7 @@ export const updateUser = createAsyncThunk(
       const response = await userService.updateUser(userObj);
       console.log(response);
       alert("수정 완료!");
+      window.location.reload();
       return response.data;
     } catch (error) {
       console.log(error);
