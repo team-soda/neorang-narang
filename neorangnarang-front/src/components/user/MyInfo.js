@@ -7,7 +7,7 @@ import {
 } from "../../redux/user/selector/authSelector";
 import { API_BASE_URL } from "../../config/url-config";
 import ProfileUpdateModal from "./MyProfileUpdateModal";
-import { Avatar, Chip } from "@mui/material";
+import { Avatar, Chip, Grid } from "@mui/material";
 
 function MyInfo() {
   const dispatch = useDispatch();
@@ -36,30 +36,36 @@ function MyInfo() {
   };
 
   return (
-    <div>
-      <div>
-        <Avatar
-          alt="프로필 사진"
-          src={profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg}
-          sx={{ width: 120, height: 120 }}
-        />
-      </div>
-      <div>
-        <Chip
-          label={nickname}
-          variant="outlined"
-          onClick={() => dispatch(openProfileModal())}
-        />
-        <ProfileUpdateModal
-          open={profileOpen}
-          authUser={authUser}
-          profileImgRef={profileImgRef}
-          onImageChangeHandler={onImageChangeHandler}
-          onClearHandler={onClearHandler}
-          imgPreview={imgPreview}
-        />
-      </div>
-    </div>
+      <Grid
+          container
+          direction="column"
+          justifyContent="space-evenly"
+          alignItems="center"
+          spacing={2}
+      >
+        <Grid item>
+          <Avatar
+              alt="프로필 사진"
+              src={profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg}
+              sx={{ width: 120, height: 120 }}
+          />
+        </Grid>
+        <Grid item>
+          <Chip
+              label={nickname}
+              variant="outlined"
+              onClick={() => dispatch(openProfileModal())}
+          />
+          <ProfileUpdateModal
+              open={profileOpen}
+              authUser={authUser}
+              profileImgRef={profileImgRef}
+              onImageChangeHandler={onImageChangeHandler}
+              onClearHandler={onClearHandler}
+              imgPreview={imgPreview}
+          />
+        </Grid>
+      </Grid>
   );
 }
 

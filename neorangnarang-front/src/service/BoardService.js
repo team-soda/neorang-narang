@@ -6,9 +6,9 @@ const getBoardList = async () => {
     return await Axios.get(`${MAIN_BOARD}/list`);
 };
 
-const getSearchBoardList = async (pageRequestDTO, setBoardList) => {
+const getSearchBoardList = async (type, keyword, setBoardList) => {
     return await Axios.get(
-        `${MAIN_BOARD}/list?type=${pageRequestDTO.type}&keyword=${pageRequestDTO.keyword}`
+        `${MAIN_BOARD}/list?type=${type}&keyword=${keyword}`
     ).then((response) => {
         console.log(response);
         setBoardList(response.data.dto);

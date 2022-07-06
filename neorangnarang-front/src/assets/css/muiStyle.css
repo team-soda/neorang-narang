@@ -1,52 +1,75 @@
 .MuiAppBar-root {
-  background-color: transparent !important;
-  box-shadow: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: black !important;
 }
 
 .MuiContainer-root {
-  padding: 5.625rem !important;
-  padding-right: 1.5rem !important;
-  padding-left: 1.5rem !important;
-  margin-right: auto !important;
-  margin-left: auto !important;
-  width: 100% !important;
-  position: relative;
+    padding: 3rem !important;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    width: 100% !important;
+    position: relative;
+}
+
+.MuiPaper-root {
+    box-shadow: revert !important;
+}
+
+.MuiDataGrid-root {
+    background: white !important;
+    letter-spacing: initial !important;
+    border-radius: 20px !important;
+}
+
+.MuiDataGrid-withBorder {
+    border-right: none !important;
+}
+
+.MuiDataGrid-columnSeparator {
+    color: white !important;
+}
+
+.MuiTypography-root {
+    color: black !important;
+}
+
+.MuiFormControl-root {
+    display: flex;
+}
+
+.MuiCollapse-root {
+    overflow: hidden !important;
 }
 
 @media (min-width: 576px) {
-  .MuiContainer-root {
-    max-width: 540px !important;
-  }
+    .MuiContainer-root {
+        max-width: 540px !important;
+    }
 }
 
 @media (min-width: 768px) {
-  .MuiContainer-root {
-    max-width: 720px !important;
-  }
+    .MuiContainer-root {
+        max-width: 960px !important;
+    }
 }
 
 @media (min-width: 992px) {
-  .MuiContainer-root {
-    max-width: 960px !important;
-  }
+    .MuiContainer-root {
+        max-width: 1020px !important;
+    }
 }
 
 @media (min-width: 1200px) {
-  .MuiContainer-root {
-    max-width: 1140px !important;
-  }
+    .MuiContainer-root {
+        max-width: 1140px !important;
+    }
 }
 
-@media (min-width: 1400px) {
+/* @media (min-width: 1400px) {
   .MuiContainer-root {
     max-width: 1320px !important;
   }
-}
-
-/* .MuiInputBase-root {
-  line-height: 1.4375em !important;
-}
-
-.MuiInputBase-input {
-  height: 1.4375em !important;
 } */
