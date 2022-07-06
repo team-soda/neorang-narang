@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team.neorangnarang.chat.mapper.ChatRoomMapper">
+
+    <insert id="insertChatRoom">
+        /*
+            ChatRoomMapper.insertChatRoom
+            채팅방 등록
+        */
+        INSERT INTO TB_CHAT_ROOM (
+            BOARD_IDX
+            , SENDER_ID
+            ,RECEIVER_ID
+        ) VALUES (
+            #{board_idx}
+            , #{sender_id}
+            , #{receiver_id}
+        )
+    </insert>
+
+    <delete id="deleteChatRoom">
+        /*
+            ChatRoomMapper.deleteChatRoom
+            채팅방 삭제
+        */
+        DELETE FROM TB_CHAT_ROOM
+        WHERE ROOM_IDX = #{room_idx}
+    </delete>
+
+    <select id="selectChatRoomList" resultType="map">
+        /*
+            ChatRoomMapper.selectChatRoomList
+            채팅방 목록 조회
+         */
+        SELECT
+            ROOM_IDX
+            , BOARD_IDX
+            , SENDER_ID
+            , RECEIVER_ID
+            , CREATED_AT
+        FROM TB_CHAT_ROOM
+
+        WHERE SENDER_ID = #{sender_id}
+    </select>
+
+    <select id="selectChatRoomDetail" resultType="com.team.neorangnarang.chat.dto.ChatRoomDTO">
+        /*
+            ChatRoomMapper.selectChatRoomDetail
+            채팅방 상세 조회
+         */
+        SELECT
+            ROOM_IDX
+            , BOARD_IDX
+            , SENDER_ID
+            , RECEIVER_ID
+            , CREATED_AT
+        FROM TB_CHAT_ROOM
+
+        WHERE ROOM_IDX = #{room_idx}
+    </select>
+
+</mapper>
