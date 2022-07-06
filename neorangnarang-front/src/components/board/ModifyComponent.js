@@ -15,7 +15,6 @@ import Typography from "@mui/material/Typography";
 function ModifyComponent({board_idx, isLogin}) {
 
     const boardDTOState = {
-        created_dt: '',
         imageTags: '',
         dto: []
     }
@@ -67,6 +66,7 @@ function ModifyComponent({board_idx, isLogin}) {
                     variant="standard"
                     value={boardDTO.dto.title}
                     name="title"
+                    // onChange={}
                 />
                 <InputLabel className="inputLabel">전월세</InputLabel>
                 <TextField
@@ -119,10 +119,9 @@ function ModifyComponent({board_idx, isLogin}) {
                         onEditorChange={(editorContent, editor) => SetEditorValue(editorContent)}
                     />
                 </div>
-                <ZipSearchComponent fullAddress={boardDTO.dto.location}/>
+                <ZipSearchComponent/>
                 <Typography style={{margin: 20}} variant="caption" display="block" gutterBottom>기존
                     주소: {boardDTO.dto.location}</Typography>
-                {/*value={boardDTO.dto.location}*/}
                 <CardActions className="menuBar">
                     <Button variant="outlined" color="secondary" href="/mainboard/list">
                         목록으로

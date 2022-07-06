@@ -1,4 +1,4 @@
-import {forwardRef, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {Parser} from "html-to-react";
 import {
     Avatar,
@@ -9,7 +9,7 @@ import {
     CardHeader,
     CardMedia,
     Collapse,
-    IconButton, List, ListItemIcon, ListItemText, ListSubheader,
+    IconButton,
     Typography,
 } from "@material-ui/core";
 import Card from "@mui/material/Card";
@@ -22,15 +22,18 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {boardService} from "../../service/BoardService";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    getAuthState,
-    getIsLoginState,
-} from "../../redux/user/selector/authSelector";
-import {useNavigate, useParams} from "react-router-dom";
-import {Link} from "react-router-dom";
+import {getAuthState, getIsLoginState,} from "../../redux/user/selector/authSelector";
+import {Link, useNavigate} from "react-router-dom";
 import MapComponent from "./MapComponent";
+import {API_BASE_URL} from "../../config/url-config";
+import {getUserState} from "../../redux/user/selector/userSelector";
+import {getUserInfo} from "../../redux/user/thunk/userThunk";
 
 const ReadComponent = ({board_idx}) => {
+
+    const dispatch = useDispatch();
+    const userInfo = useSelector(getUserState)
+    const { profile_img } = userInfo;
     const authUser = useSelector(getAuthState);
     const isLogin = useSelector(getIsLoginState);
     const navigate = useNavigate();
@@ -45,6 +48,7 @@ const ReadComponent = ({board_idx}) => {
     const [isWishAdd, setIsWishAdd] = useState(false);
 
     useEffect(() => {
+
         if (!isLogin) {
             alert("로그인이 필요한 서비스입니다.");
             navigate("/auth/signin", {replace: true});
@@ -52,7 +56,11 @@ const ReadComponent = ({board_idx}) => {
             boardService.getBoardRead(board_idx).then((res) => {
                 setBoardDTO(res.data);
             });
+
+            dispatch(getUserInfo(boardDTO.dto.uid))
         }
+
+        console.log(userInfo+'?????');
 
         //imgCheck();
     }, [board_idx, setBoardDTO, isLogin, navigate]);
@@ -89,7 +97,8 @@ const ReadComponent = ({board_idx}) => {
             <CardHeader title={boardDTO.dto.title}/>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: red[500]}} aria-label="userProfile"></Avatar>
+                    <Avatar sx={{bgcolor: red[500]}} src={`${API_BASE_URL}/view/${profile_img}`}
+                            aria-label="userProfile"/>
                 }
                 action={
                     <IconButton aria-label="settings">

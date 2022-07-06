@@ -1,4 +1,4 @@
-import Axios, {imgAxios} from "../config/axios-config";
+import Axios, { imgAxios } from "../config/axios-config";
 
 const AUTH = "/auth";
 const USER = "/user";

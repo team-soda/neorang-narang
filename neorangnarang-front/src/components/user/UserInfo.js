@@ -1,33 +1,30 @@
-import { Box, Button, Rating } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { API_BASE_URL } from "../../config/url-config";
-import { getDefaultImgState } from "../../redux/user/selector/userSelector";
+import {Avatar, Box, Rating} from "@mui/material";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {API_BASE_URL} from "../../config/url-config";
+import {getDefaultImgState} from "../../redux/user/selector/userSelector";
 import ReviewListDialog from "./ReviewListDialog.js";
 import StarIcon from "@mui/icons-material/Star";
-import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
-import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
+import {getRatingAvgState} from "../../redux/user/selector/reviewSelector";
+import {getUserReviews} from "../../redux/user/thunk/reviewThunk";
 
-function UserInfo({ userInfo, reviewList }) {
+function UserInfo({ userInfo, reviewList /* , ratingAvg */, uid }) {
   const { profile_img } = userInfo;
+  const dispatch = useDispatch();
   const defaultImg = useSelector(getDefaultImgState);
   const ratingAvg = useSelector(getRatingAvgState);
-  //const reviewList = useSelector(getUserReviews);
-  //const ratingAvgString = ratingAvg.toString();
 
-  const [open, setOpen] = useState(false);
-
-  const onCloseHandler = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    dispatch(getUserReviews(uid));
+  }, [dispatch, uid]);
 
   return (
     <div>
       <div>
-        <img
+        <Avatar
+          alt="프로필 사진"
           src={profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg}
-          alt="프로필 이미지"
-          style={{ width: "150px" }}
+          sx={{ width: 120, height: 120 }}
         />
       </div>
       <div>
@@ -46,12 +43,7 @@ function UserInfo({ userInfo, reviewList }) {
           />
           <Box sx={{ ml: 2 }}>{ratingAvg || 0}</Box>
         </Box>
-        <Button onClick={() => setOpen(true)}>리뷰보기</Button>
-        <ReviewListDialog
-          open={open}
-          onCloseHandler={onCloseHandler}
-          reviewList={reviewList}
-        />
+        <ReviewListDialog reviewList={reviewList} />
       </div>
     </div>
   );

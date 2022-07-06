@@ -1,6 +1,6 @@
-import {useSelector} from "react-redux";
-import {Routes, Route, Navigate} from "react-router-dom";
-import {getIsLoginState} from "../redux/user/selector/authSelector";
+import { useSelector } from "react-redux";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { getIsLoginState } from "../redux/user/selector/authSelector";
 import Home from "../routes/Home";
 import GuestRouter from "./GuestRouter";
 import UserRouter from "./UserRouter";
