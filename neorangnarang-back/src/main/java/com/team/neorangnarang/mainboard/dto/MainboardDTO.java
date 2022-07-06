@@ -5,7 +5,10 @@ import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +16,7 @@ import java.util.regex.Pattern;
 @Data
 @Log4j2
 @Builder
+@Setter
 @Getter
 @ToString
 @NoArgsConstructor
@@ -32,7 +36,13 @@ public class MainboardDTO {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created_at;
 
+    private String created_dt;
+
     private List<String> imageTags;
+
+    public void setBoard_idx(Long board_idx) {
+        this.board_idx = board_idx;
+    }
 
     public List<String> getImageTags() { // 이미지 태그 추출
 
@@ -46,10 +56,6 @@ public class MainboardDTO {
         }
 
         return list;
-    }
-
-    public void setBoard_idx(Long board_idx) {
-        this.board_idx = board_idx;
     }
 
     public MainboardDTO getDTO() {
@@ -67,7 +73,7 @@ public class MainboardDTO {
                 .price(price)
                 .like_count(like_count)
                 .view_count(view_count)
-                .created_at(created_at)
+                .created_dt(created_at.format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm")))
                 .build();
 
         return boardDTO;
