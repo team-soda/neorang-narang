@@ -7,17 +7,7 @@ import {
   NAVER_AUTH_URL,
 } from "../../config/url-config";
 import { login } from "../../redux/user/thunk/authThunk";
-import {
-  Grid,
-  CssBaseline,
-  Paper,
-  Box,
-  TextField,
-  Button,
-  createTheme,
-  ThemeProvider,
-  makeStyles,
-} from "@mui/material";
+import { Grid, Box, TextField, Button } from "@mui/material";
 
 function SignIn() {
   const dispatch = useDispatch();
@@ -76,20 +66,7 @@ function SignIn() {
           backgroundPosition: "center",
         }}
       />
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        square
-        style={
-          {
-            //maxWidth: "500px",
-            //minWidth: "250px",
-            //padding: "0 10%",
-          }
-        }
-      >
+      <Grid item xs={12} sm={8} md={5} square>
         <Box
           sx={{
             my: 8,
