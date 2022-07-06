@@ -22,7 +22,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {boardService} from "../../service/BoardService";
 import {useDispatch, useSelector} from "react-redux";
-import {getAuthState, getIsLoginState,} from "../../redux/user/selector/authSelector";
+import {getAuthState, getDefaultImgState, getIsLoginState,} from "../../redux/user/selector/authSelector";
 import {Link, useNavigate} from "react-router-dom";
 import MapComponent from "./MapComponent";
 import {API_BASE_URL} from "../../config/url-config";
@@ -30,11 +30,10 @@ import {getUserState} from "../../redux/user/selector/userSelector";
 import {getUserInfo} from "../../redux/user/thunk/userThunk";
 
 const ReadComponent = ({board_idx}) => {
-
     const dispatch = useDispatch();
-    const userInfo = useSelector(getUserState)
-    const { profile_img } = userInfo;
     const authUser = useSelector(getAuthState);
+    const userInfo = useSelector(getUserState);
+    const defaultImg = useSelector(getDefaultImgState);
     const isLogin = useSelector(getIsLoginState);
     const navigate = useNavigate();
 
@@ -55,15 +54,11 @@ const ReadComponent = ({board_idx}) => {
         } else {
             boardService.getBoardRead(board_idx).then((res) => {
                 setBoardDTO(res.data);
+                dispatch(getUserInfo(res.data.dto.uid));
             });
-
-            dispatch(getUserInfo(boardDTO.dto.uid))
         }
-
-        console.log(userInfo+'?????');
-
         //imgCheck();
-    }, [board_idx, setBoardDTO, isLogin, navigate]);
+    }, [board_idx, setBoardDTO, isLogin, navigate, dispatch]);
 
     const ExpandMore = styled((props) => {
         const {expand, ...other} = props;
@@ -97,8 +92,15 @@ const ReadComponent = ({board_idx}) => {
             <CardHeader title={boardDTO.dto.title}/>
             <CardHeader
                 avatar={
-                    <Avatar sx={{bgcolor: red[500]}} src={`${API_BASE_URL}/view/${profile_img}`}
-                            aria-label="userProfile"/>
+                    <Avatar
+                        src={
+                            userInfo.profile_img
+                                ? `${API_BASE_URL}/view/${userInfo.profile_img}`
+                                : defaultImg
+                        }
+                        sx={{bgcolor: red[500]}}
+                        aria-label="userProfile"
+                    ></Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
@@ -176,6 +178,7 @@ const ReadComponent = ({board_idx}) => {
                         border: "1px solid whitesmoke",
                         borderRadius: 20,
                         padding: 40,
+                        margin: "30px 0px"
                     }}
                 >
                     <Typography paragraph>

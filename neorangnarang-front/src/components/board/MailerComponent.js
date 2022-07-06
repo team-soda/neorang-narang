@@ -24,7 +24,8 @@ const MailerComponent = () => {
                  marginTop: "50px",
                  backgroundPosition: 'center',
                  backgroundSize: 'cover',
-                 textAlign: 'center'
+                 textAlign: 'center',
+                 display:'inline-block !important'
              }}>
             <form className="row" style={{padding: '80px', display:'inline-block !important'}} onSubmit={sendEmail}>
                 <h1>Contact Us</h1>

@@ -18,6 +18,10 @@
     box-shadow: revert !important;
 }
 
+.MuiDialogContent-root {
+    padding: 3rem 0 !important;
+}
+
 .MuiDataGrid-root {
     background: white !important;
     letter-spacing: initial !important;
@@ -37,7 +41,7 @@
 }
 
 .MuiFormControl-root {
-    display: flex;
+    display: flex !important;
 }
 
 .MuiCollapse-root {

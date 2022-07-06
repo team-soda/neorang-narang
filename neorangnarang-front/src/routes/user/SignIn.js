@@ -1,18 +1,14 @@
 import * as React from "react";
-import {useDispatch} from "react-redux";
-import {Link} from "react-router-dom";
-import {GOOGLE_AUTH_URL, KAKAO_AUTH_URL, NAVER_AUTH_URL,} from "../../config/url-config";
-import {login} from "../../redux/user/thunk/authThunk";
-import {Box, Button, createTheme, Grid, Paper, TextField,} from "@mui/material";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import {
+    GOOGLE_AUTH_URL,
+    KAKAO_AUTH_URL,
+    NAVER_AUTH_URL,
+} from "../../config/url-config";
+import { login } from "../../redux/user/thunk/authThunk";
+import { Grid, Box, TextField, Button } from "@mui/material";
 
-const theme = createTheme();
-
-/* const useStyles = makeStyles({
-  root: {
-
-  }
-})
- */
 function SignIn() {
     const dispatch = useDispatch();
 
@@ -29,7 +25,7 @@ function SignIn() {
     };
 
     const onSocialLogin = (event) => {
-        const {name} = event.target;
+        const { name } = event.target;
 
         switch (name) {
             case "google":
@@ -45,15 +41,20 @@ function SignIn() {
     };
 
     return (
-        <Grid container component="main" style={{justifyContent: "center",boxShadow:"rgba(0, 0, 0, 0.1) 0px 4px 12px"}}>
+        <Grid
+            container
+            component="main"
+            style={{
+                justifyContent: "center",
+                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+            }}
+        >
             <Grid
-                style={{borderRadius: 0}}
+                style={{ borderRadius: 0 }}
                 item
                 xs={false}
                 sm={4}
                 md={7}
-                component={Paper}
-                elevation={6}
                 sx={{
                     backgroundImage: "url(https://source.unsplash.com/random)",
                     backgroundRepeat: "no-repeat",
@@ -65,16 +66,7 @@ function SignIn() {
                     backgroundPosition: "center",
                 }}
             />
-            <Grid
-                item
-                xs={12}
-                sm={8}
-                md={5}
-                component={Paper}
-                elevation={6}
-                square
-                style={{maxWidth: "500px", minWidth: "400px", padding: "0 10%"}}
-            >
+            <Grid item xs={12} sm={8} md={5} square>
                 <Box
                     sx={{
                         my: 8,
@@ -90,7 +82,7 @@ function SignIn() {
                             required
                             fullWidth
                             id="uid"
-                            label="Email Address"
+                            label="아이디"
                             name="uid"
                             autoComplete="email"
                             type="text"
@@ -101,7 +93,7 @@ function SignIn() {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="비밀번호"
                             type="password"
                             id="upw"
                             autoComplete="current-password"
@@ -110,7 +102,7 @@ function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{mt: 3, mb: 2, background: "black"}}
+                            sx={{ mt: 3, mb: 2, background: "black" }}
                         >
                             로그인
                         </Button>
@@ -121,28 +113,34 @@ function SignIn() {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <div style={{marginTop: 30}}>
-                            <img
-                                onClick={onSocialLogin}
-                                name="naver"
-                                style={{cursor: "pointer", borderRadius: 5}}
-                                src="/img/naverLogin.png"
-                                alt="네이버 로그인"
-                            />
-                            <img
-                                onClick={onSocialLogin}
-                                name="kakao"
-                                style={{cursor: "pointer", borderRadius: 5}}
-                                src="/img/kakaoLogin.png"
-                                alt="카카오 로그인"
-                            />
-                            <img
-                                onClick={onSocialLogin}
-                                name="google"
-                                style={{cursor: "pointer", borderRadius: 5}}
-                                src="/img/googleLogin.png"
-                                alt="구글 로그인"
-                            />
+                        <div style={{ marginTop: 30 }}>
+                            <div>
+                                <img
+                                    onClick={onSocialLogin}
+                                    name="naver"
+                                    style={{ cursor: "pointer", borderRadius: 5 }}
+                                    src="/img/naverLogin.png"
+                                    alt="네이버 로그인"
+                                />
+                            </div>
+                            <div>
+                                <img
+                                    onClick={onSocialLogin}
+                                    name="kakao"
+                                    style={{ cursor: "pointer", borderRadius: 5 }}
+                                    src="/img/kakaoLogin.png"
+                                    alt="카카오 로그인"
+                                />
+                            </div>
+                            <div>
+                                <img
+                                    onClick={onSocialLogin}
+                                    name="google"
+                                    style={{ cursor: "pointer", borderRadius: 5 }}
+                                    src="/img/googleLogin.png"
+                                    alt="구글 로그인"
+                                />
+                            </div>
                         </div>
                     </Box>
                 </Box>

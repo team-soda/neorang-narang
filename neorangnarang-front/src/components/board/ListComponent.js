@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 
 const ListComponent = () => {
 
+    // 리스트 출력
     const boardInfoState = {
         dtoList: [],
     };
@@ -21,41 +22,19 @@ const ListComponent = () => {
     }, []);
 
     const columns = [
+        {field: "id", headerName: "No.", headerAlign: "center", align: "center", flex: 0.3,},
+        {field: "pay_division", headerName: "전월세", headerAlign: "center", align: "center", flex: 0.3,},
         {
-            field: "id",
-            headerName: "　",
-            flex: 0.3,
-        },
-        {
-            field: "pay_division",
-            headerName: "전월세",
-            flex: 0.3,
-        },
-        {
-            field: "title",
-            headerName: "제목",
-            flex: 1.4,
+            field: "title", headerName: "제목", headerAlign: "center", flex: 1.2,
             renderCell: (id) => {
                 return <Link to={`/mainboard/read/${id.row.id}`}
                              style={{textDecoration: 'none', color: '#ffc44b'}}>{id.row.title}</Link>;
             },
         },
-        {
-            field: "writer",
-            headerName: "글쓴이",
-            flex: 0.8,
-        },
-        {
-            field: "created_at",
-            headerName: "작성일",
-            flex: 1,
-        },
-        {
-            field: "like_count",
-            headerName: "♡",
-            type: "number",
-            flex: 0.3,
-        },
+        {field: "writer", headerName: "글쓴이", headerAlign: "center", align: "center", flex: 0.6,},
+        {field: "view_count", headerName: "조회수", headerAlign: "center", align: "center", type: "number", flex: 0.3,},
+        {field: "like_count", headerName: "♡", headerAlign: "center", align: "center", type: "number", flex: 0.3,},
+        {field: "created_at", headerName: "작성일", headerAlign: "center", align: "center", flex: 0.5,},
     ];
 
     const rows = boardList.dtoList.map((board) => {
@@ -66,9 +45,11 @@ const ListComponent = () => {
             like_count: board.like_count,
             created_at: board.created_dt,
             pay_division: board.pay_division,
+            view_count: board.view_count
         };
     });
 
+    // 검색
     const [type, setType] = useState("");
     const [keyword, setKeyword] = useState("");
 
@@ -91,12 +72,11 @@ const ListComponent = () => {
         <>
             <Box
                 sx={{
-                    width: "fit-content",
-                    textAlign: "center",
+                    justifyContent: "right",
                     alignItems: "end",
                     margin: "0 auto",
                     marginBottom: 5,
-                    display: 'flex'
+                    display: "flex"
                 }}
                 component="form"
                 noValidate
@@ -132,14 +112,24 @@ const ListComponent = () => {
                     검색
                 </Button>
             </Box>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={8}
-                disableSelectionOnClick
-                autoHeight={true}
-                disableExtendRowFullWidth={true}
-            />
+            <div style={{height: 400, width: '100%'}}>
+                <DataGrid
+                    sx={{
+                        m: 2,
+                    }}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={6}
+                    disableSelectionOnClick
+                    autoHeight={true}
+                    disableExtendRowFullWidth={true}
+                />
+                <Button color="secondary" sx={{float: "right"}}>
+                    <Link to="/mainboard/register" style={{textDecoration: "none"}}>
+                        새 글 쓰기
+                    </Link>
+                </Button>
+            </div>
         </>
     );
 };
