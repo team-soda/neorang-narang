@@ -1,7 +1,6 @@
 package com.team.neorangnarang.mainboard.controller;
 
 import com.team.neorangnarang.mainboard.dto.MainboardDTO;
-import com.team.neorangnarang.mainboard.dto.PageRequestDTO;
 import com.team.neorangnarang.mainboard.dto.PageResponseDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -32,7 +28,7 @@ public class MainboardController {
 
         Map<String, Object> dto = new HashMap<>();
 
-        dto.put("dto",responseDTO);
+        dto.put("dto", responseDTO);
 
         return dto;
     }
