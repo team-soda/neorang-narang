@@ -1,18 +1,18 @@
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { API_BASE_URL } from "../../config/url-config";
+import { closeProfileModal } from "../../redux/common/slice/modalSlice";
+import { updateUser } from "../../redux/user/thunk/authThunk";
 import {
   Avatar,
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  Grid,
 } from "@mui/material";
-import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { API_BASE_URL } from "../../config/url-config";
-import { closeProfileModal } from "../../redux/common/slice/modalSlice";
-import { updateUser } from "../../redux/user/thunk/authThunk";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 function ProfileUpdateModal({
   open,
@@ -24,7 +24,6 @@ function ProfileUpdateModal({
 }) {
   const { nickname, profile_img, defaultImg } = authUser;
   const dispatch = useDispatch();
-  //const profileOpen = useSelector((state) => state.modal.profileOpen);
 
   const [newName, setNewName] = useState(authUser && nickname);
 
@@ -47,11 +46,7 @@ function ProfileUpdateModal({
     };
 
     dispatch(updateUser(updateObj));
-    //setIsEdit(false);
-    //navigate("/user/mypage", { replace: true });
   }, [newName, profileImgRef]);
-
-  //const onSubmitHandler = () => {};
 
   const onCloseHandler = () => {
     onClearHandler();
@@ -65,36 +60,58 @@ function ProfileUpdateModal({
       onClose={onCloseHandler}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      maxWidth="sm"
+      fullWidth
     >
       <DialogTitle id="alert-dialog-title">프로필 수정</DialogTitle>
       <DialogContent id="alert-dialog-description">
-        <Box>
-          <input
-            ref={profileImgRef}
-            onChange={onImageChangeHandler}
-            name="profile_img"
-            id="profile_img"
-            type="file"
-            accept="image/*"
-          />
-          <button onClick={onClearHandler}>취소</button>
-          <Avatar
-            alt="프로필 사진"
-            src={
-              imgPreview ||
-              (profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg)
-            }
-            sx={{ width: 120, height: 120 }}
-          />
-        </Box>
-        <Box>
-          <input
-            type="text"
-            name="nickname"
-            value={newName}
-            onChange={onNameChangeHandler}
-          />
-        </Box>
+        <Grid
+          container
+          direction="column"
+          justifyContent="space-evenly"
+          alignItems="center"
+          spacing={2}
+        >
+          <Grid item>
+            <input
+              ref={profileImgRef}
+              onChange={onImageChangeHandler}
+              name="profile_img"
+              id="profile_img"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+            />
+            <div className="profileImg-root">
+              <Avatar
+                alt="프로필 사진"
+                src={
+                  imgPreview ||
+                  (profile_img
+                    ? `${API_BASE_URL}/view/${profile_img}`
+                    : defaultImg)
+                }
+                sx={{ width: 120, height: 120 }}
+              />
+              <div
+                className="profileImg-overlay"
+                onClick={() => profileImgRef.current.click()}
+              >
+                <Avatar>
+                  <AddPhotoAlternateIcon />
+                </Avatar>
+              </div>
+            </div>
+          </Grid>
+          <Grid item>
+            <input
+              type="text"
+              name="nickname"
+              value={newName}
+              onChange={onNameChangeHandler}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={onCloseHandler}>취소</Button>

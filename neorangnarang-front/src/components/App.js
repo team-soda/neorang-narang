@@ -7,6 +7,8 @@ import AppRouter from "./AppRouter";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import { StyledEngineProvider } from "@mui/material";
+import "../assets/css/slick.css";
+import "../assets/css/slick-theme.css";
 
 function App() {
   const dispatch = useDispatch();
