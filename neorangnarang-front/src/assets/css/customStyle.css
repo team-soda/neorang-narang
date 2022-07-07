@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+ul {
+  list-style: none;
+}
+
+a:hover {
+  color: #ffc576;
+}
+
 .logoDiv {
   display: flex;
   align-items: center;

@@ -18,6 +18,7 @@ function App() {
     sessionStorage.getItem("accessToken") && dispatch(getAuthUser());
   }, [dispatch]);
 
+  console.log("App");
   console.log(authUser);
 
   return (

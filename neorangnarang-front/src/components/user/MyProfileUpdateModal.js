@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  TextField,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
@@ -21,8 +22,9 @@ function ProfileUpdateModal({
   onImageChangeHandler,
   onClearHandler,
   imgPreview,
+  defaultImg,
 }) {
-  const { nickname, profile_img, defaultImg } = authUser;
+  const { nickname, profile_img } = authUser;
   const dispatch = useDispatch();
 
   const [newName, setNewName] = useState(authUser && nickname);
@@ -60,8 +62,14 @@ function ProfileUpdateModal({
       onClose={onCloseHandler}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      maxWidth="sm"
-      fullWidth
+      sx={{
+        "& .MuiDialog-container": {
+          "& .MuiPaper-root": {
+            width: "100%",
+            maxWidth: "400px", // Set your width here
+          },
+        },
+      }}
     >
       <DialogTitle id="alert-dialog-title">프로필 수정</DialogTitle>
       <DialogContent id="alert-dialog-description">
@@ -104,11 +112,21 @@ function ProfileUpdateModal({
             </div>
           </Grid>
           <Grid item>
-            <input
+            {/* <input
               type="text"
               name="nickname"
               value={newName}
               onChange={onNameChangeHandler}
+            /> */}
+            <TextField
+              type="text"
+              label="닉네임"
+              name="nickname"
+              defaultValue={newName}
+              onChange={onNameChangeHandler}
+              margin="normal"
+              variant="standard"
+              fullWidth
             />
           </Grid>
         </Grid>

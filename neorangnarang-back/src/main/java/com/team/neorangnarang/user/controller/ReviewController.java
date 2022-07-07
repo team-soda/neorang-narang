@@ -64,6 +64,23 @@ public class ReviewController {
         }
     }
 
+    @PostMapping("/getReviewsByWriter")
+    public ResponseEntity<?> getReviewsByWriter(@RequestBody UserDTO userDTO) {
+        log.info("getReviewsByWriter userDTO: {}", userDTO.toString());
+        ResponseDTO<ReviewDTO> response = null;
+        try{
+            User user = User.builder().user_idx(userDTO.getUser_idx()).build();
+            List<Review> reviews = userService.getReviewListByWriterIdx(user);
+            log.info(reviews);
+            List<ReviewDTO> dtos = reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
+            response = ResponseDTO.<ReviewDTO>builder().listData(dtos).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response = ResponseDTO.<ReviewDTO>builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
     /*@PostMapping("/findWriterInfo")
     public ResponseEntity<?> getWriterInfo(@RequestBody UserDTO userDTO) {
         log.info("getWriterInfo userDTO: {}", userDTO.toString());

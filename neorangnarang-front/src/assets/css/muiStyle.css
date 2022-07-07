@@ -18,8 +18,27 @@
   box-shadow: revert !important;
 }
 
+.MuiTab-root {
+  width: 100% !important;
+  max-width: 33% !important;
+  font-size: 0.9rem !important;
+}
+
+.Mui-selected {
+  color: #ffc576 !important;
+  font-weight: bold !important;
+}
+
+.MuiTabs-indicator {
+  background-color: #ffc576 !important;
+}
+
+.MuiTabPanel-root {
+  padding: 1.5rem 0 !important;
+}
+
 .MuiDialogContent-root {
-  padding: 3rem 0 !important;
+  padding: 2rem 0 !important;
 }
 
 .MuiDataGrid-root {

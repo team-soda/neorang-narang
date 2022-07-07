@@ -6,8 +6,6 @@ import { getUserInfo } from "../../redux/user/thunk/userThunk";
 import StarIcon from "@mui/icons-material/Star";
 
 function ReviewReadItem({ reviewItem }) {
-  const dispatch = useDispatch();
-
   console.log("리뷰아이템~~~");
   console.log(reviewItem);
   return (

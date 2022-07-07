@@ -55,8 +55,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
                 //.antMatchers("/**").permitAll()
+                .antMatchers("/", "/auth/**", "/oauth2/**", "/mainboard/list").permitAll()
                 .antMatchers("/user/**", "/review/**").hasRole("USER")
                 .anyRequest()//.hasRole("USER")
                 .authenticated()
@@ -78,8 +78,8 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/auth/logout");
 
-        //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
 
         return http.build();
     }

@@ -14,9 +14,13 @@ const getUserByUid = async (uid) => {
   return await Axios.get(`${USER}/${uid}`);
 };
 
+const getUserByIdx = async (idx) => {
+  return await Axios.get(`${USER}/getUserByIdx/${idx}`);
+};
+
 /* 마이페이지 */
 const updateUser = async (userObj) => {
-  return await imgAxios.put(`${USER}`, userObj);
+  return await imgAxios.put(`${USER}/update`, userObj);
 };
 
 const registerReview = async (reviewObj) => {
@@ -25,6 +29,10 @@ const registerReview = async (reviewObj) => {
 
 const getUserReviews = async (uid) => {
   return await Axios.get(`${REVIEW}/${uid}`);
+};
+
+const getReviewsByWriter = async (userIdx) => {
+  return await Axios.post(`${REVIEW}/getReviewsByWriter`, userIdx);
 };
 
 const getWriterInfo = async (writerIdx) => {
@@ -80,9 +88,11 @@ const checkAuthCode = async (emailCheckObj) => {
 export const userService = {
   getAuthUserInfo,
   getUserByUid,
+  getUserByIdx,
   updateUser,
   registerReview,
   getUserReviews,
+  getReviewsByWriter,
   getWriterInfo,
   login,
   logout,

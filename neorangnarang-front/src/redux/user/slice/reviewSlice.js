@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserReviews, registerReview } from "../thunk/reviewThunk";
+import {
+  getReviewsByWriter,
+  getUserReviews,
+  registerReview,
+} from "../thunk/reviewThunk";
 
 const reviewInitState = {
   review: {},
@@ -30,6 +34,9 @@ const reviewSlice = createSlice({
         const temp = Math.round((avg + Number.EPSILON) * 10) / 10;
         state.ratingAvg = temp;
         //console.log(temp);
+      })
+      .addCase(getReviewsByWriter.fulfilled, (state, { payload }) => {
+        state.reviewList = payload;
       });
   },
 });

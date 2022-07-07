@@ -40,7 +40,15 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping
+    @GetMapping("/getUserByIdx/{idx}")
+    public ResponseEntity<?> getUserInfoByIdx(@PathVariable("idx") Long idx) {
+        log.info("getUserInfoByIdx idx: {}", idx);
+        User user = User.builder().user_idx(idx).build();
+        ResponseDTO<User> response = ResponseDTO.<User>builder().objData(userService.getUserInfoByIdx(user)).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update")
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                         @RequestPart(required = false) String nickname,
                                         @RequestPart(required = false) MultipartFile file) throws IOException {

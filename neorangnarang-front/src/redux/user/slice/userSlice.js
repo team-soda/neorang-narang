@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo } from "../thunk/userThunk";
+import { getUserByIdx, getUserInfo } from "../thunk/userThunk";
 
 const userInitState = {
   userInfo: {},
@@ -11,9 +11,13 @@ const userSlice = createSlice({
   initialState: userInitState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
-      state.userInfo = payload;
-    });
+    builder
+      .addCase(getUserInfo.fulfilled, (state, { payload }) => {
+        state.userInfo = payload;
+      })
+      .addCase(getUserByIdx.fulfilled, (state, { payload }) => {
+        state.userInfo = payload;
+      });
   },
 });
 

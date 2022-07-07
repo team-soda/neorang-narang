@@ -17,6 +17,8 @@ export const login = createAsyncThunk(`${AUTH}/login`, async (loginObj) => {
 export const getAuthUser = createAsyncThunk(`${AUTH}/getAuthUser`, async () => {
   try {
     const response = await userService.getAuthUserInfo();
+    console.log("createAsyncThunk getAuthUser");
+    console.log(response);
     return response.data.user;
   } catch (error) {
     console.log(error);

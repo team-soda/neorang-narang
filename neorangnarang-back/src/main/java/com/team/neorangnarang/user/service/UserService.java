@@ -144,17 +144,34 @@ public class UserService {
             throw new RuntimeException("입력된 리뷰 정보가 없습니다.");
         }
         userMapper.registerReview(review);
-        return getReviewList(review);
+        return getReviewListByTargetIdx(review);
     }
 
     public List<Review> getUserReviewList(final User user) {
         User findUser = getUserInfo(user);
         Review review = Review.builder().target_idx(findUser.getUser_idx()).build();
-        return getReviewList(review);
+        return getReviewListByTargetIdx(review);
     }
 
-    public List<Review> getReviewList(final Review review) {
-        return userMapper.findReviewByTargetIdx(review.getTarget_idx());
+    public List<Review> getReviewListByTargetIdx(final Review review) {
+        return userMapper.getReviewByTargetIdx(review.getTarget_idx());
+    }
+
+    public List<Review> getReviewListByWriterIdx(final User user) {
+        log.info("getReviewListByWriterIdx user: {}", user.toString());
+        if (user.getUser_idx() == null) {
+            throw new RuntimeException("요청된 유저 정보가 없습니다.");
+        }
+
+        User findUser = getUserInfoByIdx(user);
+
+        if(findUser.getUser_idx() == null) {
+            throw new RuntimeException("등록된 유저 정보가 없습니다.");
+        }
+
+        Review review = Review.builder().writer_idx(findUser.getUser_idx()).build();
+        log.info("getReviewListByWriterIdx review: {}", review);
+        return userMapper.getReviewByWriterIdx(review.getWriter_idx());
     }
 
     public void createUser(final User user) {

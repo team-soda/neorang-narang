@@ -18,10 +18,13 @@ const authSlice = createSlice({
         sessionStorage.setItem("accessToken", payload.accessToken);
         state.authInfo = payload.user;
         state.isLogin = true;
+        window.location.replace("/");
       })
       .addCase(getAuthUser.fulfilled, (state, { payload }) => {
         state.authInfo = payload;
         state.isLogin = true;
+        console.log("authSlice");
+        console.log(state.authInfo);
       })
       .addCase(updateUser.fulfilled, (state, { payload }) => {
         state.authInfo = payload;

@@ -35,7 +35,23 @@ export const getUserReviews = createAsyncThunk(
   }
 );
 
-export const getReviewer = createAsyncThunk(
+export const getReviewsByWriter = createAsyncThunk(
+  `${REVIEW}/getReviewsByWriter`,
+  async (userIdx) => {
+    console.log(userIdx);
+    try {
+      const response = await userService.getReviewsByWriter(userIdx);
+      console.log("내가쓴리뷰~");
+      console.log(response);
+      return response.data.listData;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+);
+
+/* export const getReviewer = createAsyncThunk(
   `${REVIEW}/getReviewer`,
   async (writerIdx) => {
     try {
@@ -43,4 +59,4 @@ export const getReviewer = createAsyncThunk(
       console.log(response);
     } catch (error) {}
   }
-);
+); */
