@@ -114,9 +114,7 @@ const ListComponent = () => {
             </Box>
             <div style={{height: 400, width: '100%'}}>
                 <DataGrid
-                    sx={{
-                        m: 2,
-                    }}
+                    sx={{m: 2}}
                     rows={rows}
                     columns={columns}
                     pageSize={6}

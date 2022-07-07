@@ -8,15 +8,21 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useEffect, useState} from "react";
-import {boardService} from "../service/BoardService";
-import Carousel from "../components/main/Carousel";
-
+import {boardService} from "../../service/BoardService";
+import Carousel from "../../components/main/Carousel";
+import {Link} from "react-router-dom";
 
 export default function Home() {
 
     const boardInfoState = {
-        // type: "",
-        // keyword: "",
+        // board_idx:0,
+        // title:"",
+        // writer:"",
+        // location:"",
+        // short_location:"",
+        // square_feet:"",
+        // pay_division:"",
+        // imageTags:[];
         dtoList: [],
     };
 
@@ -28,7 +34,11 @@ export default function Home() {
         });
     }, [setBoardList]);
 
-    console.log('제발..'+JSON.stringify(boardList.dtoList.imageTags));
+    const imageTagsList = boardList.dtoList.map((imageList) => {
+        return imageList.imageTags;
+    })
+
+    console.log('제발..' + JSON.stringify(imageTagsList));
 
     return (
         <main>
@@ -42,11 +52,8 @@ export default function Home() {
                             >
                                 <CardMedia
                                     component="img"
-                                    sx={{
-                                        // 16:9
-                                        pt: '56.25%',
-                                    }}
-                                    image={board.imageTags}
+                                    sx={{pt: '56.25%'}}
+                                    image={imageTagsList}
                                 />
                                 {/*<CardHeader*/}
                                 {/*    avatar={*/}
@@ -65,7 +72,9 @@ export default function Home() {
                                     <Typography>{board.short_location}</Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">보기</Button>
+                                    <Link to={`/mainboard/read/${board.board_idx}`} style={{textDecoration: 'none'}}>
+                                        <Button sx={{color: '#ffc576'}} size="small">보기</Button>
+                                    </Link>
                                 </CardActions>
                             </Card>
                         </Grid>

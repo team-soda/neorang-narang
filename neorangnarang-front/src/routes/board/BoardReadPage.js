@@ -1,4 +1,3 @@
-import Card from "@mui/material/Card";
 import ReadComponent from "../../components/board/ReadComponent";
 import {useParams} from "react-router-dom";
 import Grid from "@mui/material/Grid";

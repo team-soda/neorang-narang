@@ -118,7 +118,7 @@ const ReadComponent = ({board_idx}) => {
                             component="img"
                             image={
                                 boardDTO.imageTags
-                                    ? boardDTO.imageTags
+                                    ? boardDTO.imageTags[0]
                                     : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
                             }
                         />

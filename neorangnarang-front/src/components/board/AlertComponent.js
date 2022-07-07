@@ -4,9 +4,8 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
-import Button from "@mui/material/Button";
 
-export default function AlertComponent() {
+export default function AlertComponent({text}) {
     const [open, setOpen] = React.useState(true);
 
     return (
@@ -27,7 +26,7 @@ export default function AlertComponent() {
                     }
                     sx={{mb: 2}}
                 >
-                    검색 외에도 원하는 조건으로 필터를 적용할 수 있어요!
+                    {text}
                 </Alert>
             </Collapse>
             {/*<Button*/}

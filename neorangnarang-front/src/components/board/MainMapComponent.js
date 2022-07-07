@@ -24,7 +24,7 @@ const MainMapComponent = () => {
         const geocoder = new kakao.maps.services.Geocoder();
 
         var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-            imageSize = new kakao.maps.Size(24, 35);
+            imageSize = new kakao.maps.Size(24, 34);
 
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 

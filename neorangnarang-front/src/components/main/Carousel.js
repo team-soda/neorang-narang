@@ -44,7 +44,7 @@ const Carousel = () => {
                             <Typography sx={{mb: 1.5}} color="text.secondary">
                                 금액, 성별, 우리만의 취미! 나만의 룸메이트를 찾아보세요.
                             </Typography>
-                            <Button variant="contained" color={"info"}>
+                            <Button variant="contained" color={"warning"}>
                                 <Link to="/mainboard/register"
                                       style={{textDecoration: 'none', color: 'white', fontWeight: 700}}>룸메이트 구하기!</Link>
                             </Button>
@@ -69,7 +69,7 @@ const Carousel = () => {
                             <Typography sx={{mb: 1.5}} color="text.secondary">
                                 지역, 금액, 평수, 성별? 원하는 조건 그대로! 지금 너랑나랑에서 찾아보세요.
                             </Typography>
-                            <Button variant="contained" color={"info"}>
+                            <Button variant="contained" color={"warning"}>
                                 <Link to="/mainboard/list"
                                       style={{textDecoration: 'none', color: 'white', fontWeight: 700}}>나만의 방
                                     찾아보기!</Link>
