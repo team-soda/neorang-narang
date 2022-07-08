@@ -67,7 +67,6 @@ function ReviewInsertDialog({ /* open, */ /* onCloseHandler, */ userInfo }) {
     const reviewObj = {
       writer_idx: authUser.user_idx,
       target_idx: userInfo.user_idx,
-      writer_nickname: authUser.nickname,
       content,
       rating: value,
       writer_display: false,

@@ -1,18 +1,11 @@
 import { Box, Grid, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByIdx } from "../../redux/user/thunk/userThunk";
 import { getUserState } from "../../redux/user/selector/userSelector";
 
 function MyReviewItem({ reviewItem }) {
-  const dispatch = useDispatch();
-  const userInfo = useSelector(getUserState);
-
-  useEffect(() => {
-    dispatch(getUserByIdx(reviewItem.target_idx));
-  }, [dispatch, reviewItem.target_idx]);
-
   return (
     <Grid
       container
@@ -30,7 +23,7 @@ function MyReviewItem({ reviewItem }) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box>{userInfo.nickname}</Box>
+            <Box>{reviewItem.target_nickname}</Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Rating
                 value={reviewItem.rating || 0}

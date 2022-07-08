@@ -14,6 +14,7 @@ public class ReviewDTO {
     private Long writer_idx;
     private Long target_idx;
     private String writer_nickname;
+    private String target_nickname;
     private String content;
     private int rating;
     private float ratingAvg;
@@ -24,6 +25,7 @@ public class ReviewDTO {
         this.writer_idx = review.getWriter_idx();
         this.target_idx = review.getTarget_idx();
         this.writer_nickname = review.getWriter_nickname();
+        this.target_nickname = review.getTarget_nickname();
         this.content = review.getContent();
         this.rating = review.getRating();
         this.writer_display = review.isWriter_display();
@@ -35,6 +37,7 @@ public class ReviewDTO {
                 .writer_idx(reviewDTO.getWriter_idx())
                 .target_idx(reviewDTO.getTarget_idx())
                 .writer_nickname(reviewDTO.getWriter_nickname())
+                .target_nickname(reviewDTO.getTarget_nickname())
                 .content(reviewDTO.getContent())
                 .rating(reviewDTO.getRating())
                 .writer_display(reviewDTO.isWriter_display())

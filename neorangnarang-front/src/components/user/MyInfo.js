@@ -58,7 +58,7 @@ function MyInfo({ authUser }) {
       direction="column"
       justifyContent="space-evenly"
       alignItems="center"
-      spacing={3}
+      spacing={2}
     >
       <Grid item>
         <Avatar

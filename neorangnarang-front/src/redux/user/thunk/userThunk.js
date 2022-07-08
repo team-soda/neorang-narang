@@ -23,7 +23,7 @@ export const getUserByIdx = createAsyncThunk(
     console.log("getUserByIdx");
     try {
       const response = await userService.getUserByIdx(idx);
-      console.log(response);
+      //console.log(response);
       return response.data.objData;
     } catch (error) {
       console.log(error);

@@ -9,6 +9,7 @@ const reviewInitState = {
   review: {},
   reviewList: [],
   ratingAvg: 0,
+  isLoading: true,
 };
 
 const reviewSlice = createSlice({
@@ -35,8 +36,15 @@ const reviewSlice = createSlice({
         state.ratingAvg = temp;
         //console.log(temp);
       })
+      .addCase(getReviewsByWriter.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(getReviewsByWriter.fulfilled, (state, { payload }) => {
         state.reviewList = payload;
+        state.isLoading = false;
+      })
+      .addCase(getReviewsByWriter.rejected, (state) => {
+        state.isLoading = true;
       });
   },
 });

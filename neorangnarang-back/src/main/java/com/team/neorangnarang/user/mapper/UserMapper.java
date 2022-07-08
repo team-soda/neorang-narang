@@ -16,7 +16,7 @@ public interface UserMapper {
     User findByProviderId(String providerId);
     void updateUser(User user);
     void registerReview(Review review);
+    List<Review> getReviewByWriterIdx(Long idx);
     List<Review> getReviewByTargetIdx(Long idx);
     float getRatingAvgByTargetIdx(Long idx);
-    List<Review> getReviewByWriterIdx(Long idx);
 }

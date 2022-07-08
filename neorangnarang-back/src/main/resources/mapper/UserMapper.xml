@@ -42,16 +42,24 @@
 
     <!-- 리뷰 등록 -->
     <insert id="registerReview" parameterType="Review">
-        INSERT INTO tb_review(writer_idx, target_idx, writer_nickname, content, rating, writer_display)
-        VALUES (#{writer_idx}, #{target_idx}, #{writer_nickname}, #{content}, #{rating}, #{writer_display})
+        INSERT INTO tb_review(writer_idx, target_idx, content, rating, writer_display)
+        VALUES (#{writer_idx}, #{target_idx}, #{content}, #{rating}, #{writer_display})
     </insert>
 
-    <select id="getReviewByTargetIdx" resultType="Review">
-        SELECT * FROM tb_review WHERE target_idx = #{target_idx}
+    <select id="getReviewByWriterIdx" resultType="Review">
+        SELECT a.*, b.nickname AS target_nickname
+        FROM tb_review AS a LEFT JOIN tb_user AS b
+        ON a.target_idx = b.user_idx
+        WHERE a.writer_idx = #{writer_idx}
+        ORDER BY a.review_idx DESC;
     </select>
 
-    <select id="getReviewByWriterIdx" resultType="Review">
-        SELECT * FROM tb_review WHERE writer_idx = #{writer_idx}
+    <select id="getReviewByTargetIdx" resultType="Review">
+        SELECT a.*, b.nickname AS writer_nickname
+        FROM tb_review AS a LEFT JOIN tb_user AS b
+        ON a.writer_idx = b.user_idx
+        WHERE a.target_idx = #{target_idx}
+        ORDER BY a.review_idx DESC;
     </select>
 
     <select id="getRatingAvgByTargetIdx" resultType="float">
