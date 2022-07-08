@@ -22,38 +22,35 @@ export default function Home() {
         // short_location:"",
         // square_feet:"",
         // pay_division:"",
-        // imageTags:[];
+        // imageTags:[]
         dtoList: [],
     };
 
+    const imageTagsState = { imageTags:[] }
+
     const [boardList, setBoardList] = useState(boardInfoState);
 
+    const [imageTags, setImageTags] = useState(imageTagsState);
     useEffect(() => {
         boardService.getBoardList().then((res) => {
             setBoardList(res.data.dto);
         });
     }, [setBoardList]);
 
-    const imageTagsList = boardList.dtoList.map((imageList) => {
-        return imageList.imageTags;
-    })
-
-    console.log('제발..' + JSON.stringify(imageTagsList));
-
     return (
         <main>
             <Carousel/>
             <Container style={{padding: 'initial'}} maxWidth="md">
-                <Grid container spacing={4}>
+                <Grid container spacing={5}>
                     {boardList.dtoList.map((board) => (
                         <Grid item key={board.title} xs={12} sm={6} md={4}>
                             <Card
-                                sx={{maxHeight: '100%', display: 'flex', flexDirection: 'column'}}
+                                sx={{maxHeight: '100%', display: 'flex', mt:'15%', flexDirection: 'column'}}
                             >
                                 <CardMedia
                                     component="img"
-                                    sx={{pt: '56.25%'}}
-                                    image={imageTagsList}
+                                    sx={{maxWidth:"100%", maxHeight:200}}
+                                    image={board.imageTags[0]}
                                 />
                                 {/*<CardHeader*/}
                                 {/*    avatar={*/}
