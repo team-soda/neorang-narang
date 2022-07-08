@@ -14,23 +14,9 @@ import {Link} from "react-router-dom";
 
 export default function Home() {
 
-    const boardInfoState = {
-        // board_idx:0,
-        // title:"",
-        // writer:"",
-        // location:"",
-        // short_location:"",
-        // square_feet:"",
-        // pay_division:"",
-        // imageTags:[]
-        dtoList: [],
-    };
-
-    const imageTagsState = { imageTags:[] }
-
+    const boardInfoState = {dtoList: []};
     const [boardList, setBoardList] = useState(boardInfoState);
 
-    const [imageTags, setImageTags] = useState(imageTagsState);
     useEffect(() => {
         boardService.getBoardList().then((res) => {
             setBoardList(res.data.dto);
@@ -45,11 +31,11 @@ export default function Home() {
                     {boardList.dtoList.map((board) => (
                         <Grid item key={board.title} xs={12} sm={6} md={4}>
                             <Card
-                                sx={{maxHeight: '100%', display: 'flex', mt:'15%', flexDirection: 'column'}}
+                                sx={{maxHeight: '100%', display: 'flex', mt: '15%', flexDirection: 'column'}}
                             >
                                 <CardMedia
                                     component="img"
-                                    sx={{maxWidth:"100%", maxHeight:200}}
+                                    sx={{maxWidth: "100%", maxHeight: 200}}
                                     image={board.imageTags[0]}
                                 />
                                 {/*<CardHeader*/}
