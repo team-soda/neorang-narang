@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { getIsLoginState } from "../redux/user/selector/authSelector";
-import Home from "../routes/Home";
+
 import GuestRouter from "./GuestRouter";
 import UserRouter from "./UserRouter";
 import BoardRouter from "../components/BoardRouter";
-import MailerComponent from "./main/MailerComponent";
+import ContactUs from "../routes/main/ContactUs";
+import Home from "../routes/main/Home";
 
 function AppRouter() {
   const isLogin = useSelector(getIsLoginState);
@@ -24,7 +25,7 @@ function AppRouter() {
         element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
       />
       <Route path="/" element={<Home />} />
-      <Route path="/contactUs" element={<MailerComponent />} />
+      <Route path="/contactUs" element={<ContactUs />} />
     </Routes>
   );
 }

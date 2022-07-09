@@ -1,13 +1,12 @@
-import { Avatar, Box, Button, Rating } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_BASE_URL } from "../../config/url-config";
 import { getDefaultImgState } from "../../redux/user/selector/userSelector";
-import ReviewListDialog from "./ReviewListDialog.js";
-import StarIcon from "@mui/icons-material/Star";
 import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
-import { openReadModal } from "../../redux/common/slice/modalSlice";
+import ReviewListDialog from "./ReviewListDialog.js";
+import { Avatar, Box, Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 function UserInfo({ userInfo, reviewList /* , ratingAvg */, uid }) {
   const { profile_img } = userInfo;

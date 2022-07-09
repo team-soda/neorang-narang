@@ -1,4 +1,3 @@
-import { useCallback, useState } from "react";
 import { Box, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 

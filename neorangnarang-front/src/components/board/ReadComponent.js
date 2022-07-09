@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Parser } from "html-to-react";
 import {
   Avatar,
@@ -10,10 +10,6 @@ import {
   CardMedia,
   Collapse,
   IconButton,
-  List,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
   Typography,
 } from "@material-ui/core";
 import Card from "@mui/material/Card";
@@ -28,17 +24,14 @@ import { boardService } from "../../service/BoardService";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAuthState,
+  getDefaultImgState,
   getIsLoginState,
 } from "../../redux/user/selector/authSelector";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MapComponent from "./MapComponent";
-import { getUserInfo } from "../../redux/user/thunk/userThunk";
 import { API_BASE_URL } from "../../config/url-config";
-import {
-  getDefaultImgState,
-  getUserState,
-} from "../../redux/user/selector/userSelector";
+import { getUserState } from "../../redux/user/selector/userSelector";
+import { getUserInfo } from "../../redux/user/thunk/userThunk";
 
 const ReadComponent = ({ board_idx }) => {
   const dispatch = useDispatch();
@@ -49,7 +42,6 @@ const ReadComponent = ({ board_idx }) => {
   const navigate = useNavigate();
 
   const boardDTOState = {
-    created_dt: "",
     imageTags: "",
     dto: [],
   };
@@ -68,7 +60,6 @@ const ReadComponent = ({ board_idx }) => {
         dispatch(getUserInfo(res.data.dto.uid));
       });
     }
-
     //imgCheck();
   }, [board_idx, setBoardDTO, isLogin, navigate, dispatch]);
 
@@ -99,9 +90,6 @@ const ReadComponent = ({ board_idx }) => {
     alert("삭제가 완료되었습니다!");
   };
 
-  //console.log(boardDTO);
-  console.log(userInfo);
-
   return (
     <Card>
       <CardHeader title={boardDTO.dto.title} />
@@ -123,7 +111,7 @@ const ReadComponent = ({ board_idx }) => {
           </IconButton>
         }
         title={boardDTO.dto.writer}
-        subheader={boardDTO.created_dt}
+        subheader={boardDTO.dto.created_dt}
       />
       <div className="thumbnail-wrapper">
         <div className="thumbnail">
@@ -133,7 +121,7 @@ const ReadComponent = ({ board_idx }) => {
               component="img"
               image={
                 boardDTO.imageTags
-                  ? boardDTO.imageTags
+                  ? boardDTO.imageTags[0]
                   : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
               }
             />
@@ -193,6 +181,7 @@ const ReadComponent = ({ board_idx }) => {
             border: "1px solid whitesmoke",
             borderRadius: 20,
             padding: 40,
+            margin: "30px 0px",
           }}
         >
           <Typography paragraph>

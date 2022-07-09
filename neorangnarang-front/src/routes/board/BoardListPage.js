@@ -1,22 +1,17 @@
 import ListComponent from "../../components/board/ListComponent";
-import Card from "@mui/material/Card";
-import SearchComponent from "../../components/board/SearchComponent";
-import { Button, CardActions } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
+import AlertComponent from "../../components/board/AlertComponent";
+import MainMapComponent from "../../components/board/MainMapComponent";
 
 const BoardListPage = () => {
   return (
-    <>
-      <SearchComponent />
+    <div>
+      <AlertComponent
+        text={"검색 외에도 원하는 조건으로 필터를 적용할 수 있어요!"}
+      />
+      <MainMapComponent />
       <ListComponent />
-      <Button color="secondary">
-        <Link to="/mainboard/register" style={{ textDecoration: "none" }}>
-          새 글 쓰기
-        </Link>
-      </Button>
-    </>
+    </div>
   );
 };
 

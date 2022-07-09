@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openProfileModal } from "../../redux/common/slice/modalSlice";
-import {
-  getAuthState,
-  getDefaultImgState,
-} from "../../redux/user/selector/authSelector";
 import { API_BASE_URL } from "../../config/url-config";
-import ProfileUpdateModal from "./MyProfileUpdateModal";
 import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
+import { openProfileModal } from "../../redux/common/slice/modalSlice";
+import { getDefaultImgState } from "../../redux/user/selector/authSelector";
+import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
+import ProfileUpdateModal from "./MyProfileUpdateModal";
 import {
   Avatar,
   Box,
@@ -18,7 +16,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 
 function MyInfo({ authUser }) {
   const dispatch = useDispatch();

@@ -1,9 +1,5 @@
 import { Box, Grid, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserByIdx } from "../../redux/user/thunk/userThunk";
-import { getUserState } from "../../redux/user/selector/userSelector";
 
 function MyReviewItem({ reviewItem }) {
   return (
@@ -12,7 +8,6 @@ function MyReviewItem({ reviewItem }) {
       direction="column"
       justifyContent="space-evenly"
       alignItems="center"
-      //spacing={5}
       style={{ padding: "0 2rem", marginBottom: "1.5rem" }}
     >
       <Grid item style={{ width: "100%" }}>

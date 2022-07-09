@@ -1,50 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { getUserState } from "../../redux/user/selector/userSelector";
-import { getUserInfo } from "../../redux/user/thunk/userThunk";
-import Button from "@mui/material/Button";
+import { registerReview } from "../../redux/user/thunk/reviewThunk";
+import { getAuthState } from "../../redux/user/selector/authSelector";
+import {
+  closeInsertModal,
+  openInsertModal,
+} from "../../redux/common/slice/modalSlice";
+import StarRating from "./StarRating";
+import { Box, TextField, Button } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
-import StarRating from "./StarRating";
-import { Box, TextField } from "@mui/material";
-import { getAuthState } from "../../redux/user/selector/authSelector";
-import {
-  getUserReviews,
-  registerReview,
-} from "../../redux/user/thunk/reviewThunk";
-import {
-  closeInsertModal,
-  closeModal,
-  openInsertModal,
-  openModal,
-} from "../../redux/common/slice/modalSlice";
-import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 
-function ReviewInsertDialog({ /* open, */ /* onCloseHandler, */ userInfo }) {
-  const { uid } = useParams();
+function ReviewInsertDialog({ userInfo }) {
   const dispatch = useDispatch();
-  const ratingAvg = useSelector(getRatingAvgState);
   const insertOpen = useSelector((state) => state.modal.insertOpen);
-  const navigate = useNavigate();
-  //const reviewIdxRef = useRef(1);
-
-  //const userInfo = useSelector(getUserState);
   const authUser = useSelector(getAuthState);
 
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(-1);
-  //const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
-
-  /* useEffect(() => {
-    dispatch(getUserInfo(uid));
-  }, [dispatch, uid]); */
 
   const onChangeValue = useCallback(
     (event, newValue) => {
-      //console.log(newValue);
       setValue(newValue);
     },
     [value]
@@ -77,10 +55,6 @@ function ReviewInsertDialog({ /* open, */ /* onCloseHandler, */ userInfo }) {
     setContent("");
     dispatch(closeInsertModal());
   };
-
-  /* const onCloseHandler = useCallback(() => {
-    dispatch(closeInsertModal());
-  }, [dispatch]); */
 
   return (
     <>

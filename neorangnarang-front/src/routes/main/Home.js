@@ -8,16 +8,12 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useEffect, useState } from "react";
-import { boardService } from "../service/BoardService";
-import Carousel from "../components/main/Carousel";
+import { boardService } from "../../service/BoardService";
+import Carousel from "../../components/main/Carousel";
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  const boardInfoState = {
-    // type: "",
-    // keyword: "",
-    dtoList: [],
-  };
-
+  const boardInfoState = { dtoList: [] };
   const [boardList, setBoardList] = useState(boardInfoState);
 
   useEffect(() => {
@@ -26,29 +22,25 @@ export default function Home() {
     });
   }, [setBoardList]);
 
-  //console.log("제발.." + JSON.stringify(boardList.dtoList.imageTags));
-
   return (
     <main>
+      <Carousel />
       <Container style={{ padding: "initial" }} maxWidth="md">
-        <Carousel />
-        <Grid container spacing={4}>
+        <Grid container spacing={5}>
           {boardList.dtoList.map((board) => (
             <Grid item key={board.title} xs={12} sm={6} md={4}>
               <Card
                 sx={{
                   maxHeight: "100%",
                   display: "flex",
+                  mt: "15%",
                   flexDirection: "column",
                 }}
               >
                 <CardMedia
                   component="img"
-                  sx={{
-                    // 16:9
-                    pt: "56.25%",
-                  }}
-                  image={board.imageTags}
+                  sx={{ maxWidth: "100%", maxHeight: 200 }}
+                  image={board.imageTags[0]}
                 />
                 {/*<CardHeader*/}
                 {/*    avatar={*/}
@@ -68,7 +60,14 @@ export default function Home() {
                   <Typography>{board.short_location}</Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">보기</Button>
+                  <Link
+                    to={`/mainboard/read/${board.board_idx}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button sx={{ color: "#ffc576" }} size="small">
+                      보기
+                    </Button>
+                  </Link>
                 </CardActions>
               </Card>
             </Grid>

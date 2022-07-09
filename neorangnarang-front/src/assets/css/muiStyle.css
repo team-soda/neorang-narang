@@ -20,7 +20,7 @@
 
 .MuiTab-root {
   width: 100% !important;
-  max-width: 33% !important;
+  max-width: 25% !important;
   font-size: 0.9rem !important;
 }
 
@@ -31,6 +31,10 @@
 
 .MuiTabs-indicator {
   background-color: #ffc576 !important;
+}
+
+.MuiTabs-flexContainer {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.10);
 }
 
 .MuiTabPanel-root {

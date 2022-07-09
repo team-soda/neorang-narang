@@ -45,7 +45,7 @@ const Carousel = () => {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 금액, 성별, 우리만의 취미! 나만의 룸메이트를 찾아보세요.
               </Typography>
-              <Button variant="contained" color={"info"}>
+              <Button variant="contained" color={"warning"}>
                 <Link
                   to="/mainboard/register"
                   style={{
@@ -62,19 +62,11 @@ const Carousel = () => {
         </div>
         <div>
           <Card
-            sx={{
-              maxHeight: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
+            sx={{ maxHeight: "100%", display: "flex", flexDirection: "column" }}
           >
             <CardMedia
               component="img"
               image="https://s.zigbang.com/v1/web/main/hero_img_1440.jpg"
-              sx={{
-                width: 1100,
-                height: 351,
-              }}
             />
             <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
               <Typography
@@ -89,7 +81,7 @@ const Carousel = () => {
                 지역, 금액, 평수, 성별? 원하는 조건 그대로! 지금 너랑나랑에서
                 찾아보세요.
               </Typography>
-              <Button variant="contained" color="info">
+              <Button variant="contained" color={"warning"}>
                 <Link
                   to="/mainboard/list"
                   style={{

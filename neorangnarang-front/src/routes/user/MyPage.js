@@ -35,13 +35,14 @@ function MyPage() {
       <Grid item>
         <MyInfo authUser={authUser} />
       </Grid>
-      <Grid item style={{ maxWidth: "616px", width: "100%" }}>
+      <Grid item style={{ maxWidth: "716px", width: "100%" }}>
         <TabContext value={tabValue}>
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <TabList onChange={onTabChangehandler} centered>
-              <Tab label="내가 쓴 글" value="1" />
-              <Tab label="내가 찜한 글" value="2" />
-              <Tab label="내가 쓴 평가" value="3" onClick={getMyReviews} />
+              <Tab label="작성글" value="1" />
+              <Tab label="찜한글" value="2" />
+              <Tab label="작성한 평가" value="3" onClick={getMyReviews} />
+              <Tab label="받은 평가" value="4" />
             </TabList>
           </Box>
           <Box>
@@ -50,6 +51,7 @@ function MyPage() {
             <TabPanel value="3">
               <MyReviews myReviewList={myReviewList} />
             </TabPanel>
+            <TabPanel value="4">탭포</TabPanel>
           </Box>
         </TabContext>
       </Grid>

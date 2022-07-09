@@ -1,18 +1,11 @@
 import {useRef} from "react";
 import {boardService} from "../../service/BoardService";
 import Card from "@mui/material/Card";
-import {
-    Button,
-    CardActions,
-    CardContent,
-    CardHeader,
-    TextField,
-} from "@material-ui/core";
+import {Button, CardActions, CardHeader, TextField,} from "@material-ui/core";
 import {Editor} from "@tinymce/tinymce-react";
 import ZipSearchComponent from "./ZipSearchComponent";
 import {useSelector} from "react-redux";
 import {getAuthState} from "../../redux/user/selector/authSelector";
-import {Alert, Stack} from "@mui/material";
 
 const RegisterComponent = () => {
 
@@ -27,7 +20,7 @@ const RegisterComponent = () => {
         const boardDTO = {
             title: data.get("title"),
             writer: data.get("writer"),
-            uid: data.get("uid"),
+            uid: authUser.uid,
             content: data.get("content"),
             pay_division: data.get("pay_division"),
             square_feet: data.get("square_feet"),
@@ -64,7 +57,6 @@ const RegisterComponent = () => {
                     variant="standard"
                     name="writer"
                 />
-                <TextField value={authUser.uid} name="uid" style={{display: 'none'}}/>
                 <TextField
                     id="standard-basic"
                     label="전월세"

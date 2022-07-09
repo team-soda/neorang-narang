@@ -65,5 +65,4 @@
     <select id="getRatingAvgByTargetIdx" resultType="float">
         SELECT avg(rating) FROM tb_review WHERE target_idx = #{target_idx}
     </select>
-
 </mapper>

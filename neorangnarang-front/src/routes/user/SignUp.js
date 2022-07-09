@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  Link,
-  TextField,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userService } from "../../service/UserService";
@@ -160,6 +150,7 @@ function SignUp() {
               name="email"
               autoComplete="email"
               onChange={onChangeEmail}
+              fullWidth
             />
           </Grid>
           <Grid item xs={12} sm={2} sx={{ textAlign: "right" }}>
@@ -181,6 +172,7 @@ function SignUp() {
               name="authCode"
               placeholder="인증번호 입력"
               onChange={onChangeCode}
+              fullWidth
             />
           </Grid>
           <Grid item xs={12} sm={2} sx={{ textAlign: "right" }}>

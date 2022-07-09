@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { API_BASE_URL } from "../../config/url-config";
-import { closeProfileModal } from "../../redux/common/slice/modalSlice";
 import { updateUser } from "../../redux/user/thunk/authThunk";
+import { closeProfileModal } from "../../redux/common/slice/modalSlice";
 import {
   Avatar,
   Button,
@@ -66,7 +66,7 @@ function ProfileUpdateModal({
         "& .MuiDialog-container": {
           "& .MuiPaper-root": {
             width: "100%",
-            maxWidth: "400px", // Set your width here
+            maxWidth: "400px",
           },
         },
       }}
@@ -112,12 +112,6 @@ function ProfileUpdateModal({
             </div>
           </Grid>
           <Grid item>
-            {/* <input
-              type="text"
-              name="nickname"
-              value={newName}
-              onChange={onNameChangeHandler}
-            /> */}
             <TextField
               type="text"
               label="닉네임"

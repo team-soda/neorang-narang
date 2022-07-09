@@ -1,15 +1,25 @@
-import Card from "@mui/material/Card";
 import ReadComponent from "../../components/board/ReadComponent";
 import { useParams } from "react-router-dom";
-import MapComponent from "../../components/board/MapComponent";
+import Grid from "@mui/material/Grid";
 
-const BoardReadPage = () => {
+const BoardReadPage = ({ boardDTO, setBoardDTO }) => {
   const { board_idx } = useParams();
 
   return (
-    <Card>
-      <ReadComponent board_idx={board_idx} />
-    </Card>
+    <Grid
+      component="main"
+      style={{
+        justifyContent: "center",
+        padding: "40px 90px",
+        boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+      }}
+    >
+      <ReadComponent
+        board_idx={board_idx}
+        boardDTO={boardDTO}
+        setBoardDTO={setBoardDTO}
+      />
+    </Grid>
   );
 };
 

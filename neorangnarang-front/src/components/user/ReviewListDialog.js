@@ -10,15 +10,13 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  closeModal,
   closeReadModal,
   openReadModal,
 } from "../../redux/common/slice/modalSlice";
-import { getAuthState } from "../../redux/user/selector/authSelector";
 import { getUserState } from "../../redux/user/selector/userSelector";
 import ReviewReadItem from "./ReviewReadItem";
 
-function ReviewListDialog({ /* open, onCloseHandler, */ reviewList }) {
+function ReviewListDialog({ reviewList }) {
   const dispatch = useDispatch();
   const descriptionElementRef = useRef(null);
   const userInfo = useSelector(getUserState);

@@ -1,8 +1,4 @@
 import { Box, Grid, Rating } from "@mui/material";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getReviewer } from "../../redux/user/thunk/reviewThunk";
-import { getUserInfo } from "../../redux/user/thunk/userThunk";
 import StarIcon from "@mui/icons-material/Star";
 
 function ReviewReadItem({ reviewItem }) {
