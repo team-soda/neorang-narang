@@ -18,14 +18,22 @@
   box-shadow: revert !important;
 }
 
+.MuiIconButton-root {
+  color: rgba(0, 0, 0, 0.20) !important;
+}
+
+.MuiIconButton-root:hover {
+  color: #ffc576 !important;
+}
+
 .MuiTab-root {
   width: 100% !important;
   max-width: 25% !important;
-  font-size: 0.9rem !important;
+  font-size: 0.95rem !important;
 }
 
 .Mui-selected {
-  color: #ffc576 !important;
+  color: #faaf00 !important;
   font-weight: bold !important;
 }
 

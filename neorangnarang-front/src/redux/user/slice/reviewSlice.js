@@ -10,6 +10,7 @@ const reviewInitState = {
   reviewList: [],
   ratingAvg: 0,
   isLoading: true,
+  isReceived: false,
 };
 
 const reviewSlice = createSlice({
@@ -19,13 +20,14 @@ const reviewSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerReview.fulfilled, (state, { payload }) => {
-        //console.log(payload);
         state.reviewList = payload;
         console.log(state.reviewList);
       })
+      .addCase(getUserReviews.pending, (state) => {
+        state.isLoading = true;
+        state.isReceived = false;
+      })
       .addCase(getUserReviews.fulfilled, (state, { payload }) => {
-        console.log("리뷰가져오는슬라이스");
-        //console.log(payload);
         state.reviewList = payload;
         const result = state.reviewList.reduce(
           (sum, current) => sum + current.rating,
@@ -34,7 +36,12 @@ const reviewSlice = createSlice({
         const avg = result / state.reviewList.length;
         const temp = Math.round((avg + Number.EPSILON) * 10) / 10;
         state.ratingAvg = temp;
-        //console.log(temp);
+        state.isLoading = false;
+        state.isReceived = true;
+      })
+      .addCase(getUserReviews.rejected, (state) => {
+        state.isLoading = true;
+        state.isReceived = false;
       })
       .addCase(getReviewsByWriter.pending, (state) => {
         state.isLoading = true;
@@ -42,6 +49,7 @@ const reviewSlice = createSlice({
       .addCase(getReviewsByWriter.fulfilled, (state, { payload }) => {
         state.reviewList = payload;
         state.isLoading = false;
+        state.isReceived = false;
       })
       .addCase(getReviewsByWriter.rejected, (state) => {
         state.isLoading = true;

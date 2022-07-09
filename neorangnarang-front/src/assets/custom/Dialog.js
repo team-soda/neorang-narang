@@ -16,7 +16,7 @@ export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
   return (
-    <DialogTitle sx={{ m: 0, p: 2, backgroundColor: "white" }} {...other}>
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
       {onClose ? (
         <IconButton

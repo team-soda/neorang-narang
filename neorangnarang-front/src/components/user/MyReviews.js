@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { FixedSizeList } from "react-window";
 import MyReviewItem from "./MyReviewItem";
 import { ListItem } from "@mui/material";
+import Loading from "./Loading";
 
 function reviewRow(props) {
   const { index, style, data } = props;
@@ -25,9 +26,9 @@ function MyReviews({ myReviewList }) {
   return (
     <>
       {isLoading ? (
-        "L o a d i n g . . . "
+        <Loading />
       ) : isList ? (
-        "작성한 평가가 없습니다."
+        "평가가 존재하지 않습니다."
       ) : (
         <FixedSizeList
           height={300}

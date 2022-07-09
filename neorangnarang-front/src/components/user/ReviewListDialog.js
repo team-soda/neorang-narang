@@ -44,10 +44,10 @@ function ReviewListDialog({ reviewList }) {
         aria-describedby="scroll-dialog-description"
         fullWidth
       >
-        <DialogTitle id="scroll-dialog-title" sx={{ backgroundColor: "white" }}>
+        <DialogTitle id="scroll-dialog-title">
           {userInfo.nickname} 님에 대한 평가
         </DialogTitle>
-        <DialogContent dividers sx={{ backgroundColor: "white" }}>
+        <DialogContent dividers>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
@@ -61,7 +61,7 @@ function ReviewListDialog({ reviewList }) {
             </List>
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ backgroundColor: "white" }}>
+        <DialogActions>
           <Button onClick={onCloseHandler}>Cancel</Button>
         </DialogActions>
       </Dialog>

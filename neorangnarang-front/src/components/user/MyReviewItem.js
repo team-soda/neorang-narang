@@ -1,7 +1,9 @@
 import { Box, Grid, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useSelector } from "react-redux";
 
 function MyReviewItem({ reviewItem }) {
+  const isReceived = useSelector((state) => state.review.isReceived);
   return (
     <Grid
       container
@@ -18,7 +20,11 @@ function MyReviewItem({ reviewItem }) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box>{reviewItem.target_nickname}</Box>
+            <Box>
+              {isReceived
+                ? `from : ${reviewItem.writer_nickname}`
+                : `to : ${reviewItem.target_nickname}`}
+            </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Rating
                 value={reviewItem.rating || 0}

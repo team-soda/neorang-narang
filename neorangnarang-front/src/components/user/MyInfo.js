@@ -12,10 +12,14 @@ import {
   Chip,
   ClickAwayListener,
   Grid,
+  IconButton,
   Rating,
   Tooltip,
+  Fade,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 function MyInfo({ authUser }) {
   const dispatch = useDispatch();
@@ -57,6 +61,18 @@ function MyInfo({ authUser }) {
       alignItems="center"
       spacing={2}
     >
+      <Grid item container justifyContent="flex-end">
+        <Tooltip
+          title="프로필 수정"
+          placement="top-end"
+          TransitionComponent={Fade}
+          arrow
+        >
+          <IconButton size="large" onClick={() => dispatch(openProfileModal())}>
+            <FontAwesomeIcon icon={faPenToSquare} size="sm" />
+          </IconButton>
+        </Tooltip>
+      </Grid>
       <Grid item>
         <Avatar
           alt="프로필 사진"
@@ -73,7 +89,6 @@ function MyInfo({ authUser }) {
           label={authUser.nickname}
           variant="outlined"
           sx={{ minWidth: 150, py: 2, fontSize: 14, letterSpacing: 1 }}
-          onClick={() => dispatch(openProfileModal())}
         />
         <ProfileUpdateModal
           open={profileOpen}

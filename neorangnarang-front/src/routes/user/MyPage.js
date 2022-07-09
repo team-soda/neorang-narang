@@ -2,7 +2,10 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MyInfo from "../../components/user/MyInfo";
 import MyReviews from "../../components/user/MyReviews";
-import { getReviewsByWriter } from "../../redux/user/thunk/reviewThunk";
+import {
+  getReviewsByWriter,
+  getUserReviews,
+} from "../../redux/user/thunk/reviewThunk";
 import { getAuthState } from "../../redux/user/selector/authSelector";
 import { getReviewsState } from "../../redux/user/selector/reviewSelector";
 import { Box, Grid, Tab, Tabs } from "@mui/material";
@@ -24,6 +27,10 @@ function MyPage() {
     dispatch(getReviewsByWriter({ user_idx: authUser.user_idx }));
   }, [dispatch, authUser.user_idx]);
 
+  const getMyReceivedReviews = useCallback(() => {
+    dispatch(getUserReviews(authUser.uid));
+  }, [dispatch, authUser.uid]);
+
   return (
     <Grid
       container
@@ -32,7 +39,10 @@ function MyPage() {
       alignItems="center"
       spacing={6}
     >
-      <Grid item>
+      <Grid
+        item
+        style={{ maxWidth: "600px", width: "100%", paddingTop: "30px" }}
+      >
         <MyInfo authUser={authUser} />
       </Grid>
       <Grid item style={{ maxWidth: "716px", width: "100%" }}>
@@ -41,8 +51,8 @@ function MyPage() {
             <TabList onChange={onTabChangehandler} centered>
               <Tab label="작성글" value="1" />
               <Tab label="찜한글" value="2" />
-              <Tab label="작성한 평가" value="3" onClick={getMyReviews} />
-              <Tab label="받은 평가" value="4" />
+              <Tab label="작성한평가" value="3" onClick={getMyReviews} />
+              <Tab label="받은평가" value="4" onClick={getMyReceivedReviews} />
             </TabList>
           </Box>
           <Box>
@@ -51,7 +61,9 @@ function MyPage() {
             <TabPanel value="3">
               <MyReviews myReviewList={myReviewList} />
             </TabPanel>
-            <TabPanel value="4">탭포</TabPanel>
+            <TabPanel value="4">
+              <MyReviews myReviewList={myReviewList} />
+            </TabPanel>
           </Box>
         </TabContext>
       </Grid>

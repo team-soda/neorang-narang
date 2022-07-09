@@ -10,7 +10,10 @@ import StarRating from "./StarRating";
 import { Box, TextField, Button } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import { BootstrapDialog, BootstrapDialogTitle } from "./BootstrapDialog";
+import {
+  BootstrapDialog,
+  BootstrapDialogTitle,
+} from "../../assets/custom/Dialog";
 
 function ReviewInsertDialog({ userInfo }) {
   const dispatch = useDispatch();
@@ -74,7 +77,7 @@ function ReviewInsertDialog({ userInfo }) {
         >
           {userInfo.nickname} 님을 평가해 주세요!
         </BootstrapDialogTitle>
-        <DialogContent dividers sx={{ backgroundColor: "white" }}>
+        <DialogContent dividers>
           <Box noValidate autoComplete="off">
             <StarRating
               value={value}
@@ -93,7 +96,7 @@ function ReviewInsertDialog({ userInfo }) {
             />
           </Box>
         </DialogContent>
-        <DialogActions sx={{ backgroundColor: "white" }}>
+        <DialogActions>
           <Button autoFocus onClick={onSubmitHandler}>
             작성하기
           </Button>
