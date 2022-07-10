@@ -8,7 +8,6 @@ import {
 } from "../../redux/common/slice/modalSlice";
 import StarRating from "./StarRating";
 import {
-  Box,
   TextField,
   Button,
   IconButton,

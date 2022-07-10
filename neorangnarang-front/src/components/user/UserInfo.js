@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../config/url-config";
 import { getDefaultImgState } from "../../redux/user/selector/userSelector";
 import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
-import ReviewListDialog from "./ReviewListDialog.js";
+import ReviewInsertDialog from "./ReviewInsertDialog";
 import {
   Avatar,
   Box,
@@ -15,9 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import ReviewInsertDialog from "./ReviewInsertDialog";
 
-function UserInfo({ userInfo, reviewList /* , ratingAvg */, uid }) {
+function UserInfo({ userInfo, reviewList, uid }) {
   const { profile_img } = userInfo;
   const dispatch = useDispatch();
   const defaultImg = useSelector(getDefaultImgState);

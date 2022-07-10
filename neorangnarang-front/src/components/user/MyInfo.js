@@ -9,7 +9,6 @@ import ProfileUpdateModal from "./MyProfileUpdateModal";
 import {
   Avatar,
   Box,
-  Chip,
   ClickAwayListener,
   Grid,
   IconButton,
@@ -101,11 +100,6 @@ function MyInfo({ authUser }) {
         justifyContent="center"
         alignItems="center"
       >
-        {/* <Chip
-          label={authUser.nickname}
-          variant="outlined"
-          sx={{ minWidth: 150, py: 2, fontSize: 14, letterSpacing: 1 }}
-        /> */}
         <Grid item>
           <Typography sx={{ fontSize: "1rem" }}>{authUser.nickname}</Typography>
         </Grid>

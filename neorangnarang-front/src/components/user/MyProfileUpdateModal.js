@@ -12,13 +12,12 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  TextField,
   Typography,
 } from "@mui/material";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import CloseIcon from "@mui/icons-material/Close";
 import { EditImgButton } from "../../assets/custom/IconButton";
 import { EditNameField } from "../../assets/custom/TextField";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ProfileUpdateModal({
   open,
