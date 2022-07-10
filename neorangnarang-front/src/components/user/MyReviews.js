@@ -9,19 +9,19 @@ function reviewRow(props) {
   const { index, style, data } = props;
 
   return (
-    <ListItem style={style} key={index} components="div" disablePadding>
+    <ListItem style={style} key={index} component="div" disablePadding>
       <MyReviewItem reviewItem={data[index]} />
     </ListItem>
   );
 }
 
-function MyReviews({ myReviewList }) {
+function MyReviews({ reviewList }) {
   const isLoading = useSelector((state) => state.review.isLoading);
   const [isList, setIsList] = useState(true);
 
   useEffect(() => {
-    myReviewList.length > 0 ? setIsList(false) : setIsList(true);
-  }, [myReviewList]);
+    reviewList.length > 0 ? setIsList(false) : setIsList(true);
+  }, [reviewList]);
 
   return (
     <>
@@ -33,8 +33,8 @@ function MyReviews({ myReviewList }) {
         <FixedSizeList
           height={300}
           itemSize={100}
-          itemCount={myReviewList.length}
-          itemData={myReviewList}
+          itemCount={reviewList.length}
+          itemData={reviewList}
           overscanCount={5}
         >
           {reviewRow}

@@ -11,9 +11,14 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   TextField,
+  Typography,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CloseIcon from "@mui/icons-material/Close";
+import { EditImgButton } from "../../assets/custom/IconButton";
+import { EditNameField } from "../../assets/custom/TextField";
 
 function ProfileUpdateModal({
   open,
@@ -71,7 +76,23 @@ function ProfileUpdateModal({
         },
       }}
     >
-      <DialogTitle id="alert-dialog-title">프로필 수정</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item sx={{ px: 1.5 }}>
+            <Typography variant="subtitle1">프로필 수정</Typography>
+          </Grid>
+          <Grid item>
+            <IconButton onClick={onCloseHandler}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </DialogTitle>
       <DialogContent id="alert-dialog-description">
         <Grid
           container
@@ -101,18 +122,23 @@ function ProfileUpdateModal({
                 }
                 sx={{ width: 120, height: 120 }}
               />
-              <div
-                className="profileImg-overlay"
-                onClick={() => profileImgRef.current.click()}
-              >
-                <Avatar>
-                  <AddPhotoAlternateIcon />
-                </Avatar>
+              <div className="profileImg-overlay">
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ height: "100%" }}
+                >
+                  <EditImgButton onClick={() => profileImgRef.current.click()}>
+                    <AddPhotoAlternateIcon sx={{ color: "white" }} />
+                  </EditImgButton>
+                </Grid>
               </div>
             </div>
           </Grid>
           <Grid item>
-            <TextField
+            <EditNameField
               type="text"
               label="닉네임"
               name="nickname"
@@ -120,6 +146,7 @@ function ProfileUpdateModal({
               onChange={onNameChangeHandler}
               margin="normal"
               variant="standard"
+              color="warning"
               fullWidth
             />
           </Grid>

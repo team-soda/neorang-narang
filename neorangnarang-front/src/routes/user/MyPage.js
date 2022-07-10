@@ -8,7 +8,7 @@ import {
 } from "../../redux/user/thunk/reviewThunk";
 import { getAuthState } from "../../redux/user/selector/authSelector";
 import { getReviewsState } from "../../redux/user/selector/reviewSelector";
-import { Box, Grid, Tab, Tabs } from "@mui/material";
+import { Box, Grid, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -59,10 +59,10 @@ function MyPage() {
             <TabPanel value="1">탭원</TabPanel>
             <TabPanel value="2">탭투</TabPanel>
             <TabPanel value="3">
-              <MyReviews myReviewList={myReviewList} />
+              <MyReviews reviewList={myReviewList} />
             </TabPanel>
             <TabPanel value="4">
-              <MyReviews myReviewList={myReviewList} />
+              <MyReviews reviewList={myReviewList} />
             </TabPanel>
           </Box>
         </TabContext>

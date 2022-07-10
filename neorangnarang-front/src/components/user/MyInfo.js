@@ -16,6 +16,7 @@ import {
   Rating,
   Tooltip,
   Fade,
+  Typography,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,6 +73,15 @@ function MyInfo({ authUser }) {
             <FontAwesomeIcon icon={faPenToSquare} size="sm" />
           </IconButton>
         </Tooltip>
+        <ProfileUpdateModal
+          open={profileOpen}
+          authUser={authUser}
+          profileImgRef={profileImgRef}
+          onImageChangeHandler={onImageChangeHandler}
+          onClearHandler={onClearHandler}
+          imgPreview={imgPreview}
+          defaultImg={defaultImg}
+        />
       </Grid>
       <Grid item>
         <Avatar
@@ -84,21 +94,26 @@ function MyInfo({ authUser }) {
           sx={{ width: 150, height: 150 }}
         />
       </Grid>
-      <Grid item>
-        <Chip
+      <Grid
+        item
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {/* <Chip
           label={authUser.nickname}
           variant="outlined"
           sx={{ minWidth: 150, py: 2, fontSize: 14, letterSpacing: 1 }}
-        />
-        <ProfileUpdateModal
-          open={profileOpen}
-          authUser={authUser}
-          profileImgRef={profileImgRef}
-          onImageChangeHandler={onImageChangeHandler}
-          onClearHandler={onClearHandler}
-          imgPreview={imgPreview}
-          defaultImg={defaultImg}
-        />
+        /> */}
+        <Grid item>
+          <Typography sx={{ fontSize: "1rem" }}>{authUser.nickname}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography
+            sx={{ fontSize: "0.9rem", opacity: 0.5, letterSpacing: "0.2rem" }}
+          >{`@${authUser.uid}`}</Typography>
+        </Grid>
       </Grid>
       <Grid item>
         <ClickAwayListener onClickAway={() => setIsTooltip(false)}>

@@ -7,13 +7,22 @@ import {
   openInsertModal,
 } from "../../redux/common/slice/modalSlice";
 import StarRating from "./StarRating";
-import { Box, TextField, Button } from "@mui/material";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+import {
+  Box,
+  TextField,
+  Button,
+  IconButton,
+  Tooltip,
+  Fade,
+  Grid,
+} from "@mui/material";
 import {
   BootstrapDialog,
   BootstrapDialogTitle,
 } from "../../assets/custom/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
 
 function ReviewInsertDialog({ userInfo }) {
   const dispatch = useDispatch();
@@ -61,9 +70,16 @@ function ReviewInsertDialog({ userInfo }) {
 
   return (
     <>
-      <Button variant="outlined" onClick={() => dispatch(openInsertModal())}>
-        리뷰남기기
-      </Button>
+      <Tooltip
+        title="리뷰작성"
+        placement="top-end"
+        TransitionComponent={Fade}
+        arrow
+      >
+        <IconButton size="large" onClick={() => dispatch(openInsertModal())}>
+          <RateReviewOutlinedIcon sx={{ fontSize: "0.875em" }} />
+        </IconButton>
+      </Tooltip>
       <BootstrapDialog
         onClose={() => dispatch(closeInsertModal())}
         aria-labelledby="customized-dialog-title"
@@ -73,28 +89,38 @@ function ReviewInsertDialog({ userInfo }) {
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
-          onClick={() => dispatch(closeInsertModal())}
+          onClose={() => dispatch(closeInsertModal())}
         >
           {userInfo.nickname} 님을 평가해 주세요!
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Box noValidate autoComplete="off">
-            <StarRating
-              value={value}
-              hover={hover}
-              onChangeValue={onChangeValue}
-              onChangeHoverActive={onChangeHoverActive}
-            />
-            <TextField
-              name="content"
-              value={content}
-              onChange={onChangeContentHandler}
-              margin="normal"
-              multiline
-              rows={4}
-              placeholder="악성 리뷰는 무통보 삭제될 수 있습니다."
-            />
-          </Box>
+          <Grid
+            container
+            direction="column"
+            //justifyContent="flex-start"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid item style={{ maxWidth: "500px", width: "100%" }}>
+              <StarRating
+                value={value}
+                hover={hover}
+                onChangeValue={onChangeValue}
+                onChangeHoverActive={onChangeHoverActive}
+              />
+            </Grid>
+            <Grid item style={{ maxWidth: "500px", width: "100%" }}>
+              <TextField
+                name="content"
+                value={content}
+                onChange={onChangeContentHandler}
+                margin="normal"
+                multiline
+                rows={4}
+                placeholder="악성 리뷰는 무통보 삭제될 수 있습니다."
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={onSubmitHandler}>

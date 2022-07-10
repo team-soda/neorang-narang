@@ -16,28 +16,37 @@
     <!-- 회원 정보 수정 -->
     <update id="updateUser" parameterType="User">
         UPDATE tb_user
-        SET nickname = #{nickname}, profile_img = #{profile_img}
+        SET nickname    = #{nickname},
+            profile_img = #{profile_img}
         WHERE user_idx = #{user_idx}
     </update>
 
     <!-- 회원 아이디로 검색 -->
     <select id="findByUserId" resultType="User">
-        SELECT * FROM tb_user WHERE uid = #{uid}
+        SELECT *
+        FROM tb_user
+        WHERE uid = #{uid}
     </select>
 
     <!-- 회원 pk로 검색 -->
     <select id="findByUserIdx" resultType="User">
-        SELECT * FROM tb_user WHERE user_idx = #{user_idx}
+        SELECT *
+        FROM tb_user
+        WHERE user_idx = #{user_idx}
     </select>
 
     <!-- 소셜 로그인 제공처 별 검색 -->
     <select id="findByProvider" resultType="User">
-        SELECT * FROM tb_user WHERE provider = #{provider}
+        SELECT *
+        FROM tb_user
+        WHERE provider = #{provider}
     </select>
 
     <!-- 소셜 로그인 제공처의 pk 값으로 검색 -->
     <select id="findByProviderId" resultType="User">
-        SELECT * FROM tb_user WHERE provider_id = #{provider_id}
+        SELECT *
+        FROM tb_user
+        WHERE provider_id = #{provider_id}
     </select>
 
     <!-- 리뷰 등록 -->
@@ -47,22 +56,34 @@
     </insert>
 
     <select id="getReviewByWriterIdx" resultType="Review">
-        SELECT a.*, b.nickname AS target_nickname
-        FROM tb_review AS a LEFT JOIN tb_user AS b
-        ON a.target_idx = b.user_idx
-        WHERE a.writer_idx = #{writer_idx}
-        ORDER BY a.review_idx DESC;
+        SELECT *
+        FROM (
+                 SELECT a.*, b.nickname AS target_nickname
+                 FROM tb_review AS a
+                          LEFT JOIN tb_user AS b
+                                    ON a.target_idx = b.user_idx
+                 WHERE a.writer_idx = #{writer_idx}
+             ) result
+        WHERE result.state = 1
+        ORDER BY result.review_idx DESC;
     </select>
 
     <select id="getReviewByTargetIdx" resultType="Review">
-        SELECT a.*, b.nickname AS writer_nickname
-        FROM tb_review AS a LEFT JOIN tb_user AS b
-        ON a.writer_idx = b.user_idx
-        WHERE a.target_idx = #{target_idx}
-        ORDER BY a.review_idx DESC;
+        SELECT *
+        FROM (
+                 SELECT a.*, b.nickname AS writer_nickname
+                 FROM tb_review AS a
+                          LEFT JOIN tb_user AS b
+                                    ON a.writer_idx = b.user_idx
+                 WHERE a.target_idx = #{target_idx}
+             ) result
+        WHERE result.state = 1
+        ORDER BY result.review_idx DESC;
     </select>
 
     <select id="getRatingAvgByTargetIdx" resultType="float">
-        SELECT avg(rating) FROM tb_review WHERE target_idx = #{target_idx}
+        SELECT avg(rating)
+        FROM tb_review
+        WHERE target_idx = #{target_idx}
     </select>
 </mapper>
