@@ -1,19 +1,23 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MyInfo from "../../components/user/MyInfo";
-import MyReviews from "../../components/user/MyReviews";
+import MyInfo from "./MyInfo";
+import ReviewList from "../components/user/ReviewList";
 import {
   getReviewsByWriter,
   getUserReviews,
-} from "../../redux/user/thunk/reviewThunk";
-import { getAuthState } from "../../redux/user/selector/authSelector";
-import { getReviewsState } from "../../redux/user/selector/reviewSelector";
+} from "../redux/user/thunk/reviewThunk";
+import { getAuthState } from "../redux/user/selector/authSelector";
+import { getReviewsState } from "../redux/user/selector/reviewSelector";
 import { Box, Grid, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { useParams } from "react-router-dom";
 
 function MyPage() {
+  const param = useParams();
+  console.log(param);
+
   const dispatch = useDispatch();
   const authUser = useSelector(getAuthState);
   const myReviewList = useSelector(getReviewsState);
@@ -24,7 +28,7 @@ function MyPage() {
   };
 
   const getMyReviews = useCallback(() => {
-    dispatch(getReviewsByWriter({ user_idx: authUser.user_idx }));
+    dispatch(getReviewsByWriter(authUser.user_idx));
   }, [dispatch, authUser.user_idx]);
 
   const getMyReceivedReviews = useCallback(() => {
@@ -59,10 +63,10 @@ function MyPage() {
             <TabPanel value="1">탭원</TabPanel>
             <TabPanel value="2">탭투</TabPanel>
             <TabPanel value="3">
-              <MyReviews reviewList={myReviewList} />
+              <ReviewList reviews={myReviewList} />
             </TabPanel>
             <TabPanel value="4">
-              <MyReviews reviewList={myReviewList} />
+              <ReviewList reviews={myReviewList} />
             </TabPanel>
           </Box>
         </TabContext>

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAuthState } from "../../redux/user/selector/authSelector";
 import { getUserState } from "../../redux/user/selector/userSelector";
 import { getReviewsState } from "../../redux/user/selector/reviewSelector";
 import { getUserInfo } from "../../redux/user/thunk/userThunk";
@@ -9,37 +10,46 @@ import {
   getUserReviews,
 } from "../../redux/user/thunk/reviewThunk";
 import UserInfo from "../../components/user/UserInfo";
+import ReviewList from "../../components/user/ReviewList";
 import { Box, Grid, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import MyReviews from "../../components/user/MyReviews";
 
 function UserInfoPage() {
   const { uid } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const authUser = useSelector(getAuthState);
   const userInfo = useSelector(getUserState);
   const userReviewList = useSelector(getReviewsState);
 
+  const [mypage, setMypage] = useState(false);
   const [tabValue, setTabValue] = useState("1");
 
   useEffect(() => {
-    dispatch(getUserInfo(uid));
-  }, [uid, dispatch]);
+    if (!uid) {
+      setMypage(true);
+    } else {
+      if (uid === authUser.uid) {
+        navigate("/user/mypage", { replace: true });
+      } else {
+        setMypage(false);
+        dispatch(getUserInfo(uid));
+      }
+    }
+  }, [uid, authUser.uid]);
 
   const onTabChangehandler = (event, newValue) => {
     setTabValue(newValue);
   };
 
   const getReviews = useCallback(() => {
-    dispatch(getReviewsByWriter({ user_idx: userInfo.user_idx }));
-  }, [dispatch, userInfo.user_idx]);
+    dispatch(getReviewsByWriter(!uid ? authUser.user_idx : userInfo.user_idx));
+  }, [uid, userReviewList]);
 
-  const getUserReceivedReviews = useCallback(() => {
-    dispatch(getUserReviews(uid));
-  }, [dispatch, uid]);
-
-  console.log(uid);
-  console.log(userInfo);
+  const getReceivedReviews = useCallback(() => {
+    dispatch(getUserReviews(!uid ? authUser.uid : uid));
+  }, [uid, userReviewList]);
 
   return (
     <Grid
@@ -53,7 +63,7 @@ function UserInfoPage() {
         item
         style={{ maxWidth: "600px", width: "100%", paddingTop: "30px" }}
       >
-        <UserInfo userInfo={userInfo} uid={uid} />
+        <UserInfo userInfo={!uid ? authUser : userInfo} mypage={mypage} />
       </Grid>
       <Grid item style={{ maxWidth: "716px", width: "100%" }}>
         <TabContext value={tabValue}>
@@ -62,21 +72,17 @@ function UserInfoPage() {
               <Tab label="작성글" value="1" />
               <Tab label="찜한글" value="2" />
               <Tab label="작성한평가" value="3" onClick={getReviews} />
-              <Tab
-                label="받은평가"
-                value="4"
-                onClick={getUserReceivedReviews}
-              />
+              <Tab label="받은평가" value="4" onClick={getReceivedReviews} />
             </TabList>
           </Box>
           <Box>
             <TabPanel value="1">탭원</TabPanel>
             <TabPanel value="2">탭투</TabPanel>
             <TabPanel value="3">
-              <MyReviews reviewList={userReviewList} />
+              <ReviewList reviews={userReviewList} />
             </TabPanel>
             <TabPanel value="4">
-              <MyReviews reviewList={userReviewList} />
+              <ReviewList reviews={userReviewList} />
             </TabPanel>
           </Box>
         </TabContext>

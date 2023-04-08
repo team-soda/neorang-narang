@@ -31,12 +31,12 @@ const getUserReviews = async (uid) => {
   return await Axios.get(`${REVIEW}/${uid}`);
 };
 
-const getReviewsByWriter = async (userIdx) => {
-  return await Axios.post(`${REVIEW}/getReviewsByWriter`, userIdx);
+const getReviewsByWriter = async (idx) => {
+  return await Axios.get(`${REVIEW}/getReviewsByWriter/${idx}`);
 };
 
-const getWriterInfo = async (writerIdx) => {
-  return await Axios.post(`${REVIEW}/findWriterInfo`, writerIdx);
+const deleteReview = async (review) => {
+  return await Axios.put(`${REVIEW}/deleteReview`, review);
 };
 
 /* 인증 */
@@ -93,7 +93,7 @@ export const userService = {
   registerReview,
   getUserReviews,
   getReviewsByWriter,
-  getWriterInfo,
+  deleteReview,
   login,
   logout,
   signup,

@@ -51,12 +51,17 @@ export const getReviewsByWriter = createAsyncThunk(
   }
 );
 
-/* export const getReviewer = createAsyncThunk(
-  `${REVIEW}/getReviewer`,
-  async (writerIdx) => {
+export const deleteReview = createAsyncThunk(
+  `${REVIEW}/deleteReview`,
+  async (review) => {
+    console.log(review);
     try {
-      const response = await userService.getWriterInfo(writerIdx);
+      const response = await userService.deleteReview(review);
       console.log(response);
-    } catch (error) {}
+      return response.data.listData;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
-); */
+);

@@ -1,32 +1,56 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_BASE_URL } from "../../config/url-config";
+import { openProfileModal } from "../../redux/common/slice/modalSlice";
 import { getDefaultImgState } from "../../redux/user/selector/userSelector";
 import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
 import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
 import ReviewInsertDialog from "./ReviewInsertDialog";
+import ProfileUpdateModal from "./MyProfileUpdateModal";
 import {
   Avatar,
   Box,
   ClickAwayListener,
+  Fade,
   Grid,
+  IconButton,
   Rating,
   Tooltip,
   Typography,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-function UserInfo({ userInfo, reviewList, uid }) {
+function UserInfo({ userInfo, mypage }) {
   const { profile_img } = userInfo;
   const dispatch = useDispatch();
+  const profileImgRef = useRef();
+
   const defaultImg = useSelector(getDefaultImgState);
+  const profileOpen = useSelector((state) => state.modal.profileOpen);
   const ratingAvg = useSelector(getRatingAvgState);
 
+  const [imgPreview, setImgPreview] = useState(null);
   const [isTooltip, setIsTooltip] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserReviews(uid));
-  }, [dispatch, uid]);
+    dispatch(getUserReviews(userInfo.uid));
+  }, [dispatch, userInfo.uid]);
+
+  const onImageChangeHandler = useCallback(() => {
+    const reader = new FileReader();
+    const file = profileImgRef.current.files[0];
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgPreview(reader.result);
+    };
+  }, [profileImgRef, imgPreview]);
+
+  const onClearHandler = () => {
+    profileImgRef.current.value = null;
+    setImgPreview(null);
+  };
 
   return (
     <Grid
@@ -37,7 +61,34 @@ function UserInfo({ userInfo, reviewList, uid }) {
       spacing={2}
     >
       <Grid item container justifyContent="flex-end">
-        <ReviewInsertDialog userInfo={userInfo} />
+        {mypage ? (
+          <>
+            <Tooltip
+              title="프로필 수정"
+              placement="top-end"
+              TransitionComponent={Fade}
+              arrow
+            >
+              <IconButton
+                size="large"
+                onClick={() => dispatch(openProfileModal())}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} size="sm" />
+              </IconButton>
+            </Tooltip>
+            <ProfileUpdateModal
+              open={profileOpen}
+              authUser={userInfo}
+              profileImgRef={profileImgRef}
+              onImageChangeHandler={onImageChangeHandler}
+              onClearHandler={onClearHandler}
+              imgPreview={imgPreview}
+              defaultImg={defaultImg}
+            />
+          </>
+        ) : (
+          <ReviewInsertDialog userInfo={userInfo} />
+        )}
       </Grid>
       <Grid item>
         <Avatar

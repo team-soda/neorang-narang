@@ -2,7 +2,6 @@ package com.team.neorangnarang.user.service;
 
 import com.team.neorangnarang.exception.UserNotFoundException;
 import com.team.neorangnarang.user.domain.ProviderType;
-import com.team.neorangnarang.user.domain.Review;
 import com.team.neorangnarang.user.domain.Role;
 import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.mapper.UserMapper;
@@ -13,16 +12,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,14 +28,13 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Log4j2
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
@@ -139,40 +135,6 @@ public class UserService {
         return user;
     }
 
-    public List<Review> registerReview(final Review review) {
-        if (review == null) {
-            throw new RuntimeException("입력된 리뷰 정보가 없습니다.");
-        }
-        userMapper.registerReview(review);
-        return getReviewListByTargetIdx(review);
-    }
-
-    public List<Review> getUserReviewList(final User user) {
-        User findUser = getUserInfo(user);
-        Review review = Review.builder().target_idx(findUser.getUser_idx()).build();
-        return getReviewListByTargetIdx(review);
-    }
-
-    public List<Review> getReviewListByTargetIdx(final Review review) {
-        return userMapper.getReviewByTargetIdx(review.getTarget_idx());
-    }
-
-    public List<Review> getReviewListByWriterIdx(final User user) {
-        log.info("getReviewListByWriterIdx user: {}", user.toString());
-        if (user.getUser_idx() == null) {
-            throw new RuntimeException("요청된 유저 정보가 없습니다.");
-        }
-
-        User findUser = getUserInfoByIdx(user);
-
-        if(findUser.getUser_idx() == null) {
-            throw new RuntimeException("등록된 유저 정보가 없습니다.");
-        }
-
-        Review review = Review.builder().writer_idx(findUser.getUser_idx()).build();
-        log.info("getReviewListByWriterIdx review: {}", review);
-        return userMapper.getReviewByWriterIdx(review.getWriter_idx());
-    }
 
     public void createUser(final User user) {
         log.info("createUser user : {}", user.toString());

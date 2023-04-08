@@ -7,6 +7,7 @@ import com.team.neorangnarang.user.domain.User;
 import com.team.neorangnarang.user.dto.ReviewDTO;
 import com.team.neorangnarang.user.dto.UserDTO;
 import com.team.neorangnarang.user.security.auth.domain.UserPrincipal;
+import com.team.neorangnarang.user.service.ReviewService;
 import com.team.neorangnarang.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/review")
 public class ReviewController {
     private final UserService userService;
+    private final ReviewService reviewService;
 
     @PostMapping
     public ResponseEntity<?> registerReview(@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -37,7 +39,7 @@ public class ReviewController {
                 throw new BadRequestException("잘못된 요청입니다.");
             }
 
-            List<Review> reviews = userService.registerReview(review);
+            List<Review> reviews = reviewService.registerReview(review);
             List<ReviewDTO> dtos = reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
             response = ResponseDTO.<ReviewDTO>builder().listData(dtos).build();
             return ResponseEntity.ok(response);
@@ -53,7 +55,9 @@ public class ReviewController {
         ResponseDTO<ReviewDTO> response = null;
         try {
             User user = User.builder().uid(uid).build();
-            List<Review> reviews = userService.getUserReviewList(user);
+            User findUser = userService.getUserInfo(user);
+            List<Review> reviews = reviewService.getUserReviewList(findUser);
+            log.info(reviews);
             List<ReviewDTO> dtos = reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
             response = ResponseDTO.<ReviewDTO>builder().listData(dtos).build();
             return ResponseEntity.ok(response);
@@ -64,14 +68,32 @@ public class ReviewController {
         }
     }
 
-    @PostMapping("/getReviewsByWriter")
-    public ResponseEntity<?> getReviewsByWriter(@RequestBody UserDTO userDTO) {
-        log.info("getReviewsByWriter userDTO: {}", userDTO.toString());
+    @GetMapping("/getReviewsByWriter/{idx}")
+    public ResponseEntity<?> getReviewsByWriter(@PathVariable("idx") Long idx) {
+        log.info("getReviewsByWriter idx: {}", idx);
         ResponseDTO<ReviewDTO> response = null;
-        try{
-            User user = User.builder().user_idx(userDTO.getUser_idx()).build();
-            List<Review> reviews = userService.getReviewListByWriterIdx(user);
+        try {
+            User user = User.builder().user_idx(idx).build();
+            User findUser = userService.getUserInfoByIdx(user);
+            List<Review> reviews = reviewService.getReviewListByWriterIdx(findUser);
             log.info(reviews);
+            List<ReviewDTO> dtos = reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
+            response = ResponseDTO.<ReviewDTO>builder().listData(dtos).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response = ResponseDTO.<ReviewDTO>builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PutMapping("/deleteReview")
+    public ResponseEntity<?> deleteReview(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ReviewDTO reviewDTO) {
+        log.info("deleteReview userPrincipal: {}", userPrincipal.toString());
+        log.info("deleteReview reviewDTO: {}", reviewDTO.toString());
+        ResponseDTO<ReviewDTO> response = null;
+        try {
+            Review review = ReviewDTO.toReview(reviewDTO);
+            List<Review> reviews = reviewService.deleteReview(review, userPrincipal.getUser());
             List<ReviewDTO> dtos = reviews.stream().map(ReviewDTO::new).collect(Collectors.toList());
             response = ResponseDTO.<ReviewDTO>builder().listData(dtos).build();
             return ResponseEntity.ok(response);

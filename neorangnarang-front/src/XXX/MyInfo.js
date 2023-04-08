@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { API_BASE_URL } from "../../config/url-config";
-import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
-import { openProfileModal } from "../../redux/common/slice/modalSlice";
-import { getDefaultImgState } from "../../redux/user/selector/authSelector";
-import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
-import ProfileUpdateModal from "./MyProfileUpdateModal";
+import { API_BASE_URL } from "../config/url-config";
+import { getUserReviews } from "../redux/user/thunk/reviewThunk";
+import { openProfileModal } from "../redux/common/slice/modalSlice";
+import { getDefaultImgState } from "../redux/user/selector/authSelector";
+import { getRatingAvgState } from "../redux/user/selector/reviewSelector";
+import ProfileUpdateModal from "../components/user/MyProfileUpdateModal";
 import {
   Avatar,
   Box,

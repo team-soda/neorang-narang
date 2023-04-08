@@ -38,7 +38,6 @@ function ReviewInsertDialog({ userInfo }) {
     },
     [value]
   );
-  console.log(`보자보자 ${value}`);
 
   const onChangeHoverActive = useCallback(
     (event, newHover) => {

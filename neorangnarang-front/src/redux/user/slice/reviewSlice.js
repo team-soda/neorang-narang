@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  deleteReview,
   getReviewsByWriter,
   getUserReviews,
   registerReview,
@@ -21,11 +22,11 @@ const reviewSlice = createSlice({
     builder
       .addCase(registerReview.fulfilled, (state, { payload }) => {
         state.reviewList = payload;
-        console.log(state.reviewList);
       })
       .addCase(getUserReviews.pending, (state) => {
         state.isLoading = true;
         state.isReceived = false;
+        state.reviewList = [];
       })
       .addCase(getUserReviews.fulfilled, (state, { payload }) => {
         state.reviewList = payload;
@@ -45,6 +46,7 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviewsByWriter.pending, (state) => {
         state.isLoading = true;
+        state.reviewList = [];
       })
       .addCase(getReviewsByWriter.fulfilled, (state, { payload }) => {
         state.reviewList = payload;
@@ -53,6 +55,9 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviewsByWriter.rejected, (state) => {
         state.isLoading = true;
+      })
+      .addCase(deleteReview.fulfilled, (state, { payload }) => {
+        state.reviewList = payload;
       });
   },
 });

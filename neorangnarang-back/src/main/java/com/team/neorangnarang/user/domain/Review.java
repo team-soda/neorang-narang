@@ -16,6 +16,7 @@ public class Review {
     private Long target_idx;
     private String writer_nickname;
     private String target_nickname;
+    private String writer_profileImg;
     private String content;
     private int rating;
     private float ratingAvg;
