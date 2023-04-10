@@ -1,20 +1,21 @@
 .MuiAppBar-root {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  color: black !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: black !important;
 }
 
 .MuiContainer-root {
-  padding: 3rem !important;
-  padding-right: 1.5rem !important;
-  padding-left: 1.5rem !important;
-  margin-right: auto !important;
-  margin-left: auto !important;
-  width: 100% !important;
-  position: relative;
+    padding: 3rem !important;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    width: 100% !important;
+    position: relative;
 }
 
 .MuiPaper-root {
+<<<<<<< HEAD
   box-shadow: revert !important;
 }
 
@@ -51,56 +52,59 @@
 
 .MuiDialogContent-root {
   padding: 2rem 0 !important;
+=======
+    box-shadow: revert !important;
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 }
 
 .MuiDataGrid-root {
-  background: white !important;
-  letter-spacing: initial !important;
-  border-radius: 20px !important;
+    background: white !important;
+    letter-spacing: initial !important;
+    border-radius: 20px !important;
 }
 
 .MuiDataGrid-withBorder {
-  border-right: none !important;
+    border-right: none !important;
 }
 
 .MuiDataGrid-columnSeparator {
-  color: white !important;
+    color: white !important;
 }
 
 .MuiTypography-root {
-  color: black !important;
+    color: black !important;
 }
 
 .MuiFormControl-root {
-  display: flex !important;
+    display: flex;
 }
 
 .MuiCollapse-root {
-  overflow: hidden !important;
+    overflow: hidden !important;
 }
 
 @media (min-width: 576px) {
-  .MuiContainer-root {
-    max-width: 540px !important;
-  }
+    .MuiContainer-root {
+        max-width: 540px !important;
+    }
 }
 
 @media (min-width: 768px) {
-  .MuiContainer-root {
-    max-width: 960px !important;
-  }
+    .MuiContainer-root {
+        max-width: 960px !important;
+    }
 }
 
 @media (min-width: 992px) {
-  .MuiContainer-root {
-    max-width: 1020px !important;
-  }
+    .MuiContainer-root {
+        max-width: 1020px !important;
+    }
 }
 
 @media (min-width: 1200px) {
-  .MuiContainer-root {
-    max-width: 1140px !important;
-  }
+    .MuiContainer-root {
+        max-width: 1140px !important;
+    }
 }
 
 /* @media (min-width: 1400px) {

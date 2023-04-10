@@ -74,7 +74,10 @@ public class MainboardDTO {
                 .like_count(like_count)
                 .view_count(view_count)
                 .created_dt(created_at.format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm")))
+<<<<<<< HEAD
                 .imageTags(getImageTags())
+=======
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
                 .build();
 
         return boardDTO;

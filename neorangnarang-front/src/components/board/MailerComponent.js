@@ -26,11 +26,11 @@ const MailerComponent = () => {
                  backgroundSize: 'cover',
                  textAlign: 'center'
              }}>
-            <form className="row" style={{padding: '80px', display: 'flex'}} onSubmit={sendEmail}>
+            <form className="row" style={{padding: '80px', display:'inline-block !important'}} onSubmit={sendEmail}>
                 <h1>Contact Us</h1>
                 <p>문의 사항을 보내주세요.</p>
                 <TextField id="filled-basic" label="보내는 분 성함" variant="filled" placeholder="ex) 룸메찾는룸메리스"
-                           name="name"/>
+                           name="name" sx={{ display:'inline-block !important'}}/>
                 <TextField id="filled-basic" label="E-mail" variant="filled"
                            placeholder="ex) neorangnarang@gmail.com" name="user_email"/>
                 <TextField id="filled-basic" label="내용" variant="filled" multiline rows={4}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { Parser } from "html-to-react";
 import {
@@ -11,15 +12,31 @@ import {
   Collapse,
   IconButton,
   Typography,
+=======
+import {useEffect, useState} from "react";
+import {Parser} from "html-to-react";
+import {
+    Avatar,
+    Box,
+    Button,
+    CardActions,
+    CardContent,
+    CardHeader,
+    CardMedia,
+    Collapse,
+    IconButton,
+    Typography,
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 } from "@material-ui/core";
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
-import { red } from "@material-ui/core/colors";
+import {red} from "@material-ui/core/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+<<<<<<< HEAD
 import { boardService } from "../../service/BoardService";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -32,24 +49,39 @@ import MapComponent from "./MapComponent";
 import { API_BASE_URL } from "../../config/url-config";
 import { getUserState } from "../../redux/user/selector/userSelector";
 import { getUserInfo } from "../../redux/user/thunk/userThunk";
+=======
+import {boardService} from "../../service/BoardService";
+import {useDispatch, useSelector} from "react-redux";
+import {getAuthState, getIsLoginState,} from "../../redux/user/selector/authSelector";
+import {Link, useNavigate} from "react-router-dom";
+import MapComponent from "./MapComponent";
+import {API_BASE_URL} from "../../config/url-config";
+import {getUserState} from "../../redux/user/selector/userSelector";
+import {getUserInfo} from "../../redux/user/thunk/userThunk";
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 
-const ReadComponent = ({ board_idx }) => {
-  const dispatch = useDispatch();
-  const authUser = useSelector(getAuthState);
-  const userInfo = useSelector(getUserState);
-  const defaultImg = useSelector(getDefaultImgState);
-  const isLogin = useSelector(getIsLoginState);
-  const navigate = useNavigate();
+const ReadComponent = ({board_idx}) => {
 
+<<<<<<< HEAD
   const boardDTOState = {
     imageTags: "",
     dto: [],
   };
+=======
+    const dispatch = useDispatch();
+    const userInfo = useSelector(getUserState)
+    const { profile_img } = userInfo;
+    const authUser = useSelector(getAuthState);
+    const isLogin = useSelector(getIsLoginState);
+    const navigate = useNavigate();
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 
-  const [boardDTO, setBoardDTO] = useState(boardDTOState);
-  const [expanded, setExpanded] = useState(false);
-  const [isWishAdd, setIsWishAdd] = useState(false);
+    const boardDTOState = {
+        imageTags: "",
+        dto: [],
+    };
 
+<<<<<<< HEAD
   useEffect(() => {
     if (!isLogin) {
       alert("로그인이 필요한 서비스입니다.");
@@ -62,21 +94,44 @@ const ReadComponent = ({ board_idx }) => {
     }
     //imgCheck();
   }, [board_idx, setBoardDTO, isLogin, navigate, dispatch]);
+=======
+    const [boardDTO, setBoardDTO] = useState(boardDTOState);
+    const [expanded, setExpanded] = useState(false);
+    const [isWishAdd, setIsWishAdd] = useState(false);
 
-  const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-  }));
+    useEffect(() => {
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+        if (!isLogin) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/auth/signin", {replace: true});
+        } else {
+            boardService.getBoardRead(board_idx).then((res) => {
+                setBoardDTO(res.data);
+            });
 
-  // 글에 등록된 이미지가 없을 경우 이미지 대체
-  /* const imgCheck = () => {
+            dispatch(getUserInfo(boardDTO.dto.uid))
+        }
+
+        console.log(userInfo+'?????');
+
+        //imgCheck();
+    }, [board_idx, setBoardDTO, isLogin, navigate]);
+
+    const ExpandMore = styled((props) => {
+        const {expand, ...other} = props;
+        return <IconButton {...other} />;
+    })(({theme, expand}) => ({
+        transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+        marginLeft: "auto",
+    }));
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
+    // 글에 등록된 이미지가 없을 경우 이미지 대체
+    /* const imgCheck = () => {
         if (boardDTO.imageTags.length < 1) {
           document.querySelector(
             ".centered"
@@ -84,12 +139,13 @@ const ReadComponent = ({ board_idx }) => {
         }
       }; */
 
-  const onRemoveHandler = () => {
-    boardService.removeBoard(boardDTO);
-    window.location = `/mainboard/list`;
-    alert("삭제가 완료되었습니다!");
-  };
+    const onRemoveHandler = () => {
+        boardService.removeBoard(boardDTO);
+        window.location = `/mainboard/list`;
+        alert("삭제가 완료되었습니다!");
+    };
 
+<<<<<<< HEAD
   return (
     <Card>
       <CardHeader title={boardDTO.dto.title} />
@@ -221,14 +277,139 @@ const ReadComponent = ({ board_idx }) => {
               <Button color="secondary" onClick={onRemoveHandler}>
                 삭제
               </Button>
+=======
+    return (
+        <Card>
+            <CardHeader title={boardDTO.dto.title}/>
+            <CardHeader
+                avatar={
+                    <Avatar sx={{bgcolor: red[500]}} src={`${API_BASE_URL}/view/${profile_img}`}
+                            aria-label="userProfile"/>
+                }
+                action={
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon/>
+                    </IconButton>
+                }
+                title={boardDTO.dto.writer}
+                subheader={boardDTO.dto.created_dt}
+            />
+            <div className="thumbnail-wrapper">
+                <div className="thumbnail">
+                    <div className="centered">
+                        <CardMedia
+                            className="cardImg"
+                            component="img"
+                            image={
+                                boardDTO.imageTags
+                                    ? boardDTO.imageTags
+                                    : "https://img.apti.co.kr/aptHome/images/sub/album_noimg.gif"
+                            }
+                        />
+                    </div>
+                </div>
+>>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
             </div>
-          ) : (
-            <div />
-          )}
-        </div>
-      </CardActions>
-    </Card>
-  );
+            <Box
+                sx={{display: "flex", textAlign: "center", justifyContent: "center"}}
+            >
+                <CardContent>
+                    <Typography variant="body2" color="secondary">
+                        전·월세
+                    </Typography>
+                    <Typography variant="h6" color="secondary">
+                        {boardDTO.dto.pay_division}
+                    </Typography>
+                </CardContent>
+                <CardContent>
+                    <Typography variant="body2" color="secondary">
+                        평수
+                    </Typography>
+                    <Typography variant="h6" color="secondary">
+                        {boardDTO.dto.square_feet}평
+                    </Typography>
+                </CardContent>
+                <CardContent>
+                    <Typography variant="body2" color="secondary">
+                        금액
+                    </Typography>
+                    <Typography variant="h6" color="secondary">
+                        {boardDTO.dto.price}만원
+                    </Typography>
+                </CardContent>
+            </Box>
+            <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                    <FavoriteIcon/>
+                </IconButton>{" "}
+                {boardDTO.dto.like_count}
+                <IconButton>
+                    <VisibilityIcon/>
+                </IconButton>{" "}
+                {boardDTO.dto.view_count}
+                <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon/>
+                </ExpandMore>
+                펼쳐보기
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent
+                    style={{
+                        border: "1px solid whitesmoke",
+                        borderRadius: 20,
+                        padding: 40,
+                    }}
+                >
+                    <Typography paragraph>
+                        {Parser().parse(boardDTO.dto.content)}
+                    </Typography>
+                </CardContent>
+                <CardContent style={{padding: 10}}>
+                    <Typography variant="body2" color="secondary">
+                        <Button>
+                            <LocationOnIcon/>
+                            {boardDTO.dto.short_location}
+                        </Button>
+                        <Typography variant="caption">
+                            개인 정보 보호를 위해, 상세 주소는 작성자와 문의하세요!
+                        </Typography>
+                    </Typography>
+                </CardContent>
+                <MapComponent mapLocation={boardDTO.dto.short_location}/>
+            </Collapse>
+            <CardActions className="menuBar">
+                <div>
+                    <Button color="secondary" href="/mainboard/list">
+                        돌아가기
+                    </Button>
+                </div>
+                <div>
+                    {authUser.uid === boardDTO.dto.uid ? (
+                        <div>
+                            <Button>
+                                <Link
+                                    to={`/mainboard/modify/${boardDTO.dto.board_idx}`}
+                                    style={{textDecoration: "none", color: "#f50057"}}
+                                >
+                                    수정
+                                </Link>
+                            </Button>
+                            <Button color="secondary" onClick={onRemoveHandler}>
+                                삭제
+                            </Button>
+                        </div>
+                    ) : (
+                        <div/>
+                    )}
+                </div>
+            </CardActions>
+        </Card>
+    );
 };
 
 export default ReadComponent;

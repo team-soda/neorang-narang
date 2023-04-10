@@ -54,6 +54,7 @@ function ZipSearchComponent(props) {
                 onClick={openSearchHandler}
                 helperText='실제 글에서는 상세주소를 제외한 주소가 출력됩니다.'
                 fullWidth
+                disabled
             />
             <TextField style={{display:'none'}} value={shortAddress} name="short_location"/>
             {isOpen && (
