@@ -19,7 +19,7 @@
        </where>
     </sql>
 
-    <select id="getBoardList" resultType="com.team.neorangnarang.mainboard.dto.MainboardDTO">
+    <select id="getBoardList" resultType="MainboardDTO">
         SELECT
             *
         FROM
@@ -43,7 +43,7 @@
         </selectKey>
     </insert>
 
-    <select id="select" resultType="com.team.neorangnarang.mainboard.dto.MainboardDTO">
+    <select id="select" resultType="MainboardDTO">
         select * from tb_board where board_idx = #{board_idx}
     </select>
 
@@ -83,4 +83,10 @@
     <update id="updateLike">
         update tb_like set is_like = !#{is_like} where fk_id = #{id}
     </update>
+
+    <!-- 다슬 작성 -->
+    <!-- 작성글 조회 -->
+    <select id="getBoardListByUid" parameterType="string" resultType="MainboardDTO">
+        select * from tb_board where uid = #{uid}
+    </select>
 </mapper>

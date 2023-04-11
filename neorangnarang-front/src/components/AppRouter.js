@@ -24,8 +24,8 @@ function AppRouter() {
         path="/auth/*"
         element={isLogin ? <Navigate replace to="/" /> : <GuestRouter />}
       />
-      <Route path="/" element={<Home />} />
       <Route path="/contactUs" element={<ContactUs />} />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 }

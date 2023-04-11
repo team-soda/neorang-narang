@@ -6,11 +6,8 @@ const REVIEW = "review";
 export const registerReview = createAsyncThunk(
   `${REVIEW}/registerReview`,
   async (reviewObj) => {
-    console.log("ㅠㅠㅠㅠㅠㅠㅠ");
-    console.log(reviewObj);
     try {
       const response = await userService.registerReview(reviewObj);
-      console.log(response.data.listData);
       alert("리뷰 작성 완료!");
       window.location.reload();
       return response.data.listData;
@@ -26,7 +23,6 @@ export const getUserReviews = createAsyncThunk(
   async (uid) => {
     try {
       const response = await userService.getUserReviews(uid);
-      console.log(response);
       return response.data.listData;
     } catch (error) {
       console.log(error);
@@ -38,11 +34,8 @@ export const getUserReviews = createAsyncThunk(
 export const getReviewsByWriter = createAsyncThunk(
   `${REVIEW}/getReviewsByWriter`,
   async (userIdx) => {
-    console.log(userIdx);
     try {
       const response = await userService.getReviewsByWriter(userIdx);
-      console.log("내가쓴리뷰~");
-      console.log(response);
       return response.data.listData;
     } catch (error) {
       console.log(error);
@@ -54,10 +47,8 @@ export const getReviewsByWriter = createAsyncThunk(
 export const deleteReview = createAsyncThunk(
   `${REVIEW}/deleteReview`,
   async (review) => {
-    console.log(review);
     try {
       const response = await userService.deleteReview(review);
-      console.log(response);
       return response.data.listData;
     } catch (error) {
       console.log(error);

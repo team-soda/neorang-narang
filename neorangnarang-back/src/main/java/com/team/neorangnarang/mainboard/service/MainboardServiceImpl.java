@@ -63,4 +63,11 @@ public class MainboardServiceImpl implements MainboardService {
     public void delete(long board_idx) {
         boardMapper.delete(board_idx);
     }
+
+    // 다슬 작성
+    @Override
+    public List<MainboardDTO> getBoardListByUid(final String uid) {
+        log.info("board Service Impl 작성글 조회 uid: " + uid);
+        return boardMapper.getBoardListByUid(uid);
+    }
 }
