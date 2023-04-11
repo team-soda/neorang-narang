@@ -1,5 +1,6 @@
 package com.team.neorangnarang.mainboard.controller;
 
+import com.team.neorangnarang.common.dto.ResponseDTO;
 import com.team.neorangnarang.mainboard.dto.MainboardDTO;
 import com.team.neorangnarang.mainboard.dto.PageResponseDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -72,5 +74,22 @@ public class MainboardController {
     @PostMapping("/delete/{board_idx}")
     public void delete(@PathVariable("board_idx") Long board_idx) {
         boardService.delete(board_idx);
+    }
+
+    // 다슬 작성
+    @GetMapping("/getBoardListByUid/{uid}")
+    public ResponseEntity<?> getBoardListByUid(@PathVariable("uid") String uid) {
+        log.info("getBoardListByUid uid : {}", uid);
+
+        ResponseDTO<MainboardDTO> response = null;
+
+        try {
+            List<MainboardDTO> boards = boardService.getBoardListByUid(uid);
+            response = ResponseDTO.<MainboardDTO>builder().listData(boards).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response = ResponseDTO.<MainboardDTO>builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }

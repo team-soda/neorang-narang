@@ -16,4 +16,7 @@ public interface MainboardService {
     MainboardDTO read(long board_idx);
     void delete(long board_idx);
     boolean modify(MainboardDTO newBoard);
+
+    // 다슬 작성
+    List<MainboardDTO> getBoardListByUid(String uid);
 }

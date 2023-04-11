@@ -40,7 +40,7 @@ function ReviewList({ reviews }) {
   );
 
   return (
-    <div style={{ maxWidth: "716px", width: "100%", height: "500px" }}>
+    <div style={{ maxWidth: "668px", width: "100%", height: "500px" }}>
       <AutoSizer>
         {({ width, height }) => (
           <List

@@ -13,11 +13,15 @@ import UserInfo from "../../components/user/UserInfo";
 import ReviewList from "../../components/user/ReviewList";
 import { Box, Grid, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import MyBoardList from "../../components/user/MyBoardList";
+import { boardService } from "../../service/BoardService";
 
 function UserInfoPage() {
   const { uid } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [postList, setpostList] = useState([]);
 
   const authUser = useSelector(getAuthState);
   const userInfo = useSelector(getUserState);
@@ -29,12 +33,14 @@ function UserInfoPage() {
   useEffect(() => {
     if (!uid) {
       setMypage(true);
+      boardService.getBoardListByUid(authUser.uid, (res) => setpostList(res));
     } else {
       if (uid === authUser.uid) {
         navigate("/user/mypage", { replace: true });
       } else {
         setMypage(false);
         dispatch(getUserInfo(uid));
+        boardService.getBoardListByUid(uid, (res) => setpostList(res));
       }
     }
   }, [uid, authUser.uid]);
@@ -76,7 +82,9 @@ function UserInfoPage() {
             </TabList>
           </Box>
           <Box>
-            <TabPanel value="1">탭원</TabPanel>
+            <TabPanel value="1">
+              <MyBoardList postList={postList} />
+            </TabPanel>
             <TabPanel value="2">탭투</TabPanel>
             <TabPanel value="3">
               <ReviewList reviews={userReviewList} />
