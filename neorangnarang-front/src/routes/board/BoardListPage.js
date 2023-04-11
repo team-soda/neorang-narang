@@ -1,8 +1,9 @@
 import ListComponent from "../../components/board/ListComponent";
-<<<<<<< HEAD
 import React from "react";
 import AlertComponent from "../../components/board/AlertComponent";
 import MainMapComponent from "../../components/board/MainMapComponent";
+import { Button, CardActions } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const BoardListPage = () => {
   return (
@@ -12,31 +13,13 @@ const BoardListPage = () => {
       />
       <MainMapComponent />
       <ListComponent />
+      <CardActions>
+        <Button color="secondary" to="/mainboard/register" component={Link}>
+          새 글 쓰기
+        </Button>
+      </CardActions>
     </div>
   );
-=======
-import Card from "@mui/material/Card";
-import {Button, CardActions} from "@material-ui/core";
-import React from "react";
-import {Link} from "react-router-dom";
-
-const BoardListPage = () => {
-
-    return (
-        <>
-            <Card>
-                <ListComponent/>
-                <CardActions>
-                    <Button color="secondary">
-                        <Link to="/mainboard/register" style={{textDecoration: "none"}}>
-                            새 글 쓰기
-                        </Link>
-                    </Button>
-                </CardActions>
-            </Card>
-        </>
-    );
->>>>>>> 0242d8fdcd2c1d4261497f90bca975297ee2bf5b
 };
 
 export default BoardListPage;
