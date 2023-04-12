@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team.neorangnarang.mainboard.mapper.FavoriteMapper">
+    <!-- 찜하기 -->
+    <insert id="insertFavorite" parameterType="FavoriteDTO">
+        INSERT INTO tb_like(fk_uid, fk_board_idx)
+        VALUES (#{fk_uid}, #{fk_board_idx})
+    </insert>
+
+    <!-- 해당 유저의 찜한 글 리스트 조회 -->
+    <select id="getFavoriteListByUid" parameterType="string" resultType="FavoriteDTO">
+        SELECT board.board_idx, board.title, board.uid, board.like_count, board.created_at,
+               fav.like_idx, fav.fk_uid, fav.fk_board_idx
+        FROM tb_board AS board LEFT JOIN tb_like AS fav
+        ON board.board_idx = fav.fk_board_idx
+        WHERE fav.fk_uid = #{uid}
+    </select>
+
+    <!-- 해당 유저가 해당 게시글을 찜했는지 조회 -->
+    <select id="getFavoriteByUid" resultType="FavoriteDTO">
+        SELECT *
+        FROM (
+            SELECT *
+            FROM tb_like
+            WHERE fk_uid = #{fk_uid}
+            ) result
+        WHERE result.fk_board_idx = #{fk_board_idx}
+    </select>
+
+    <!--해당 유저의 찜한 글 삭제 -->
+    <delete id="deleteFavoriteByUid" parameterType="FavoriteDTO">
+        DELETE FROM tb_like
+        WHERE fk_uid = #{fk_uid}
+        AND fk_board_idx = #{fk_board_idx}
+    </delete>
+</mapper>
