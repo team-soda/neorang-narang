@@ -15,7 +15,6 @@ import {
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -32,8 +31,13 @@ import MapComponent from "./MapComponent";
 import { API_BASE_URL } from "../../config/url-config";
 import { getUserState } from "../../redux/user/selector/userSelector";
 import { getUserInfo } from "../../redux/user/thunk/userThunk";
+import Favorite from "@mui/icons-material/Favorite";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import { Checkbox } from "@mui/material";
 
-const ReadComponent = ({ board_idx }) => {
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+const ReadComponent = ({ board_idx, isChecked, onChangeChecked }) => {
   const dispatch = useDispatch();
   const authUser = useSelector(getAuthState);
   const userInfo = useSelector(getUserState);
@@ -48,7 +52,7 @@ const ReadComponent = ({ board_idx }) => {
 
   const [boardDTO, setBoardDTO] = useState(boardDTOState);
   const [expanded, setExpanded] = useState(false);
-  const [isWishAdd, setIsWishAdd] = useState(false);
+  //const [isWishAdd, setIsWishAdd] = useState(false);
 
   useEffect(() => {
     if (!isLogin) {
@@ -61,7 +65,7 @@ const ReadComponent = ({ board_idx }) => {
       });
     }
     //imgCheck();
-  }, [board_idx, setBoardDTO, isLogin, navigate, dispatch]);
+  }, [board_idx, isLogin, isChecked]);
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -157,9 +161,13 @@ const ReadComponent = ({ board_idx }) => {
         </CardContent>
       </Box>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>{" "}
+        <Checkbox
+          {...label}
+          icon={<FavoriteBorder />}
+          checkedIcon={<Favorite />}
+          checked={isChecked}
+          onChange={onChangeChecked}
+        />{" "}
         {boardDTO.dto.like_count}
         <IconButton>
           <VisibilityIcon />

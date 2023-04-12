@@ -15,6 +15,7 @@ import { Box, Grid, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyBoardList from "../../components/user/MyBoardList";
 import { boardService } from "../../service/BoardService";
+import { favoriteService } from "../../service/FavoriteService";
 
 function UserInfoPage() {
   const { uid } = useParams();
@@ -22,6 +23,7 @@ function UserInfoPage() {
   const navigate = useNavigate();
 
   const [postList, setpostList] = useState([]);
+  const [favoriteList, setFavoriteList] = useState([]);
 
   const authUser = useSelector(getAuthState);
   const userInfo = useSelector(getUserState);
@@ -34,6 +36,9 @@ function UserInfoPage() {
     if (!uid) {
       setMypage(true);
       boardService.getBoardListByUid(authUser.uid, (res) => setpostList(res));
+      favoriteService.getFavoriteListByUid(authUser.uid, (res) =>
+        setFavoriteList(res)
+      );
     } else {
       if (uid === authUser.uid) {
         navigate("/user/mypage", { replace: true });
@@ -41,6 +46,9 @@ function UserInfoPage() {
         setMypage(false);
         dispatch(getUserInfo(uid));
         boardService.getBoardListByUid(uid, (res) => setpostList(res));
+        favoriteService.getFavoriteListByUid(uid, (res) =>
+          setFavoriteList(res)
+        );
       }
     }
   }, [uid, authUser.uid]);
@@ -83,9 +91,11 @@ function UserInfoPage() {
           </Box>
           <Box>
             <TabPanel value="1">
-              <MyBoardList postList={postList} />
+              <MyBoardList list={postList} />
             </TabPanel>
-            <TabPanel value="2">탭투</TabPanel>
+            <TabPanel value="2">
+              <MyBoardList list={favoriteList} />
+            </TabPanel>
             <TabPanel value="3">
               <ReviewList reviews={userReviewList} />
             </TabPanel>

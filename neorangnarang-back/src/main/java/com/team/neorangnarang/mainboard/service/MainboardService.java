@@ -13,10 +13,11 @@ public interface MainboardService {
 
     PageResponseDTO<MainboardDTO> getBoardList(Map<String, Object> param);
     Long register(MainboardDTO mainboardDTO);
-    MainboardDTO read(long board_idx);
+    MainboardDTO read(Long board_idx);
     void delete(long board_idx);
     boolean modify(MainboardDTO newBoard);
 
     // 다슬 작성
     List<MainboardDTO> getBoardListByUid(String uid);
+    boolean updateLikeCount(Long board_idx);
 }

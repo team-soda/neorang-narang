@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { getIsLoginState } from "../redux/user/selector/authSelector";
@@ -10,8 +9,6 @@ import BoardRegisterPage from "../routes/board/BoardRegisterPage";
 export default function BoardRouter() {
   const isLogin = useSelector(getIsLoginState);
   console.log(`BoardRouter isLogin : ${isLogin}`);
-
-  const [boardDTO, setBoardDTO] = useState({});
 
   return (
     <Routes>
@@ -27,18 +24,8 @@ export default function BoardRouter() {
           )
         }
       />
-      <Route
-        path="/read/:board_idx"
-        element={
-          <BoardReadPage boardDTO={boardDTO} setBoardDTO={setBoardDTO} />
-        }
-      />
-      <Route
-        path="/modify/:board_idx"
-        element={
-          <BoardModifyPage boardDTO={boardDTO} setBoardDTO={setBoardDTO} />
-        }
-      />
+      <Route path="/read/:board_idx" element={<BoardReadPage />} />
+      <Route path="/modify/:board_idx" element={<BoardModifyPage />} />
     </Routes>
   );
 }

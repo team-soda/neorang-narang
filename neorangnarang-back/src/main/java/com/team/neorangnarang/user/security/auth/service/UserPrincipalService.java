@@ -31,7 +31,7 @@ public class UserPrincipalService implements UserDetailsService {
         User user = userMapper.findByUserId(username);
 
         if (user == null) {
-            throw new UserNotFoundException("");
+            throw new UserNotFoundException("유저를 찾을 수 없습니다.");
         }
         return UserPrincipal.create(user);
     }

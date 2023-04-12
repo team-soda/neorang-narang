@@ -1,6 +1,7 @@
 package com.team.neorangnarang.mainboard.controller;
 
 import com.team.neorangnarang.common.dto.ResponseDTO;
+import com.team.neorangnarang.exception.BadRequestException;
 import com.team.neorangnarang.mainboard.dto.MainboardDTO;
 import com.team.neorangnarang.mainboard.dto.PageResponseDTO;
 import com.team.neorangnarang.mainboard.service.MainboardService;
@@ -79,13 +80,28 @@ public class MainboardController {
     // 다슬 작성
     @GetMapping("/getBoardListByUid/{uid}")
     public ResponseEntity<?> getBoardListByUid(@PathVariable("uid") String uid) {
-        log.info("getBoardListByUid uid : {}", uid);
-
         ResponseDTO<MainboardDTO> response = null;
-
         try {
             List<MainboardDTO> boards = boardService.getBoardListByUid(uid);
             response = ResponseDTO.<MainboardDTO>builder().listData(boards).build();
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response = ResponseDTO.<MainboardDTO>builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PutMapping("/putLikeCount")
+    public ResponseEntity<?> updateLikeCount(@RequestBody Long board_idx) {
+        ResponseDTO<MainboardDTO> response = null;
+        try{
+            boolean isResult = boardService.updateLikeCount(board_idx);
+            if(!isResult) {
+                throw new BadRequestException("수정 실패");
+            }
+
+            MainboardDTO dto = boardService.read(board_idx);
+            response = ResponseDTO.<MainboardDTO>builder().objData(dto).build();
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response = ResponseDTO.<MainboardDTO>builder().error(e.getMessage()).build();

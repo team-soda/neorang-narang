@@ -57,13 +57,20 @@ const removeBoard = async (boardDTO) => {
 // 다슬 작성 =======================================================
 // 작성글 조회
 const getBoardListByUid = async (uid, callback) => {
-  console.log("getBoardListByUid : " + uid);
   try {
     const res = await Axios.get(`${MAIN_BOARD}/getBoardListByUid/${uid}`);
-    console.log(res);
     if (res.status === 200) callback(res.data.listData);
   } catch (err) {
     console.log(err);
+  }
+};
+
+const putLikeCount = async (board_idx) => {
+  try {
+    const res = await Axios.put(`${MAIN_BOARD}/putLikeCount`, board_idx);
+    return res;
+  } catch (err) {
+    return console.log(err);
   }
 };
 
@@ -75,4 +82,5 @@ export const boardService = {
   modifyBoard,
   removeBoard,
   getBoardListByUid,
+  putLikeCount,
 };

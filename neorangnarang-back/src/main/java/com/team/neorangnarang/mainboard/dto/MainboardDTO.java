@@ -2,6 +2,7 @@ package com.team.neorangnarang.mainboard.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
 
 @Data
 @Log4j2
-@Builder
+@SuperBuilder
 @Setter
 @Getter
 @ToString

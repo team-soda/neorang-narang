@@ -15,7 +15,7 @@ const BoardListPage = () => {
       <ListComponent />
       <CardActions>
         <Button color="secondary" to="/mainboard/register" component={Link}>
-          {/* <Link to="/mainboard/register">새 글 쓰기</Link> */}새 글 쓰기
+          새 글 쓰기
         </Button>
       </CardActions>
     </div>

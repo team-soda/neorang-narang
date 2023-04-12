@@ -41,7 +41,7 @@ public class MainboardServiceImpl implements MainboardService {
     }
 
     @Override
-    public MainboardDTO read(long board_idx) {
+    public MainboardDTO read(Long board_idx) {
 
         MainboardDTO boardDTO = boardMapper.select(board_idx);
 
@@ -67,7 +67,13 @@ public class MainboardServiceImpl implements MainboardService {
     // 다슬 작성
     @Override
     public List<MainboardDTO> getBoardListByUid(final String uid) {
-        log.info("board Service Impl 작성글 조회 uid: " + uid);
         return boardMapper.getBoardListByUid(uid);
+    }
+
+    @Override
+    public boolean updateLikeCount(final Long board_idx) {
+        int result = boardMapper.updateLikeCount(board_idx);
+        if(result > 0) return true;
+        return false;
     }
 }

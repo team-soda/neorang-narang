@@ -1,20 +1,15 @@
 import Card from "@mui/material/Card";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ModifyComponent from "../../components/board/ModifyComponent";
 
-const BoardModifyPage = ({boardDTO, setBoardDTO, isLogin}) => {
-    let {board_idx} = useParams();
+const BoardModifyPage = () => {
+  let { board_idx } = useParams();
 
-    return (
-        <Card>
-            <ModifyComponent
-                isLogin={isLogin}
-                board_idx={board_idx}
-                boardDTO={boardDTO}
-                setBoardDTO={setBoardDTO}
-            />
-        </Card>
-    );
+  return (
+    <Card>
+      <ModifyComponent board_idx={board_idx} />
+    </Card>
+  );
 };
 
 export default BoardModifyPage;

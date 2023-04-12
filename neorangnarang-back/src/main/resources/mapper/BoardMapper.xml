@@ -87,6 +87,19 @@
     <!-- 다슬 작성 -->
     <!-- 작성글 조회 -->
     <select id="getBoardListByUid" parameterType="string" resultType="MainboardDTO">
-        select * from tb_board where uid = #{uid}
+        SELECT * FROM tb_board WHERE uid = #{uid}
     </select>
+
+    <!-- 찜 클릭시 count update -->
+    <update id="updateLikeCount" parameterType="long">
+        UPDATE tb_board
+        SET like_count = (
+                SELECT count(fk_uid)
+                FROM tb_like
+                GROUP BY fk_board_idx
+                HAVING fk_board_idx = #{board_idx}
+            )
+        WHERE board_idx = #{board_idx}
+    </update>
+
 </mapper>
