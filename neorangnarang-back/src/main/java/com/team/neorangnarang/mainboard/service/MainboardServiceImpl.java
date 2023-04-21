@@ -42,11 +42,7 @@ public class MainboardServiceImpl implements MainboardService {
 
     @Override
     public MainboardDTO read(Long board_idx) {
-
         MainboardDTO boardDTO = boardMapper.select(board_idx);
-
-        boardMapper.updateViewCount(board_idx);
-
         return boardDTO.getDTO();
     }
 
@@ -75,5 +71,10 @@ public class MainboardServiceImpl implements MainboardService {
         int result = boardMapper.updateLikeCount(board_idx);
         if(result > 0) return true;
         return false;
+    }
+
+    @Override
+    public void updateViewCount(Long board_idx) {
+        boardMapper.updateViewCount(board_idx);
     }
 }

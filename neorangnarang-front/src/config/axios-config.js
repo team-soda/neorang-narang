@@ -6,6 +6,7 @@ console.log(accessToken);
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     accept: "*/*",
@@ -25,6 +26,7 @@ instance.interceptors.request.use(
 
 export const imgAxios = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
     //Authorization: `Bearer ${accessToken}`,

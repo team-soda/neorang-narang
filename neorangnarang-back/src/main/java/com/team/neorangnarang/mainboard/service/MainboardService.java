@@ -20,4 +20,5 @@ public interface MainboardService {
     // 다슬 작성
     List<MainboardDTO> getBoardListByUid(String uid);
     boolean updateLikeCount(Long board_idx);
+    void updateViewCount(Long board_idx);
 }
