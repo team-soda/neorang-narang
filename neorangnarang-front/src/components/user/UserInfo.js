@@ -1,12 +1,12 @@
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { API_BASE_URL } from "../../config/url-config";
-import { openProfileModal } from "../../redux/common/slice/modalSlice";
-import { getDefaultImgState } from "../../redux/user/selector/userSelector";
-import { getRatingAvgState } from "../../redux/user/selector/reviewSelector";
-import { getUserReviews } from "../../redux/user/thunk/reviewThunk";
-import ReviewInsertDialog from "./ReviewInsertDialog";
-import ProfileUpdateModal from "./MyProfileUpdateModal";
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { API_BASE_URL } from '../../config/url-config';
+import { openProfileModal } from '../../redux/common/slice/modalSlice';
+import { getDefaultImgState } from '../../redux/user/selector/userSelector';
+import { getRatingAvgState } from '../../redux/user/selector/reviewSelector';
+import { getUserReviews } from '../../redux/user/thunk/reviewThunk';
+import ReviewInsertDialog from './ReviewInsertDialog';
+import ProfileUpdateModal from './MyProfileUpdateModal';
 import {
   Avatar,
   Box,
@@ -17,10 +17,10 @@ import {
   Rating,
   Tooltip,
   Typography,
-} from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+} from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 function UserInfo({ userInfo, mypage }) {
   const { profile_img } = userInfo;
@@ -55,25 +55,25 @@ function UserInfo({ userInfo, mypage }) {
   return (
     <Grid
       container
-      direction="column"
-      justifyContent="space-evenly"
-      alignItems="center"
+      direction='column'
+      justifyContent='space-evenly'
+      alignItems='center'
       spacing={2}
     >
-      <Grid item container justifyContent="flex-end">
+      <Grid item container justifyContent='flex-end'>
         {mypage ? (
           <>
             <Tooltip
-              title="프로필 수정"
-              placement="top-end"
+              title='프로필 수정'
+              placement='top-end'
               TransitionComponent={Fade}
               arrow
             >
               <IconButton
-                size="large"
+                size='large'
                 onClick={() => dispatch(openProfileModal())}
               >
-                <FontAwesomeIcon icon={faPenToSquare} size="sm" />
+                <FontAwesomeIcon icon={faPenToSquare} size='sm' />
               </IconButton>
             </Tooltip>
             <ProfileUpdateModal
@@ -92,7 +92,7 @@ function UserInfo({ userInfo, mypage }) {
       </Grid>
       <Grid item>
         <Avatar
-          alt="프로필 사진"
+          alt='프로필 사진'
           src={profile_img ? `${API_BASE_URL}/view/${profile_img}` : defaultImg}
           sx={{ width: 150, height: 150 }}
         />
@@ -100,32 +100,37 @@ function UserInfo({ userInfo, mypage }) {
       <Grid
         item
         container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
       >
         <Grid item>
-          <Typography sx={{ fontSize: "1rem" }}>{userInfo.nickname}</Typography>
+          <Typography sx={{ fontSize: '1rem' }}>{userInfo.nickname}</Typography>
           {/* 닉네임 :<span>{userInfo?.nickname}</span> */}
         </Grid>
         <Grid item>
           <Typography
-            sx={{ fontSize: "0.9rem", opacity: 0.5, letterSpacing: "0.2rem" }}
+            sx={{ fontSize: '0.9rem', opacity: 0.5, letterSpacing: '0.2rem' }}
+            style={{
+              maxWidth: 150,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
           >{`@${userInfo.uid}`}</Typography>
         </Grid>
       </Grid>
       <Grid item>
         <ClickAwayListener onClickAway={() => setIsTooltip(false)}>
           <Tooltip
-            title={ratingAvg || "아직 평가가 없어요."}
+            title={ratingAvg || '아직 평가가 없어요.'}
             onClose={() => setIsTooltip(false)}
             open={isTooltip}
             arrow
             disableFocusListener
           >
             <Box
-              justifyContent="center"
-              sx={{ display: "flex", alignItems: "center" }}
+              justifyContent='center'
+              sx={{ display: 'flex', alignItems: 'center' }}
               onClick={() => setIsTooltip(true)}
             >
               <Rating
@@ -133,9 +138,9 @@ function UserInfo({ userInfo, mypage }) {
                 precision={0.5}
                 defaultValue={0}
                 emptyIcon={
-                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                  <StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />
                 }
-                size="large"
+                size='large'
                 readOnly
               />
             </Box>
